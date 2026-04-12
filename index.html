@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Español">
 <title>Español Daily</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #F7F5F0; --surface: #FFFFFF; --surface2: #F0EDE6;
-    --border: rgba(0,0,0,0.10); --text: #1A1916; --muted: #7A7670;
-    --accent: #C94B1E; --accent-light: #FAEEE9;
-    --green: #1D9E75; --green-light: #E1F5EE;
-    --amber: #BA7517; --amber-light: #FAEEDA;
-    --blue: #185FA5; --blue-light: #E6F1FB;
-    --purple: #534AB7; --purple-light: #EEEDFE;
+    --bg: #080C14; --surface: #0E1420; --surface2: #131B2A;
+    --border: rgba(99,179,237,0.10); --text: #E2E8F0; --muted: rgba(226,232,240,0.35);
+    --accent: #63B3ED; --accent-light: rgba(99,179,237,0.12);
+    --green: #48BB78; --green-light: rgba(72,187,120,0.12);
+    --amber: #F6AD55; --amber-light: rgba(246,173,85,0.12);
+    --blue: #63B3ED; --blue-light: rgba(99,179,237,0.12);
+    --purple: #A78BFA; --purple-light: rgba(167,139,250,0.12);
     --r: 14px; --r-sm: 8px;
   }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 430px; margin: 0 auto; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 430px; margin: 0 auto; }
   .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; border-bottom: 1px solid var(--border); }
-  .logo { font-family: 'Fraunces', serif; font-size: 20px; color: var(--accent); }
-  .streak { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--amber); background: var(--amber-light); padding: 4px 10px; border-radius: 20px; }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+  .streak { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-light); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); }
   .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 57px; z-index: 9; }
   .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
@@ -31,7 +31,7 @@
   .screen.active { display: block; }
 
   /* HOME */
-  .greeting { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+  .greeting { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; letter-spacing: -0.02em; }
   .date-line { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
   .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; margin-bottom: 12px; transition: transform .15s; -webkit-tap-highlight-color: transparent; }
   .goal-card:active { transform: scale(0.98); }
@@ -46,10 +46,10 @@
   .fill-blue { background: var(--blue); }
   .goal-meta { font-size: 12px; color: var(--muted); margin-top: 5px; }
   .goal-arrow { color: var(--muted); font-size: 18px; }
-  .section-title { font-family: 'Fraunces', serif; font-size: 18px; margin-bottom: 14px; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 14px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
   .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 10px; text-align: center; }
-  .stat-num { font-family: 'Fraunces', serif; font-size: 24px; color: var(--accent); }
+  .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; color: var(--accent); letter-spacing: -0.02em; }
   .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .pwa-banner { background: var(--green-light); border: 1px solid rgba(29,158,117,0.25); border-radius: var(--r); padding: 14px 16px; margin-bottom: 20px; }
   .pwa-banner-title { font-weight: 500; font-size: 14px; color: var(--green); margin-bottom: 4px; }
@@ -66,54 +66,54 @@
   .card-area { perspective: 1200px; height: 290px; margin-bottom: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
   .card-inner.flipped { transform: rotateY(180deg); }
-  .card-face { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .card-face { position: absolute; inset: 0; background: var(--surface); border: 1px solid rgba(99,179,237,0.15); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
   .card-back { transform: rotateY(180deg); }
   .card-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
   .chip { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
   .chip-tense { background: var(--blue-light); color: var(--blue); }
   .chip-pronoun { background: var(--purple-light); color: var(--purple); }
   .chip-vocab { background: var(--green-light); color: var(--green); }
-  .card-main { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.3; }
-  .card-main.sm { font-size: 19px; }
+  .card-main { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; }
+  .card-main.sm { font-size: 18px; }
   .card-sub { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
   .card-hint { font-size: 12px; color: var(--muted); margin-top: 18px; opacity: .6; }
   .card-actions { display: flex; gap: 12px; }
-  .btn-again { flex: 1; padding: 15px; border-radius: var(--r); border: 1.5px solid var(--border); background: var(--surface); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text); font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-  .btn-got { flex: 1; padding: 15px; border-radius: var(--r); border: none; background: var(--green); font-size: 14px; font-weight: 500; cursor: pointer; color: white; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  .btn-again { flex: 1; padding: 15px; border-radius: var(--r); border: 1px solid rgba(99,179,237,0.2); background: var(--surface2); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text); font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
+  .btn-got { flex: 1; padding: 15px; border-radius: var(--r); border: none; background: var(--green); font-size: 14px; font-weight: 500; cursor: pointer; color: #080C14; font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
   .flip-hint { display: flex; justify-content: center; margin-top: 12px; }
   .fc-done { text-align: center; padding: 40px 20px; }
   .fc-done-icon { font-size: 48px; margin-bottom: 12px; }
-  .fc-done-title { font-family: 'Fraunces', serif; font-size: 22px; margin-bottom: 8px; }
+  .fc-done-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.02em; }
   .fc-done-sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-  .btn-primary { width: 100%; padding: 15px; border-radius: var(--r); background: var(--accent); color: white; border: none; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .btn-primary { width: 100%; padding: 15px; border-radius: var(--r); background: var(--accent); color: #080C14; border: none; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Space Grotesk', sans-serif; }
 
   /* AUDIO */
   .audio-stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
   .audio-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; text-align: center; }
-  .audio-stat-num { font-family: 'Fraunces', serif; font-size: 20px; color: var(--blue); }
+  .audio-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--blue); letter-spacing: -0.02em; }
   .audio-stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .drill-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
   .drill-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .drill-title { font-weight: 500; font-size: 14px; }
   .drill-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .drill-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--blue); border: none; cursor: pointer; color: white; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
-  .drill-play-btn.playing { background: var(--accent); }
+  .drill-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; color: #080C14; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+  .drill-play-btn.playing { background: rgba(226,232,240,0.15); color: var(--text); }
   .drill-rows { border-top: 1px solid var(--border); }
   .drill-row { display: flex; align-items: center; padding: 9px 14px; border-bottom: 1px solid var(--border); gap: 8px; }
   .drill-row:last-child { border-bottom: none; }
-  .drill-row.active-row { background: var(--blue-light); }
+  .drill-row.active-row { background: rgba(99,179,237,0.08); }
   .drill-row-pr { font-size: 11px; font-weight: 500; color: var(--purple); background: var(--purple-light); padding: 2px 8px; border-radius: 10px; white-space: nowrap; min-width: 64px; text-align: center; }
-  .drill-row-es { font-family: 'Fraunces', serif; font-size: 14px; flex: 1; }
+  .drill-row-es { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 500; flex: 1; }
   .drill-row-en { font-size: 11px; color: var(--muted); flex: 1; text-align: right; }
   .wave-bars { display: flex; align-items: center; gap: 2px; height: 14px; flex-shrink: 0; }
-  .wave-bar { width: 3px; border-radius: 2px; background: var(--blue); animation: wave 0.8s ease-in-out infinite; }
+  .wave-bar { width: 3px; border-radius: 2px; background: var(--accent); animation: wave 0.8s ease-in-out infinite; }
   .wave-bar:nth-child(1){animation-delay:0s;height:5px}
   .wave-bar:nth-child(2){animation-delay:.1s;height:11px}
   .wave-bar:nth-child(3){animation-delay:.2s;height:7px}
   .wave-bar:nth-child(4){animation-delay:.3s;height:13px}
   .wave-bar:nth-child(5){animation-delay:.4s;height:5px}
   @keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.3)}}
-  .audio-search { width: 100%; padding: 10px 14px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--surface); font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); margin-bottom: 14px; outline: none; }
+  .audio-search { width: 100%; padding: 10px 14px; border-radius: var(--r-sm); border: 1px solid rgba(99,179,237,0.15); background: var(--surface2); font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: var(--text); margin-bottom: 14px; outline: none; }
   .audio-search:focus { border-color: var(--blue); }
 
   /* SETTINGS */
@@ -123,7 +123,7 @@
   .settings-label { font-size: 14px; font-weight: 500; }
   .settings-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .num-input { display: flex; align-items: center; gap: 10px; }
-  .num-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+  .num-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(99,179,237,0.2); background: var(--surface2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--accent); -webkit-tap-highlight-color: transparent; }
   .num-val { font-weight: 500; font-size: 15px; min-width: 30px; text-align: center; }
   .hidden { display: none !important; }
   .mt-12 { margin-top: 12px; }
@@ -131,8 +131,53 @@
 </head>
 <body>
 
+
+<!-- PROFILE PICKER -->
+<div id="profile-screen" style="
+  min-height: 100vh; background: #080C14; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 40px 32px; max-width: 430px; margin: 0 auto;
+">
+  <div style="font-family:'Space Grotesk',sans-serif; text-align:center; width:100%;">
+    <div style="font-size:13px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:rgba(99,179,237,0.5); margin-bottom:16px;">español.</div>
+    <div style="font-size:28px; font-weight:600; color:#E2E8F0; margin-bottom:8px; letter-spacing:-0.02em;">Who's studying?</div>
+    <div style="font-size:14px; color:rgba(226,232,240,0.35); margin-bottom:48px;">Progress saved separately per profile.</div>
+    <div style="display:flex; flex-direction:column; gap:14px; width:100%;">
+      <button onclick="selectProfile('steven')" style="
+        width:100%; padding:20px; border-radius:16px;
+        background:#0E1420; border:1px solid rgba(99,179,237,0.15);
+        font-family:'Space Grotesk',sans-serif; cursor:pointer;
+        display:flex; align-items:center; gap:16px; text-align:left;
+        -webkit-tap-highlight-color:transparent;
+      ">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(99,179,237,0.12);border:1px solid rgba(99,179,237,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">S</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:#E2E8F0;margin-bottom:3px;">Steven</div>
+          <div style="font-size:12px;color:rgba(226,232,240,0.35);" id="steven-stats">Loading...</div>
+        </div>
+        <div style="margin-left:auto;color:rgba(99,179,237,0.4);font-size:20px;">›</div>
+      </button>
+      <button onclick="selectProfile('devyn')" style="
+        width:100%; padding:20px; border-radius:16px;
+        background:#0E1420; border:1px solid rgba(167,139,250,0.15);
+        font-family:'Space Grotesk',sans-serif; cursor:pointer;
+        display:flex; align-items:center; gap:16px; text-align:left;
+        -webkit-tap-highlight-color:transparent;
+      ">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">D</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:#E2E8F0;margin-bottom:3px;">Devyn</div>
+          <div style="font-size:12px;color:rgba(226,232,240,0.35);" id="devyn-stats">Loading...</div>
+        </div>
+        <div style="margin-left:auto;color:rgba(167,139,250,0.4);font-size:20px;">›</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP (hidden until profile selected) -->
+<div id="app-screen" style="display:none">
 <div class="top-bar">
-  <div class="logo">español.</div>
+  <div class="logo" style="display:flex;align-items:center;gap:10px;"><span id="profile-badge" onclick="showProfileScreen()" style="font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px;background:rgba(99,179,237,0.1);border:1px solid rgba(99,179,237,0.2);color:#63B3ED;cursor:pointer;-webkit-tap-highlight-color:transparent;letter-spacing:0.02em;"></span><span style="color:rgba(226,232,240,0.3);font-size:14px;font-weight:300;">español</span></div>
   <div class="streak">🔥 <span id="streak-num">0</span> day streak</div>
 </div>
 <div class="tabs">
@@ -1333,6 +1378,747 @@ const SENTENCES = [
   },
 ];
 
+// Natural English translations per sentence per tense
+// Array of 6: [yo, tú, él/ella, nosotros, vosotros, ellos]
+const EN = {
+  'go to work': {
+    present:    ['I go to work','you go to work','he/she goes to work','we go to work','you all go to work','they go to work'],
+    preterite:  ['I went to work','you went to work','he/she went to work','we went to work','you all went to work','they went to work'],
+    imperfect:  ['I used to go to work','you used to go to work','he/she used to go to work','we used to go to work','you all used to go to work','they used to go to work'],
+    future:     ['I will go to work','you will go to work','he/she will go to work','we will go to work','you all will go to work','they will go to work'],
+    subjunctive:['I should go to work','you should go to work','he/she should go to work','we should go to work','you all should go to work','they should go to work'],
+  },
+  'eat breakfast': {
+    present:    ['I eat breakfast','you eat breakfast','he/she eats breakfast','we eat breakfast','you all eat breakfast','they eat breakfast'],
+    preterite:  ['I ate breakfast','you ate breakfast','he/she ate breakfast','we ate breakfast','you all ate breakfast','they ate breakfast'],
+    imperfect:  ['I used to eat breakfast','you used to eat breakfast','he/she used to eat breakfast','we used to eat breakfast','you all used to eat breakfast','they used to eat breakfast'],
+    future:     ['I will eat breakfast','you will eat breakfast','he/she will eat breakfast','we will eat breakfast','you all will eat breakfast','they will eat breakfast'],
+    subjunctive:['I should eat breakfast','you should eat breakfast','he/she should eat breakfast','we should eat breakfast','you all should eat breakfast','they should eat breakfast'],
+  },
+  'wake up early': {
+    present:    ['I wake up early','you wake up early','he/she wakes up early','we wake up early','you all wake up early','they wake up early'],
+    preterite:  ['I woke up early','you woke up early','he/she woke up early','we woke up early','you all woke up early','they woke up early'],
+    imperfect:  ['I used to wake up early','you used to wake up early','he/she used to wake up early','we used to wake up early','you all used to wake up early','they used to wake up early'],
+    future:     ['I will wake up early','you will wake up early','he/she will wake up early','we will wake up early','you all will wake up early','they will wake up early'],
+    subjunctive:['I should wake up early','you should wake up early','he/she should wake up early','we should wake up early','you all should wake up early','they should wake up early'],
+  },
+  'get home late': {
+    present:    ['I get home late','you get home late','he/she gets home late','we get home late','you all get home late','they get home late'],
+    preterite:  ['I got home late','you got home late','he/she got home late','we got home late','you all got home late','they got home late'],
+    imperfect:  ['I used to get home late','you used to get home late','he/she used to get home late','we used to get home late','you all used to get home late','they used to get home late'],
+    future:     ['I will get home late','you will get home late','he/she will get home late','we will get home late','you all will get home late','they will get home late'],
+    subjunctive:['I should get home late','you should get home late','he/she should get home late','we should get home late','you all should get home late','they should get home late'],
+  },
+  'make dinner': {
+    present:    ['I make dinner','you make dinner','he/she makes dinner','we make dinner','you all make dinner','they make dinner'],
+    preterite:  ['I made dinner','you made dinner','he/she made dinner','we made dinner','you all made dinner','they made dinner'],
+    imperfect:  ['I used to make dinner','you used to make dinner','he/she used to make dinner','we used to make dinner','you all used to make dinner','they used to make dinner'],
+    future:     ['I will make dinner','you will make dinner','he/she will make dinner','we will make dinner','you all will make dinner','they will make dinner'],
+    subjunctive:['I should make dinner','you should make dinner','he/she should make dinner','we should make dinner','you all should make dinner','they should make dinner'],
+  },
+  'take a shower': {
+    present:    ['I take a shower','you take a shower','he/she takes a shower','we take a shower','you all take a shower','they take a shower'],
+    preterite:  ['I took a shower','you took a shower','he/she took a shower','we took a shower','you all took a shower','they took a shower'],
+    imperfect:  ['I used to take a shower','you used to take a shower','he/she used to take a shower','we used to take a shower','you all used to take a shower','they used to take a shower'],
+    future:     ['I will take a shower','you will take a shower','he/she will take a shower','we will take a shower','you all will take a shower','they will take a shower'],
+    subjunctive:['I should take a shower','you should take a shower','he/she should take a shower','we should take a shower','you all should take a shower','they should take a shower'],
+  },
+  'go to the gym': {
+    present:    ['I go to the gym','you go to the gym','he/she goes to the gym','we go to the gym','you all go to the gym','they go to the gym'],
+    preterite:  ['I went to the gym','you went to the gym','he/she went to the gym','we went to the gym','you all went to the gym','they went to the gym'],
+    imperfect:  ['I used to go to the gym','you used to go to the gym','he/she used to go to the gym','we used to go to the gym','you all used to go to the gym','they used to go to the gym'],
+    future:     ['I will go to the gym','you will go to the gym','he/she will go to the gym','we will go to the gym','you all will go to the gym','they will go to the gym'],
+    subjunctive:['I should go to the gym','you should go to the gym','he/she should go to the gym','we should go to the gym','you all should go to the gym','they should go to the gym'],
+  },
+  'buy groceries': {
+    present:    ['I buy groceries','you buy groceries','he/she buys groceries','we buy groceries','you all buy groceries','they buy groceries'],
+    preterite:  ['I bought groceries','you bought groceries','he/she bought groceries','we bought groceries','you all bought groceries','they bought groceries'],
+    imperfect:  ['I used to buy groceries','you used to buy groceries','he/she used to buy groceries','we used to buy groceries','you all used to buy groceries','they used to buy groceries'],
+    future:     ['I will buy groceries','you will buy groceries','he/she will buy groceries','we will buy groceries','you all will buy groceries','they will buy groceries'],
+    subjunctive:['I should buy groceries','you should buy groceries','he/she should buy groceries','we should buy groceries','you all should buy groceries','they should buy groceries'],
+  },
+  'call my mom': {
+    present:    ['I call my mom','you call your mom','he/she calls their mom','we call our mom','you all call your mom','they call their mom'],
+    preterite:  ['I called my mom','you called your mom','he/she called their mom','we called our mom','you all called your mom','they called their mom'],
+    imperfect:  ['I used to call my mom','you used to call your mom','he/she used to call their mom','we used to call our mom','you all used to call your mom','they used to call their mom'],
+    future:     ['I will call my mom','you will call your mom','he/she will call their mom','we will call our mom','you all will call your mom','they will call their mom'],
+    subjunctive:['I should call my mom','you should call your mom','he/she should call their mom','we should call our mom','you all should call your mom','they should call their mom'],
+  },
+  'check my phone': {
+    present:    ['I check my phone','you check your phone','he/she checks their phone','we check our phones','you all check your phones','they check their phones'],
+    preterite:  ['I checked my phone','you checked your phone','he/she checked their phone','we checked our phones','you all checked your phones','they checked their phones'],
+    imperfect:  ['I used to check my phone','you used to check your phone','he/she used to check their phone','we used to check our phones','you all used to check your phones','they used to check their phones'],
+    future:     ['I will check my phone','you will check your phone','he/she will check their phone','we will check our phones','you all will check your phones','they will check their phones'],
+    subjunctive:['I should check my phone','you should check your phone','he/she should check their phone','we should check our phones','you all should check your phones','they should check their phones'],
+  },
+  'order a coffee': {
+    present:    ['I order a coffee','you order a coffee','he/she orders a coffee','we order a coffee','you all order a coffee','they order a coffee'],
+    preterite:  ['I ordered a coffee','you ordered a coffee','he/she ordered a coffee','we ordered a coffee','you all ordered a coffee','they ordered a coffee'],
+    imperfect:  ['I used to order a coffee','you used to order a coffee','he/she used to order a coffee','we used to order a coffee','you all used to order a coffee','they used to order a coffee'],
+    future:     ['I will order a coffee','you will order a coffee','he/she will order a coffee','we will order a coffee','you all will order a coffee','they will order a coffee'],
+    subjunctive:['I should order a coffee','you should order a coffee','he/she should order a coffee','we should order a coffee','you all should order a coffee','they should order a coffee'],
+  },
+  'eat lunch outside': {
+    present:    ['I eat lunch outside','you eat lunch outside','he/she eats lunch outside','we eat lunch outside','you all eat lunch outside','they eat lunch outside'],
+    preterite:  ['I ate lunch outside','you ate lunch outside','he/she ate lunch outside','we ate lunch outside','you all ate lunch outside','they ate lunch outside'],
+    imperfect:  ['I used to eat lunch outside','you used to eat lunch outside','he/she used to eat lunch outside','we used to eat lunch outside','you all used to eat lunch outside','they used to eat lunch outside'],
+    future:     ['I will eat lunch outside','you will eat lunch outside','he/she will eat lunch outside','we will eat lunch outside','you all will eat lunch outside','they will eat lunch outside'],
+    subjunctive:['I should eat lunch outside','you should eat lunch outside','he/she should eat lunch outside','we should eat lunch outside','you all should eat lunch outside','they should eat lunch outside'],
+  },
+  'drink a beer': {
+    present:    ['I drink a beer','you drink a beer','he/she drinks a beer','we drink a beer','you all drink a beer','they drink a beer'],
+    preterite:  ['I drank a beer','you drank a beer','he/she drank a beer','we drank a beer','you all drank a beer','they drank a beer'],
+    imperfect:  ['I used to drink a beer','you used to drink a beer','he/she used to drink a beer','we used to drink a beer','you all used to drink a beer','they used to drink a beer'],
+    future:     ['I will drink a beer','you will drink a beer','he/she will drink a beer','we will drink a beer','you all will drink a beer','they will drink a beer'],
+    subjunctive:['I should drink a beer','you should drink a beer','he/she should drink a beer','we should drink a beer','you all should drink a beer','they should drink a beer'],
+  },
+  'try the food': {
+    present:    ['I try the food','you try the food','he/she tries the food','we try the food','you all try the food','they try the food'],
+    preterite:  ['I tried the food','you tried the food','he/she tried the food','we tried the food','you all tried the food','they tried the food'],
+    imperfect:  ['I used to try the food','you used to try the food','he/she used to try the food','we used to try the food','you all used to try the food','they used to try the food'],
+    future:     ['I will try the food','you will try the food','he/she will try the food','we will try the food','you all will try the food','they will try the food'],
+    subjunctive:['I should try the food','you should try the food','he/she should try the food','we should try the food','you all should try the food','they should try the food'],
+  },
+  'meet up with friends': {
+    present:    ['I meet up with friends','you meet up with friends','he/she meets up with friends','we meet up with friends','you all meet up with friends','they meet up with friends'],
+    preterite:  ['I met up with friends','you met up with friends','he/she met up with friends','we met up with friends','you all met up with friends','they met up with friends'],
+    imperfect:  ['I used to meet up with friends','you used to meet up with friends','he/she used to meet up with friends','we used to meet up with friends','you all used to meet up with friends','they used to meet up with friends'],
+    future:     ['I will meet up with friends','you will meet up with friends','he/she will meet up with friends','we will meet up with friends','you all will meet up with friends','they will meet up with friends'],
+    subjunctive:['I should meet up with friends','you should meet up with friends','he/she should meet up with friends','we should meet up with friends','you all should meet up with friends','they should meet up with friends'],
+  },
+  'go out at night': {
+    present:    ['I go out at night','you go out at night','he/she goes out at night','we go out at night','you all go out at night','they go out at night'],
+    preterite:  ['I went out at night','you went out at night','he/she went out at night','we went out at night','you all went out at night','they went out at night'],
+    imperfect:  ['I used to go out at night','you used to go out at night','he/she used to go out at night','we used to go out at night','you all used to go out at night','they used to go out at night'],
+    future:     ['I will go out at night','you will go out at night','he/she will go out at night','we will go out at night','you all will go out at night','they will go out at night'],
+    subjunctive:['I should go out at night','you should go out at night','he/she should go out at night','we should go out at night','you all should go out at night','they should go out at night'],
+  },
+  'talk to someone': {
+    present:    ['I talk to someone','you talk to someone','he/she talks to someone','we talk to someone','you all talk to someone','they talk to someone'],
+    preterite:  ['I talked to someone','you talked to someone','he/she talked to someone','we talked to someone','you all talked to someone','they talked to someone'],
+    imperfect:  ['I used to talk to someone','you used to talk to someone','he/she used to talk to someone','we used to talk to someone','you all used to talk to someone','they used to talk to someone'],
+    future:     ['I will talk to someone','you will talk to someone','he/she will talk to someone','we will talk to someone','you all will talk to someone','they will talk to someone'],
+    subjunctive:['I should talk to someone','you should talk to someone','he/she should talk to someone','we should talk to someone','you all should talk to someone','they should talk to someone'],
+  },
+  'invite someone over': {
+    present:    ['I invite someone over','you invite someone over','he/she invites someone over','we invite someone over','you all invite someone over','they invite someone over'],
+    preterite:  ['I invited someone over','you invited someone over','he/she invited someone over','we invited someone over','you all invited someone over','they invited someone over'],
+    imperfect:  ['I used to invite someone over','you used to invite someone over','he/she used to invite someone over','we used to invite someone over','you all used to invite someone over','they used to invite someone over'],
+    future:     ['I will invite someone over','you will invite someone over','he/she will invite someone over','we will invite someone over','you all will invite someone over','they will invite someone over'],
+    subjunctive:['I should invite someone over','you should invite someone over','he/she should invite someone over','we should invite someone over','you all should invite someone over','they should invite someone over'],
+  },
+  'ask for help': {
+    present:    ['I ask for help','you ask for help','he/she asks for help','we ask for help','you all ask for help','they ask for help'],
+    preterite:  ['I asked for help','you asked for help','he/she asked for help','we asked for help','you all asked for help','they asked for help'],
+    imperfect:  ['I used to ask for help','you used to ask for help','he/she used to ask for help','we used to ask for help','you all used to ask for help','they used to ask for help'],
+    future:     ['I will ask for help','you will ask for help','he/she will ask for help','we will ask for help','you all will ask for help','they will ask for help'],
+    subjunctive:['I should ask for help','you should ask for help','he/she should ask for help','we should ask for help','you all should ask for help','they should ask for help'],
+  },
+  'have a meeting': {
+    present:    ['I have a meeting','you have a meeting','he/she has a meeting','we have a meeting','you all have a meeting','they have a meeting'],
+    preterite:  ['I had a meeting','you had a meeting','he/she had a meeting','we had a meeting','you all had a meeting','they had a meeting'],
+    imperfect:  ['I used to have a meeting','you used to have a meeting','he/she used to have a meeting','we used to have a meeting','you all used to have a meeting','they used to have a meeting'],
+    future:     ['I will have a meeting','you will have a meeting','he/she will have a meeting','we will have a meeting','you all will have a meeting','they will have a meeting'],
+    subjunctive:['I should have a meeting','you should have a meeting','he/she should have a meeting','we should have a meeting','you all should have a meeting','they should have a meeting'],
+  },
+  'send an email': {
+    present:    ['I send an email','you send an email','he/she sends an email','we send an email','you all send an email','they send an email'],
+    preterite:  ['I sent an email','you sent an email','he/she sent an email','we sent an email','you all sent an email','they sent an email'],
+    imperfect:  ['I used to send an email','you used to send an email','he/she used to send an email','we used to send an email','you all used to send an email','they used to send an email'],
+    future:     ['I will send an email','you will send an email','he/she will send an email','we will send an email','you all will send an email','they will send an email'],
+    subjunctive:['I should send an email','you should send an email','he/she should send an email','we should send an email','you all should send an email','they should send an email'],
+  },
+  'finish the project': {
+    present:    ['I finish the project','you finish the project','he/she finishes the project','we finish the project','you all finish the project','they finish the project'],
+    preterite:  ['I finished the project','you finished the project','he/she finished the project','we finished the project','you all finished the project','they finished the project'],
+    imperfect:  ['I used to finish the project','you used to finish the project','he/she used to finish the project','we used to finish the project','you all used to finish the project','they used to finish the project'],
+    future:     ['I will finish the project','you will finish the project','he/she will finish the project','we will finish the project','you all will finish the project','they will finish the project'],
+    subjunctive:['I should finish the project','you should finish the project','he/she should finish the project','we should finish the project','you all should finish the project','they should finish the project'],
+  },
+  'work from home': {
+    present:    ['I work from home','you work from home','he/she works from home','we work from home','you all work from home','they work from home'],
+    preterite:  ['I worked from home','you worked from home','he/she worked from home','we worked from home','you all worked from home','they worked from home'],
+    imperfect:  ['I used to work from home','you used to work from home','he/she used to work from home','we used to work from home','you all used to work from home','they used to work from home'],
+    future:     ['I will work from home','you will work from home','he/she will work from home','we will work from home','you all will work from home','they will work from home'],
+    subjunctive:['I should work from home','you should work from home','he/she should work from home','we should work from home','you all should work from home','they should work from home'],
+  },
+  'need more time': {
+    present:    ['I need more time','you need more time','he/she needs more time','we need more time','you all need more time','they need more time'],
+    preterite:  ['I needed more time','you needed more time','he/she needed more time','we needed more time','you all needed more time','they needed more time'],
+    imperfect:  ['I used to need more time','you used to need more time','he/she used to need more time','we used to need more time','you all used to need more time','they used to need more time'],
+    future:     ['I will need more time','you will need more time','he/she will need more time','we will need more time','you all will need more time','they will need more time'],
+    subjunctive:['I should need more time','you should need more time','he/she should need more time','we should need more time','you all should need more time','they should need more time'],
+  },
+  'start early': {
+    present:    ['I start early','you start early','he/she starts early','we start early','you all start early','they start early'],
+    preterite:  ['I started early','you started early','he/she started early','we started early','you all started early','they started early'],
+    imperfect:  ['I used to start early','you used to start early','he/she used to start early','we used to start early','you all used to start early','they used to start early'],
+    future:     ['I will start early','you will start early','he/she will start early','we will start early','you all will start early','they will start early'],
+    subjunctive:['I should start early','you should start early','he/she should start early','we should start early','you all should start early','they should start early'],
+  },
+  'take the subway': {
+    present:    ['I take the subway','you take the subway','he/she takes the subway','we take the subway','you all take the subway','they take the subway'],
+    preterite:  ['I took the subway','you took the subway','he/she took the subway','we took the subway','you all took the subway','they took the subway'],
+    imperfect:  ['I used to take the subway','you used to take the subway','he/she used to take the subway','we used to take the subway','you all used to take the subway','they used to take the subway'],
+    future:     ['I will take the subway','you will take the subway','he/she will take the subway','we will take the subway','you all will take the subway','they will take the subway'],
+    subjunctive:['I should take the subway','you should take the subway','he/she should take the subway','we should take the subway','you all should take the subway','they should take the subway'],
+  },
+  'drive to the airport': {
+    present:    ['I drive to the airport','you drive to the airport','he/she drives to the airport','we drive to the airport','you all drive to the airport','they drive to the airport'],
+    preterite:  ['I drove to the airport','you drove to the airport','he/she drove to the airport','we drove to the airport','you all drove to the airport','they drove to the airport'],
+    imperfect:  ['I used to drive to the airport','you used to drive to the airport','he/she used to drive to the airport','we used to drive to the airport','you all used to drive to the airport','they used to drive to the airport'],
+    future:     ['I will drive to the airport','you will drive to the airport','he/she will drive to the airport','we will drive to the airport','you all will drive to the airport','they will drive to the airport'],
+    subjunctive:['I should drive to the airport','you should drive to the airport','he/she should drive to the airport','we should drive to the airport','you all should drive to the airport','they should drive to the airport'],
+  },
+  'walk to the park': {
+    present:    ['I walk to the park','you walk to the park','he/she walks to the park','we walk to the park','you all walk to the park','they walk to the park'],
+    preterite:  ['I walked to the park','you walked to the park','he/she walked to the park','we walked to the park','you all walked to the park','they walked to the park'],
+    imperfect:  ['I used to walk to the park','you used to walk to the park','he/she used to walk to the park','we used to walk to the park','you all used to walk to the park','they used to walk to the park'],
+    future:     ['I will walk to the park','you will walk to the park','he/she will walk to the park','we will walk to the park','you all will walk to the park','they will walk to the park'],
+    subjunctive:['I should walk to the park','you should walk to the park','he/she should walk to the park','we should walk to the park','you all should walk to the park','they should walk to the park'],
+  },
+  'arrive on time': {
+    present:    ['I arrive on time','you arrive on time','he/she arrives on time','we arrive on time','you all arrive on time','they arrive on time'],
+    preterite:  ['I arrived on time','you arrived on time','he/she arrived on time','we arrived on time','you all arrived on time','they arrived on time'],
+    imperfect:  ['I used to arrive on time','you used to arrive on time','he/she used to arrive on time','we used to arrive on time','you all used to arrive on time','they used to arrive on time'],
+    future:     ['I will arrive on time','you will arrive on time','he/she will arrive on time','we will arrive on time','you all will arrive on time','they will arrive on time'],
+    subjunctive:['I should arrive on time','you should arrive on time','he/she should arrive on time','we should arrive on time','you all should arrive on time','they should arrive on time'],
+  },
+  'feel tired': {
+    present:    ['I feel tired','you feel tired','he/she feels tired','we feel tired','you all feel tired','they feel tired'],
+    preterite:  ['I felt tired','you felt tired','he/she felt tired','we felt tired','you all felt tired','they felt tired'],
+    imperfect:  ['I used to feel tired','you used to feel tired','he/she used to feel tired','we used to feel tired','you all used to feel tired','they used to feel tired'],
+    future:     ['I will feel tired','you will feel tired','he/she will feel tired','we will feel tired','you all will feel tired','they will feel tired'],
+    subjunctive:['I should feel tired','you should feel tired','he/she should feel tired','we should feel tired','you all should feel tired','they should feel tired'],
+  },
+  'feel good': {
+    present:    ['I feel good','you feel good','he/she feels good','we feel good','you all feel good','they feel good'],
+    preterite:  ['I felt good','you felt good','he/she felt good','we felt good','you all felt good','they felt good'],
+    imperfect:  ['I used to feel good','you used to feel good','he/she used to feel good','we used to feel good','you all used to feel good','they used to feel good'],
+    future:     ['I will feel good','you will feel good','he/she will feel good','we will feel good','you all will feel good','they will feel good'],
+    subjunctive:['I should feel good','you should feel good','he/she should feel good','we should feel good','you all should feel good','they should feel good'],
+  },
+  'be nervous': {
+    present:    ['I am nervous','you are nervous','he/she is nervous','we are nervous','you all are nervous','they are nervous'],
+    preterite:  ['I was nervous','you were nervous','he/she was nervous','we were nervous','you all were nervous','they were nervous'],
+    imperfect:  ['I used to be nervous','you used to be nervous','he/she used to be nervous','we used to be nervous','you all used to be nervous','they used to be nervous'],
+    future:     ['I will be nervous','you will be nervous','he/she will be nervous','we will be nervous','you all will be nervous','they will be nervous'],
+    subjunctive:['I should be nervous','you should be nervous','he/she should be nervous','we should be nervous','you all should be nervous','they should be nervous'],
+  },
+  'be bored': {
+    present:    ['I am bored','you are bored','he/she is bored','we are bored','you all are bored','they are bored'],
+    preterite:  ['I was bored','you were bored','he/she was bored','we were bored','you all were bored','they were bored'],
+    imperfect:  ['I used to be bored','you used to be bored','he/she used to be bored','we used to be bored','you all used to be bored','they used to be bored'],
+    future:     ['I will be bored','you will be bored','he/she will be bored','we will be bored','you all will be bored','they will be bored'],
+    subjunctive:['I should be bored','you should be bored','he/she should be bored','we should be bored','you all should be bored','they should be bored'],
+  },
+  'be happy': {
+    present:    ['I am happy','you are happy','he/she is happy','we are happy','you all are happy','they are happy'],
+    preterite:  ['I was happy','you were happy','he/she was happy','we were happy','you all were happy','they were happy'],
+    imperfect:  ['I used to be happy','you used to be happy','he/she used to be happy','we used to be happy','you all used to be happy','they used to be happy'],
+    future:     ['I will be happy','you will be happy','he/she will be happy','we will be happy','you all will be happy','they will be happy'],
+    subjunctive:['I should be happy','you should be happy','he/she should be happy','we should be happy','you all should be happy','they should be happy'],
+  },
+  'be hungry': {
+    present:    ['I am hungry','you are hungry','he/she is hungry','we are hungry','you all are hungry','they are hungry'],
+    preterite:  ['I was hungry','you were hungry','he/she was hungry','we were hungry','you all were hungry','they were hungry'],
+    imperfect:  ['I used to be hungry','you used to be hungry','he/she used to be hungry','we used to be hungry','you all used to be hungry','they used to be hungry'],
+    future:     ['I will be hungry','you will be hungry','he/she will be hungry','we will be hungry','you all will be hungry','they will be hungry'],
+    subjunctive:['I should be hungry','you should be hungry','he/she should be hungry','we should be hungry','you all should be hungry','they should be hungry'],
+  },
+  'be able to do it': {
+    present:    ['I can do it','you can do it','he/she can do it','we can do it','you all can do it','they can do it'],
+    preterite:  ['I was able to do it','you were able to do it','he/she was able to do it','we were able to do it','you all were able to do it','they were able to do it'],
+    imperfect:  ['I used to be able to do it','you used to be able to do it','he/she used to be able to do it','we used to be able to do it','you all used to be able to do it','they used to be able to do it'],
+    future:     ['I will be able to do it','you will be able to do it','he/she will be able to do it','we will be able to do it','you all will be able to do it','they will be able to do it'],
+    subjunctive:['I should be able to do it','you should be able to do it','he/she should be able to do it','we should be able to do it','you all should be able to do it','they should be able to do it'],
+  },
+  'want to sleep': {
+    present:    ['I want to sleep','you want to sleep','he/she wants to sleep','we want to sleep','you all want to sleep','they want to sleep'],
+    preterite:  ['I wanted to sleep','you wanted to sleep','he/she wanted to sleep','we wanted to sleep','you all wanted to sleep','they wanted to sleep'],
+    imperfect:  ['I used to want to sleep','you used to want to sleep','he/she used to want to sleep','we used to want to sleep','you all used to want to sleep','they used to want to sleep'],
+    future:     ['I will want to sleep','you will want to sleep','he/she will want to sleep','we will want to sleep','you all will want to sleep','they will want to sleep'],
+    subjunctive:['I should want to sleep','you should want to sleep','he/she should want to sleep','we should want to sleep','you all should want to sleep','they should want to sleep'],
+  },
+  'want to eat something': {
+    present:    ['I want to eat something','you want to eat something','he/she wants to eat something','we want to eat something','you all want to eat something','they want to eat something'],
+    preterite:  ['I wanted to eat something','you wanted to eat something','he/she wanted to eat something','we wanted to eat something','you all wanted to eat something','they wanted to eat something'],
+    imperfect:  ['I used to want to eat something','you used to want to eat something','he/she used to want to eat something','we used to want to eat something','you all used to want to eat something','they used to want to eat something'],
+    future:     ['I will want to eat something','you will want to eat something','he/she will want to eat something','we will want to eat something','you all will want to eat something','they will want to eat something'],
+    subjunctive:['I should want to eat something','you should want to eat something','he/she should want to eat something','we should want to eat something','you all should want to eat something','they should want to eat something'],
+  },
+  'need to rest': {
+    present:    ['I need to rest','you need to rest','he/she needs to rest','we need to rest','you all need to rest','they need to rest'],
+    preterite:  ['I needed to rest','you needed to rest','he/she needed to rest','we needed to rest','you all needed to rest','they needed to rest'],
+    imperfect:  ['I used to need to rest','you used to need to rest','he/she used to need to rest','we used to need to rest','you all used to need to rest','they used to need to rest'],
+    future:     ['I will need to rest','you will need to rest','he/she will need to rest','we will need to rest','you all will need to rest','they will need to rest'],
+    subjunctive:['I should need to rest','you should need to rest','he/she should need to rest','we should need to rest','you all should need to rest','they should need to rest'],
+  },
+  'have to leave': {
+    present:    ['I have to leave','you have to leave','he/she has to leave','we have to leave','you all have to leave','they have to leave'],
+    preterite:  ['I had to leave','you had to leave','he/she had to leave','we had to leave','you all had to leave','they had to leave'],
+    imperfect:  ['I used to have to leave','you used to have to leave','he/she used to have to leave','we used to have to leave','you all used to have to leave','they used to have to leave'],
+    future:     ['I will have to leave','you will have to leave','he/she will have to leave','we will have to leave','you all will have to leave','they will have to leave'],
+    subjunctive:['I should have to leave','you should have to leave','he/she should have to leave','we should have to leave','you all should have to leave','they should have to leave'],
+  },
+  'know how to cook': {
+    present:    ['I know how to cook','you know how to cook','he/she knows how to cook','we know how to cook','you all know how to cook','they know how to cook'],
+    preterite:  ['I knew how to cook','you knew how to cook','he/she knew how to cook','we knew how to cook','you all knew how to cook','they knew how to cook'],
+    imperfect:  ['I used to know how to cook','you used to know how to cook','he/she used to know how to cook','we used to know how to cook','you all used to know how to cook','they used to know how to cook'],
+    future:     ['I will know how to cook','you will know how to cook','he/she will know how to cook','we will know how to cook','you all will know how to cook','they will know how to cook'],
+    subjunctive:['I should know how to cook','you should know how to cook','he/she should know how to cook','we should know how to cook','you all should know how to cook','they should know how to cook'],
+  },
+  'know the answer': {
+    present:    ['I know the answer','you know the answer','he/she knows the answer','we know the answer','you all know the answer','they know the answer'],
+    preterite:  ['I knew the answer','you knew the answer','he/she knew the answer','we knew the answer','you all knew the answer','they knew the answer'],
+    imperfect:  ['I used to know the answer','you used to know the answer','he/she used to know the answer','we used to know the answer','you all used to know the answer','they used to know the answer'],
+    future:     ['I will know the answer','you will know the answer','he/she will know the answer','we will know the answer','you all will know the answer','they will know the answer'],
+    subjunctive:['I should know the answer','you should know the answer','he/she should know the answer','we should know the answer','you all should know the answer','they should know the answer'],
+  },
+  'think it is a good idea': {
+    present:    ['I think it is a good idea','you think it is a good idea','he/she thinks it is a good idea','we think it is a good idea','you all think it is a good idea','they think it is a good idea'],
+    preterite:  ['I thought it was a good idea','you thought it was a good idea','he/she thought it was a good idea','we thought it was a good idea','you all thought it was a good idea','they thought it was a good idea'],
+    imperfect:  ['I used to think it was a good idea','you used to think it was a good idea','he/she used to think it was a good idea','we used to think it was a good idea','you all used to think it was a good idea','they used to think it was a good idea'],
+    future:     ['I will think it is a good idea','you will think it is a good idea','he/she will think it is a good idea','we will think it is a good idea','you all will think it is a good idea','they will think it is a good idea'],
+    subjunctive:['I should think it is a good idea','you should think it is a good idea','he/she should think it is a good idea','we should think it is a good idea','you all should think it is a good idea','they should think it is a good idea'],
+  },
+  'understand what is happening': {
+    present:    ['I understand what is happening','you understand what is happening','he/she understands what is happening','we understand what is happening','you all understand what is happening','they understand what is happening'],
+    preterite:  ['I understood what was happening','you understood what was happening','he/she understood what was happening','we understood what was happening','you all understood what was happening','they understood what was happening'],
+    imperfect:  ['I used to understand what was happening','you used to understand what was happening','he/she used to understand what was happening','we used to understand what was happening','you all used to understand what was happening','they used to understand what was happening'],
+    future:     ['I will understand what is happening','you will understand what is happening','he/she will understand what is happening','we will understand what is happening','you all will understand what is happening','they will understand what is happening'],
+    subjunctive:['I should understand what is happening','you should understand what is happening','he/she should understand what is happening','we should understand what is happening','you all should understand what is happening','they should understand what is happening'],
+  },
+  'book a flight': {
+    present:    ['I book a flight','you book a flight','he/she books a flight','we book a flight','you all book a flight','they book a flight'],
+    preterite:  ['I booked a flight','you booked a flight','he/she booked a flight','we booked a flight','you all booked a flight','they booked a flight'],
+    imperfect:  ['I used to book a flight','you used to book a flight','he/she used to book a flight','we used to book a flight','you all used to book a flight','they used to book a flight'],
+    future:     ['I will book a flight','you will book a flight','he/she will book a flight','we will book a flight','you all will book a flight','they will book a flight'],
+    subjunctive:['I should book a flight','you should book a flight','he/she should book a flight','we should book a flight','you all should book a flight','they should book a flight'],
+  },
+  'travel to another country': {
+    present:    ['I travel to another country','you travel to another country','he/she travels to another country','we travel to another country','you all travel to another country','they travel to another country'],
+    preterite:  ['I traveled to another country','you traveled to another country','he/she traveled to another country','we traveled to another country','you all traveled to another country','they traveled to another country'],
+    imperfect:  ['I used to travel to another country','you used to travel to another country','he/she used to travel to another country','we used to travel to another country','you all used to travel to another country','they used to travel to another country'],
+    future:     ['I will travel to another country','you will travel to another country','he/she will travel to another country','we will travel to another country','you all will travel to another country','they will travel to another country'],
+    subjunctive:['I should travel to another country','you should travel to another country','he/she should travel to another country','we should travel to another country','you all should travel to another country','they should travel to another country'],
+  },
+  'stay in a hotel': {
+    present:    ['I stay in a hotel','you stay in a hotel','he/she stays in a hotel','we stay in a hotel','you all stay in a hotel','they stay in a hotel'],
+    preterite:  ['I stayed in a hotel','you stayed in a hotel','he/she stayed in a hotel','we stayed in a hotel','you all stayed in a hotel','they stayed in a hotel'],
+    imperfect:  ['I used to stay in a hotel','you used to stay in a hotel','he/she used to stay in a hotel','we used to stay in a hotel','you all used to stay in a hotel','they used to stay in a hotel'],
+    future:     ['I will stay in a hotel','you will stay in a hotel','he/she will stay in a hotel','we will stay in a hotel','you all will stay in a hotel','they will stay in a hotel'],
+    subjunctive:['I should stay in a hotel','you should stay in a hotel','he/she should stay in a hotel','we should stay in a hotel','you all should stay in a hotel','they should stay in a hotel'],
+  },
+  'forget something': {
+    present:    ['I forget something','you forget something','he/she forgets something','we forget something','you all forget something','they forget something'],
+    preterite:  ['I forgot something','you forgot something','he/she forgot something','we forgot something','you all forgot something','they forgot something'],
+    imperfect:  ['I used to forget something','you used to forget something','he/she used to forget something','we used to forget something','you all used to forget something','they used to forget something'],
+    future:     ['I will forget something','you will forget something','he/she will forget something','we will forget something','you all will forget something','they will forget something'],
+    subjunctive:['I should forget something','you should forget something','he/she should forget something','we should forget something','you all should forget something','they should forget something'],
+  },
+  'miss the bus': {
+    present:    ['I miss the bus','you miss the bus','he/she misses the bus','we miss the bus','you all miss the bus','they miss the bus'],
+    preterite:  ['I missed the bus','you missed the bus','he/she missed the bus','we missed the bus','you all missed the bus','they missed the bus'],
+    imperfect:  ['I used to miss the bus','you used to miss the bus','he/she used to miss the bus','we used to miss the bus','you all used to miss the bus','they used to miss the bus'],
+    future:     ['I will miss the bus','you will miss the bus','he/she will miss the bus','we will miss the bus','you all will miss the bus','they will miss the bus'],
+    subjunctive:['I should miss the bus','you should miss the bus','he/she should miss the bus','we should miss the bus','you all should miss the bus','they should miss the bus'],
+  },
+  'pay with cash': {
+    present:    ['I pay with cash','you pay with cash','he/she pays with cash','we pay with cash','you all pay with cash','they pay with cash'],
+    preterite:  ['I paid with cash','you paid with cash','he/she paid with cash','we paid with cash','you all paid with cash','they paid with cash'],
+    imperfect:  ['I used to pay with cash','you used to pay with cash','he/she used to pay with cash','we used to pay with cash','you all used to pay with cash','they used to pay with cash'],
+    future:     ['I will pay with cash','you will pay with cash','he/she will pay with cash','we will pay with cash','you all will pay with cash','they will pay with cash'],
+    subjunctive:['I should pay with cash','you should pay with cash','he/she should pay with cash','we should pay with cash','you all should pay with cash','they should pay with cash'],
+  },
+  'spend too much money': {
+    present:    ['I spend too much money','you spend too much money','he/she spends too much money','we spend too much money','you all spend too much money','they spend too much money'],
+    preterite:  ['I spent too much money','you spent too much money','he/she spent too much money','we spent too much money','you all spent too much money','they spent too much money'],
+    imperfect:  ['I used to spend too much money','you used to spend too much money','he/she used to spend too much money','we used to spend too much money','you all used to spend too much money','they used to spend too much money'],
+    future:     ['I will spend too much money','you will spend too much money','he/she will spend too much money','we will spend too much money','you all will spend too much money','they will spend too much money'],
+    subjunctive:['I should spend too much money','you should spend too much money','he/she should spend too much money','we should spend too much money','you all should spend too much money','they should spend too much money'],
+  },
+  'save money': {
+    present:    ['I save money','you save money','he/she saves money','we save money','you all save money','they save money'],
+    preterite:  ['I saved money','you saved money','he/she saved money','we saved money','you all saved money','they saved money'],
+    imperfect:  ['I used to save money','you used to save money','he/she used to save money','we used to save money','you all used to save money','they used to save money'],
+    future:     ['I will save money','you will save money','he/she will save money','we will save money','you all will save money','they will save money'],
+    subjunctive:['I should save money','you should save money','he/she should save money','we should save money','you all should save money','they should save money'],
+  },
+  'go to the doctor': {
+    present:    ['I go to the doctor','you go to the doctor','he/she goes to the doctor','we go to the doctor','you all go to the doctor','they go to the doctor'],
+    preterite:  ['I went to the doctor','you went to the doctor','he/she went to the doctor','we went to the doctor','you all went to the doctor','they went to the doctor'],
+    imperfect:  ['I used to go to the doctor','you used to go to the doctor','he/she used to go to the doctor','we used to go to the doctor','you all used to go to the doctor','they used to go to the doctor'],
+    future:     ['I will go to the doctor','you will go to the doctor','he/she will go to the doctor','we will go to the doctor','you all will go to the doctor','they will go to the doctor'],
+    subjunctive:['I should go to the doctor','you should go to the doctor','he/she should go to the doctor','we should go to the doctor','you all should go to the doctor','they should go to the doctor'],
+  },
+  'get sick': {
+    present:    ['I get sick','you get sick','he/she gets sick','we get sick','you all get sick','they get sick'],
+    preterite:  ['I got sick','you got sick','he/she got sick','we got sick','you all got sick','they got sick'],
+    imperfect:  ['I used to get sick','you used to get sick','he/she used to get sick','we used to get sick','you all used to get sick','they used to get sick'],
+    future:     ['I will get sick','you will get sick','he/she will get sick','we will get sick','you all will get sick','they will get sick'],
+    subjunctive:['I should get sick','you should get sick','he/she should get sick','we should get sick','you all should get sick','they should get sick'],
+  },
+  'exercise every day': {
+    present:    ['I exercise every day','you exercise every day','he/she exercises every day','we exercise every day','you all exercise every day','they exercise every day'],
+    preterite:  ['I exercised every day','you exercised every day','he/she exercised every day','we exercised every day','you all exercised every day','they exercised every day'],
+    imperfect:  ['I used to exercise every day','you used to exercise every day','he/she used to exercise every day','we used to exercise every day','you all used to exercise every day','they used to exercise every day'],
+    future:     ['I will exercise every day','you will exercise every day','he/she will exercise every day','we will exercise every day','you all will exercise every day','they will exercise every day'],
+    subjunctive:['I should exercise every day','you should exercise every day','he/she should exercise every day','we should exercise every day','you all should exercise every day','they should exercise every day'],
+  },
+  'watch a movie': {
+    present:    ['I watch a movie','you watch a movie','he/she watches a movie','we watch a movie','you all watch a movie','they watch a movie'],
+    preterite:  ['I watched a movie','you watched a movie','he/she watched a movie','we watched a movie','you all watched a movie','they watched a movie'],
+    imperfect:  ['I used to watch a movie','you used to watch a movie','he/she used to watch a movie','we used to watch a movie','you all used to watch a movie','they used to watch a movie'],
+    future:     ['I will watch a movie','you will watch a movie','he/she will watch a movie','we will watch a movie','you all will watch a movie','they will watch a movie'],
+    subjunctive:['I should watch a movie','you should watch a movie','he/she should watch a movie','we should watch a movie','you all should watch a movie','they should watch a movie'],
+  },
+  'read a book': {
+    present:    ['I read a book','you read a book','he/she reads a book','we read a book','you all read a book','they read a book'],
+    preterite:  ['I read a book','you read a book','he/she read a book','we read a book','you all read a book','they read a book'],
+    imperfect:  ['I used to read a book','you used to read a book','he/she used to read a book','we used to read a book','you all used to read a book','they used to read a book'],
+    future:     ['I will read a book','you will read a book','he/she will read a book','we will read a book','you all will read a book','they will read a book'],
+    subjunctive:['I should read a book','you should read a book','he/she should read a book','we should read a book','you all should read a book','they should read a book'],
+  },
+  'listen to music': {
+    present:    ['I listen to music','you listen to music','he/she listens to music','we listen to music','you all listen to music','they listen to music'],
+    preterite:  ['I listened to music','you listened to music','he/she listened to music','we listened to music','you all listened to music','they listened to music'],
+    imperfect:  ['I used to listen to music','you used to listen to music','he/she used to listen to music','we used to listen to music','you all used to listen to music','they used to listen to music'],
+    future:     ['I will listen to music','you will listen to music','he/she will listen to music','we will listen to music','you all will listen to music','they will listen to music'],
+    subjunctive:['I should listen to music','you should listen to music','he/she should listen to music','we should listen to music','you all should listen to music','they should listen to music'],
+  },
+  'play soccer': {
+    present:    ['I play soccer','you play soccer','he/she plays soccer','we play soccer','you all play soccer','they play soccer'],
+    preterite:  ['I played soccer','you played soccer','he/she played soccer','we played soccer','you all played soccer','they played soccer'],
+    imperfect:  ['I used to play soccer','you used to play soccer','he/she used to play soccer','we used to play soccer','you all used to play soccer','they used to play soccer'],
+    future:     ['I will play soccer','you will play soccer','he/she will play soccer','we will play soccer','you all will play soccer','they will play soccer'],
+    subjunctive:['I should play soccer','you should play soccer','he/she should play soccer','we should play soccer','you all should play soccer','they should play soccer'],
+  },
+  'take photos': {
+    present:    ['I take photos','you take photos','he/she takes photos','we take photos','you all take photos','they take photos'],
+    preterite:  ['I took photos','you took photos','he/she took photos','we took photos','you all took photos','they took photos'],
+    imperfect:  ['I used to take photos','you used to take photos','he/she used to take photos','we used to take photos','you all used to take photos','they used to take photos'],
+    future:     ['I will take photos','you will take photos','he/she will take photos','we will take photos','you all will take photos','they will take photos'],
+    subjunctive:['I should take photos','you should take photos','he/she should take photos','we should take photos','you all should take photos','they should take photos'],
+  },
+  'say something': {
+    present:    ['I say something','you say something','he/she says something','we say something','you all say something','they say something'],
+    preterite:  ['I said something','you said something','he/she said something','we said something','you all said something','they said something'],
+    imperfect:  ['I used to say something','you used to say something','he/she used to say something','we used to say something','you all used to say something','they used to say something'],
+    future:     ['I will say something','you will say something','he/she will say something','we will say something','you all will say something','they will say something'],
+    subjunctive:['I should say something','you should say something','he/she should say something','we should say something','you all should say something','they should say something'],
+  },
+  'tell the truth': {
+    present:    ['I tell the truth','you tell the truth','he/she tells the truth','we tell the truth','you all tell the truth','they tell the truth'],
+    preterite:  ['I told the truth','you told the truth','he/she told the truth','we told the truth','you all told the truth','they told the truth'],
+    imperfect:  ['I used to tell the truth','you used to tell the truth','he/she used to tell the truth','we used to tell the truth','you all used to tell the truth','they used to tell the truth'],
+    future:     ['I will tell the truth','you will tell the truth','he/she will tell the truth','we will tell the truth','you all will tell the truth','they will tell the truth'],
+    subjunctive:['I should tell the truth','you should tell the truth','he/she should tell the truth','we should tell the truth','you all should tell the truth','they should tell the truth'],
+  },
+  'write a message': {
+    present:    ['I write a message','you write a message','he/she writes a message','we write a message','you all write a message','they write a message'],
+    preterite:  ['I wrote a message','you wrote a message','he/she wrote a message','we wrote a message','you all wrote a message','they wrote a message'],
+    imperfect:  ['I used to write a message','you used to write a message','he/she used to write a message','we used to write a message','you all used to write a message','they used to write a message'],
+    future:     ['I will write a message','you will write a message','he/she will write a message','we will write a message','you all will write a message','they will write a message'],
+    subjunctive:['I should write a message','you should write a message','he/she should write a message','we should write a message','you all should write a message','they should write a message'],
+  },
+  'explain the problem': {
+    present:    ['I explain the problem','you explain the problem','he/she explains the problem','we explain the problem','you all explain the problem','they explain the problem'],
+    preterite:  ['I explained the problem','you explained the problem','he/she explained the problem','we explained the problem','you all explained the problem','they explained the problem'],
+    imperfect:  ['I used to explain the problem','you used to explain the problem','he/she used to explain the problem','we used to explain the problem','you all used to explain the problem','they used to explain the problem'],
+    future:     ['I will explain the problem','you will explain the problem','he/she will explain the problem','we will explain the problem','you all will explain the problem','they will explain the problem'],
+    subjunctive:['I should explain the problem','you should explain the problem','he/she should explain the problem','we should explain the problem','you all should explain the problem','they should explain the problem'],
+  },
+  'complain about something': {
+    present:    ['I complain about something','you complain about something','he/she complains about something','we complain about something','you all complain about something','they complain about something'],
+    preterite:  ['I complained about something','you complained about something','he/she complained about something','we complained about something','you all complained about something','they complained about something'],
+    imperfect:  ['I used to complain about something','you used to complain about something','he/she used to complain about something','we used to complain about something','you all used to complain about something','they used to complain about something'],
+    future:     ['I will complain about something','you will complain about something','he/she will complain about something','we will complain about something','you all will complain about something','they will complain about something'],
+    subjunctive:['I should complain about something','you should complain about something','he/she should complain about something','we should complain about something','you all should complain about something','they should complain about something'],
+  },
+  'give a gift': {
+    present:    ['I give a gift','you give a gift','he/she gives a gift','we give a gift','you all give a gift','they give a gift'],
+    preterite:  ['I gave a gift','you gave a gift','he/she gave a gift','we gave a gift','you all gave a gift','they gave a gift'],
+    imperfect:  ['I used to give a gift','you used to give a gift','he/she used to give a gift','we used to give a gift','you all used to give a gift','they used to give a gift'],
+    future:     ['I will give a gift','you will give a gift','he/she will give a gift','we will give a gift','you all will give a gift','they will give a gift'],
+    subjunctive:['I should give a gift','you should give a gift','he/she should give a gift','we should give a gift','you all should give a gift','they should give a gift'],
+  },
+  'receive good news': {
+    present:    ['I receive good news','you receive good news','he/she receives good news','we receive good news','you all receive good news','they receive good news'],
+    preterite:  ['I received good news','you received good news','he/she received good news','we received good news','you all received good news','they received good news'],
+    imperfect:  ['I used to receive good news','you used to receive good news','he/she used to receive good news','we used to receive good news','you all used to receive good news','they used to receive good news'],
+    future:     ['I will receive good news','you will receive good news','he/she will receive good news','we will receive good news','you all will receive good news','they will receive good news'],
+    subjunctive:['I should receive good news','you should receive good news','he/she should receive good news','we should receive good news','you all should receive good news','they should receive good news'],
+  },
+  'get dressed': {
+    present:    ['I get dressed','you get dressed','he/she gets dressed','we get dressed','you all get dressed','they get dressed'],
+    preterite:  ['I got dressed','you got dressed','he/she got dressed','we got dressed','you all got dressed','they got dressed'],
+    imperfect:  ['I used to get dressed','you used to get dressed','he/she used to get dressed','we used to get dressed','you all used to get dressed','they used to get dressed'],
+    future:     ['I will get dressed','you will get dressed','he/she will get dressed','we will get dressed','you all will get dressed','they will get dressed'],
+    subjunctive:['I should get dressed','you should get dressed','he/she should get dressed','we should get dressed','you all should get dressed','they should get dressed'],
+  },
+  'fall asleep': {
+    present:    ['I fall asleep','you fall asleep','he/she falls asleep','we fall asleep','you all fall asleep','they fall asleep'],
+    preterite:  ['I fell asleep','you fell asleep','he/she fell asleep','we fell asleep','you all fell asleep','they fell asleep'],
+    imperfect:  ['I used to fall asleep','you used to fall asleep','he/she used to fall asleep','we used to fall asleep','you all used to fall asleep','they used to fall asleep'],
+    future:     ['I will fall asleep','you will fall asleep','he/she will fall asleep','we will fall asleep','you all will fall asleep','they will fall asleep'],
+    subjunctive:['I should fall asleep','you should fall asleep','he/she should fall asleep','we should fall asleep','you all should fall asleep','they should fall asleep'],
+  },
+  'sit down': {
+    present:    ['I sit down','you sit down','he/she sits down','we sit down','you all sit down','they sit down'],
+    preterite:  ['I sat down','you sat down','he/she sat down','we sat down','you all sat down','they sat down'],
+    imperfect:  ['I used to sit down','you used to sit down','he/she used to sit down','we used to sit down','you all used to sit down','they used to sit down'],
+    future:     ['I will sit down','you will sit down','he/she will sit down','we will sit down','you all will sit down','they will sit down'],
+    subjunctive:['I should sit down','you should sit down','he/she should sit down','we should sit down','you all should sit down','they should sit down'],
+  },
+  'get up from the couch': {
+    present:    ['I get up from the couch','you get up from the couch','he/she gets up from the couch','we get up from the couch','you all get up from the couch','they get up from the couch'],
+    preterite:  ['I got up from the couch','you got up from the couch','he/she got up from the couch','we got up from the couch','you all got up from the couch','they got up from the couch'],
+    imperfect:  ['I used to get up from the couch','you used to get up from the couch','he/she used to get up from the couch','we used to get up from the couch','you all used to get up from the couch','they used to get up from the couch'],
+    future:     ['I will get up from the couch','you will get up from the couch','he/she will get up from the couch','we will get up from the couch','you all will get up from the couch','they will get up from the couch'],
+    subjunctive:['I should get up from the couch','you should get up from the couch','he/she should get up from the couch','we should get up from the couch','you all should get up from the couch','they should get up from the couch'],
+  },
+  'turn on the TV': {
+    present:    ['I turn on the TV','you turn on the TV','he/she turns on the TV','we turn on the TV','you all turn on the TV','they turn on the TV'],
+    preterite:  ['I turned on the TV','you turned on the TV','he/she turned on the TV','we turned on the TV','you all turned on the TV','they turned on the TV'],
+    imperfect:  ['I used to turn on the TV','you used to turn on the TV','he/she used to turn on the TV','we used to turn on the TV','you all used to turn on the TV','they used to turn on the TV'],
+    future:     ['I will turn on the TV','you will turn on the TV','he/she will turn on the TV','we will turn on the TV','you all will turn on the TV','they will turn on the TV'],
+    subjunctive:['I should turn on the TV','you should turn on the TV','he/she should turn on the TV','we should turn on the TV','you all should turn on the TV','they should turn on the TV'],
+  },
+  'lock the door': {
+    present:    ['I lock the door','you lock the door','he/she locks the door','we lock the door','you all lock the door','they lock the door'],
+    preterite:  ['I locked the door','you locked the door','he/she locked the door','we locked the door','you all locked the door','they locked the door'],
+    imperfect:  ['I used to lock the door','you used to lock the door','he/she used to lock the door','we used to lock the door','you all used to lock the door','they used to lock the door'],
+    future:     ['I will lock the door','you will lock the door','he/she will lock the door','we will lock the door','you all will lock the door','they will lock the door'],
+    subjunctive:['I should lock the door','you should lock the door','he/she should lock the door','we should lock the door','you all should lock the door','they should lock the door'],
+  },
+  'look for my keys': {
+    present:    ['I look for my keys','you look for your keys','he/she looks for their keys','we look for our keys','you all look for your keys','they look for their keys'],
+    preterite:  ['I looked for my keys','you looked for your keys','he/she looked for their keys','we looked for our keys','you all looked for your keys','they looked for their keys'],
+    imperfect:  ['I used to look for my keys','you used to look for your keys','he/she used to look for their keys','we used to look for our keys','you all used to look for your keys','they used to look for their keys'],
+    future:     ['I will look for my keys','you will look for your keys','he/she will look for their keys','we will look for our keys','you all will look for your keys','they will look for their keys'],
+    subjunctive:['I should look for my keys','you should look for your keys','he/she should look for their keys','we should look for our keys','you all should look for your keys','they should look for their keys'],
+  },
+  'wait for someone': {
+    present:    ['I wait for someone','you wait for someone','he/she waits for someone','we wait for someone','you all wait for someone','they wait for someone'],
+    preterite:  ['I waited for someone','you waited for someone','he/she waited for someone','we waited for someone','you all waited for someone','they waited for someone'],
+    imperfect:  ['I used to wait for someone','you used to wait for someone','he/she used to wait for someone','we used to wait for someone','you all used to wait for someone','they used to wait for someone'],
+    future:     ['I will wait for someone','you will wait for someone','he/she will wait for someone','we will wait for someone','you all will wait for someone','they will wait for someone'],
+    subjunctive:['I should wait for someone','you should wait for someone','he/she should wait for someone','we should wait for someone','you all should wait for someone','they should wait for someone'],
+  },
+  'find a solution': {
+    present:    ['I find a solution','you find a solution','he/she finds a solution','we find a solution','you all find a solution','they find a solution'],
+    preterite:  ['I found a solution','you found a solution','he/she found a solution','we found a solution','you all found a solution','they found a solution'],
+    imperfect:  ['I used to find a solution','you used to find a solution','he/she used to find a solution','we used to find a solution','you all used to find a solution','they used to find a solution'],
+    future:     ['I will find a solution','you will find a solution','he/she will find a solution','we will find a solution','you all will find a solution','they will find a solution'],
+    subjunctive:['I should find a solution','you should find a solution','he/she should find a solution','we should find a solution','you all should find a solution','they should find a solution'],
+  },
+  'come back later': {
+    present:    ['I come back later','you come back later','he/she comes back later','we come back later','you all come back later','they come back later'],
+    preterite:  ['I came back later','you came back later','he/she came back later','we came back later','you all came back later','they came back later'],
+    imperfect:  ['I used to come back later','you used to come back later','he/she used to come back later','we used to come back later','you all used to come back later','they used to come back later'],
+    future:     ['I will come back later','you will come back later','he/she will come back later','we will come back later','you all will come back later','they will come back later'],
+    subjunctive:['I should come back later','you should come back later','he/she should come back later','we should come back later','you all should come back later','they should come back later'],
+  },
+  'put the phone away': {
+    present:    ['I put my phone away','you put your phone away','he/she puts their phone away','we put our phones away','you all put your phones away','they put their phones away'],
+    preterite:  ['I put my phone away','you put your phone away','he/she put their phone away','we put our phones away','you all put your phones away','they put their phones away'],
+    imperfect:  ['I used to put my phone away','you used to put your phone away','he/she used to put their phone away','we used to put our phones away','you all used to put your phones away','they used to put their phones away'],
+    future:     ['I will put my phone away','you will put your phone away','he/she will put their phone away','we will put our phones away','you all will put your phones away','they will put their phones away'],
+    subjunctive:['I should put my phone away','you should put your phone away','he/she should put their phone away','we should put our phones away','you all should put your phones away','they should put their phones away'],
+  },
+  'change my mind': {
+    present:    ['I change my mind','you change your mind','he/she changes their mind','we change our minds','you all change your minds','they change their minds'],
+    preterite:  ['I changed my mind','you changed your mind','he/she changed their mind','we changed our minds','you all changed your minds','they changed their minds'],
+    imperfect:  ['I used to change my mind','you used to change your mind','he/she used to change their mind','we used to change our minds','you all used to change your minds','they used to change their minds'],
+    future:     ['I will change my mind','you will change your mind','he/she will change their mind','we will change our minds','you all will change your minds','they will change their minds'],
+    subjunctive:['I should change my mind','you should change your mind','he/she should change their mind','we should change our minds','you all should change your minds','they should change their minds'],
+  },
+  'get angry': {
+    present:    ['I get angry','you get angry','he/she gets angry','we get angry','you all get angry','they get angry'],
+    preterite:  ['I got angry','you got angry','he/she got angry','we got angry','you all got angry','they got angry'],
+    imperfect:  ['I used to get angry','you used to get angry','he/she used to get angry','we used to get angry','you all used to get angry','they used to get angry'],
+    future:     ['I will get angry','you will get angry','he/she will get angry','we will get angry','you all will get angry','they will get angry'],
+    subjunctive:['I should get angry','you should get angry','he/she should get angry','we should get angry','you all should get angry','they should get angry'],
+  },
+  'get lost': {
+    present:    ['I get lost','you get lost','he/she gets lost','we get lost','you all get lost','they get lost'],
+    preterite:  ['I got lost','you got lost','he/she got lost','we got lost','you all got lost','they got lost'],
+    imperfect:  ['I used to get lost','you used to get lost','he/she used to get lost','we used to get lost','you all used to get lost','they used to get lost'],
+    future:     ['I will get lost','you will get lost','he/she will get lost','we will get lost','you all will get lost','they will get lost'],
+    subjunctive:['I should get lost','you should get lost','he/she should get lost','we should get lost','you all should get lost','they should get lost'],
+  },
+  'run out of time': {
+    present:    ['I run out of time','you run out of time','he/she runs out of time','we run out of time','you all run out of time','they run out of time'],
+    preterite:  ['I ran out of time','you ran out of time','he/she ran out of time','we ran out of time','you all ran out of time','they ran out of time'],
+    imperfect:  ['I used to run out of time','you used to run out of time','he/she used to run out of time','we used to run out of time','you all used to run out of time','they used to run out of time'],
+    future:     ['I will run out of time','you will run out of time','he/she will run out of time','we will run out of time','you all will run out of time','they will run out of time'],
+    subjunctive:['I should run out of time','you should run out of time','he/she should run out of time','we should run out of time','you all should run out of time','they should run out of time'],
+  },
+  'pick up the kids': {
+    present:    ['I pick up the kids','you pick up the kids','he/she picks up the kids','we pick up the kids','you all pick up the kids','they pick up the kids'],
+    preterite:  ['I picked up the kids','you picked up the kids','he/she picked up the kids','we picked up the kids','you all picked up the kids','they picked up the kids'],
+    imperfect:  ['I used to pick up the kids','you used to pick up the kids','he/she used to pick up the kids','we used to pick up the kids','you all used to pick up the kids','they used to pick up the kids'],
+    future:     ['I will pick up the kids','you will pick up the kids','he/she will pick up the kids','we will pick up the kids','you all will pick up the kids','they will pick up the kids'],
+    subjunctive:['I should pick up the kids','you should pick up the kids','he/she should pick up the kids','we should pick up the kids','you all should pick up the kids','they should pick up the kids'],
+  },
+  'move to a new apartment': {
+    present:    ['I move to a new apartment','you move to a new apartment','he/she moves to a new apartment','we move to a new apartment','you all move to a new apartment','they move to a new apartment'],
+    preterite:  ['I moved to a new apartment','you moved to a new apartment','he/she moved to a new apartment','we moved to a new apartment','you all moved to a new apartment','they moved to a new apartment'],
+    imperfect:  ['I used to move to a new apartment','you used to move to a new apartment','he/she used to move to a new apartment','we used to move to a new apartment','you all used to move to a new apartment','they used to move to a new apartment'],
+    future:     ['I will move to a new apartment','you will move to a new apartment','he/she will move to a new apartment','we will move to a new apartment','you all will move to a new apartment','they will move to a new apartment'],
+    subjunctive:['I should move to a new apartment','you should move to a new apartment','he/she should move to a new apartment','we should move to a new apartment','you all should move to a new apartment','they should move to a new apartment'],
+  },
+  'learn something new': {
+    present:    ['I learn something new','you learn something new','he/she learns something new','we learn something new','you all learn something new','they learn something new'],
+    preterite:  ['I learned something new','you learned something new','he/she learned something new','we learned something new','you all learned something new','they learned something new'],
+    imperfect:  ['I used to learn something new','you used to learn something new','he/she used to learn something new','we used to learn something new','you all used to learn something new','they used to learn something new'],
+    future:     ['I will learn something new','you will learn something new','he/she will learn something new','we will learn something new','you all will learn something new','they will learn something new'],
+    subjunctive:['I should learn something new','you should learn something new','he/she should learn something new','we should learn something new','you all should learn something new','they should learn something new'],
+  },
+  'ask a question': {
+    present:    ['I ask a question','you ask a question','he/she asks a question','we ask a question','you all ask a question','they ask a question'],
+    preterite:  ['I asked a question','you asked a question','he/she asked a question','we asked a question','you all asked a question','they asked a question'],
+    imperfect:  ['I used to ask a question','you used to ask a question','he/she used to ask a question','we used to ask a question','you all used to ask a question','they used to ask a question'],
+    future:     ['I will ask a question','you will ask a question','he/she will ask a question','we will ask a question','you all will ask a question','they will ask a question'],
+    subjunctive:['I should ask a question','you should ask a question','he/she should ask a question','we should ask a question','you all should ask a question','they should ask a question'],
+  },
+  'think about something': {
+    present:    ['I think about something','you think about something','he/she thinks about something','we think about something','you all think about something','they think about something'],
+    preterite:  ['I thought about something','you thought about something','he/she thought about something','we thought about something','you all thought about something','they thought about something'],
+    imperfect:  ['I used to think about something','you used to think about something','he/she used to think about something','we used to think about something','you all used to think about something','they used to think about something'],
+    future:     ['I will think about something','you will think about something','he/she will think about something','we will think about something','you all will think about something','they will think about something'],
+    subjunctive:['I should think about something','you should think about something','he/she should think about something','we should think about something','you all should think about something','they should think about something'],
+  },
+  'know someone well': {
+    present:    ['I know someone well','you know someone well','he/she knows someone well','we know someone well','you all know someone well','they know someone well'],
+    preterite:  ['I knew someone well','you knew someone well','he/she knew someone well','we knew someone well','you all knew someone well','they knew someone well'],
+    imperfect:  ['I used to know someone well','you used to know someone well','he/she used to know someone well','we used to know someone well','you all used to know someone well','they used to know someone well'],
+    future:     ['I will know someone well','you will know someone well','he/she will know someone well','we will know someone well','you all will know someone well','they will know someone well'],
+    subjunctive:['I should know someone well','you should know someone well','he/she should know someone well','we should know someone well','you all should know someone well','they should know someone well'],
+  },
+  'bring something to eat': {
+    present:    ['I bring something to eat','you bring something to eat','he/she brings something to eat','we bring something to eat','you all bring something to eat','they bring something to eat'],
+    preterite:  ['I brought something to eat','you brought something to eat','he/she brought something to eat','we brought something to eat','you all brought something to eat','they brought something to eat'],
+    imperfect:  ['I used to bring something to eat','you used to bring something to eat','he/she used to bring something to eat','we used to bring something to eat','you all used to bring something to eat','they used to bring something to eat'],
+    future:     ['I will bring something to eat','you will bring something to eat','he/she will bring something to eat','we will bring something to eat','you all will bring something to eat','they will bring something to eat'],
+    subjunctive:['I should bring something to eat','you should bring something to eat','he/she should bring something to eat','we should bring something to eat','you all should bring something to eat','they should bring something to eat'],
+  },
+  'put it on the table': {
+    present:    ['I put it on the table','you put it on the table','he/she puts it on the table','we put it on the table','you all put it on the table','they put it on the table'],
+    preterite:  ['I put it on the table','you put it on the table','he/she put it on the table','we put it on the table','you all put it on the table','they put it on the table'],
+    imperfect:  ['I used to put it on the table','you used to put it on the table','he/she used to put it on the table','we used to put it on the table','you all used to put it on the table','they used to put it on the table'],
+    future:     ['I will put it on the table','you will put it on the table','he/she will put it on the table','we will put it on the table','you all will put it on the table','they will put it on the table'],
+    subjunctive:['I should put it on the table','you should put it on the table','he/she should put it on the table','we should put it on the table','you all should put it on the table','they should put it on the table'],
+  },
+  'come out of the house': {
+    present:    ['I come out of the house','you come out of the house','he/she comes out of the house','we come out of the house','you all come out of the house','they come out of the house'],
+    preterite:  ['I came out of the house','you came out of the house','he/she came out of the house','we came out of the house','you all came out of the house','they came out of the house'],
+    imperfect:  ['I used to come out of the house','you used to come out of the house','he/she used to come out of the house','we used to come out of the house','you all used to come out of the house','they used to come out of the house'],
+    future:     ['I will come out of the house','you will come out of the house','he/she will come out of the house','we will come out of the house','you all will come out of the house','they will come out of the house'],
+    subjunctive:['I should come out of the house','you should come out of the house','he/she should come out of the house','we should come out of the house','you all should come out of the house','they should come out of the house'],
+  },
+  'follow through on a plan': {
+    present:    ['I follow through on a plan','you follow through on a plan','he/she follows through on a plan','we follow through on a plan','you all follow through on a plan','they follow through on a plan'],
+    preterite:  ['I followed through on a plan','you followed through on a plan','he/she followed through on a plan','we followed through on a plan','you all followed through on a plan','they followed through on a plan'],
+    imperfect:  ['I used to follow through on a plan','you used to follow through on a plan','he/she used to follow through on a plan','we used to follow through on a plan','you all used to follow through on a plan','they used to follow through on a plan'],
+    future:     ['I will follow through on a plan','you will follow through on a plan','he/she will follow through on a plan','we will follow through on a plan','you all will follow through on a plan','they will follow through on a plan'],
+    subjunctive:['I should follow through on a plan','you should follow through on a plan','he/she should follow through on a plan','we should follow through on a plan','you all should follow through on a plan','they should follow through on a plan'],
+  },
+  'choose what to eat': {
+    present:    ['I choose what to eat','you choose what to eat','he/she chooses what to eat','we choose what to eat','you all choose what to eat','they choose what to eat'],
+    preterite:  ['I chose what to eat','you chose what to eat','he/she chose what to eat','we chose what to eat','you all chose what to eat','they chose what to eat'],
+    imperfect:  ['I used to choose what to eat','you used to choose what to eat','he/she used to choose what to eat','we used to choose what to eat','you all used to choose what to eat','they used to choose what to eat'],
+    future:     ['I will choose what to eat','you will choose what to eat','he/she will choose what to eat','we will choose what to eat','you all will choose what to eat','they will choose what to eat'],
+    subjunctive:['I should choose what to eat','you should choose what to eat','he/she should choose what to eat','we should choose what to eat','you all should choose what to eat','they should choose what to eat'],
+  },
+  'follow someone on Instagram': {
+    present:    ['I follow someone on Instagram','you follow someone on Instagram','he/she follows someone on Instagram','we follow someone on Instagram','you all follow someone on Instagram','they follow someone on Instagram'],
+    preterite:  ['I followed someone on Instagram','you followed someone on Instagram','he/she followed someone on Instagram','we followed someone on Instagram','you all followed someone on Instagram','they followed someone on Instagram'],
+    imperfect:  ['I used to follow someone on Instagram','you used to follow someone on Instagram','he/she used to follow someone on Instagram','we used to follow someone on Instagram','you all used to follow someone on Instagram','they used to follow someone on Instagram'],
+    future:     ['I will follow someone on Instagram','you will follow someone on Instagram','he/she will follow someone on Instagram','we will follow someone on Instagram','you all will follow someone on Instagram','they will follow someone on Instagram'],
+    subjunctive:['I should follow someone on Instagram','you should follow someone on Instagram','he/she should follow someone on Instagram','we should follow someone on Instagram','you all should follow someone on Instagram','they should follow someone on Instagram'],
+  },
+  'lose my patience': {
+    present:    ['I lose my patience','you lose your patience','he/she loses their patience','we lose our patience','you all lose your patience','they lose their patience'],
+    preterite:  ['I lost my patience','you lost your patience','he/she lost their patience','we lost our patience','you all lost your patience','they lost their patience'],
+    imperfect:  ['I used to lose my patience','you used to lose your patience','he/she used to lose their patience','we used to lose our patience','you all used to lose your patience','they used to lose their patience'],
+    future:     ['I will lose my patience','you will lose your patience','he/she will lose their patience','we will lose our patience','you all will lose your patience','they will lose their patience'],
+    subjunctive:['I should lose my patience','you should lose your patience','he/she should lose their patience','we should lose our patience','you all should lose your patience','they should lose their patience'],
+  },
+  'notice something is wrong': {
+    present:    ['I notice something is wrong','you notice something is wrong','he/she notices something is wrong','we notice something is wrong','you all notice something is wrong','they notice something is wrong'],
+    preterite:  ['I noticed something was wrong','you noticed something was wrong','he/she noticed something was wrong','we noticed something was wrong','you all noticed something was wrong','they noticed something was wrong'],
+    imperfect:  ['I used to notice when something was wrong','you used to notice when something was wrong','he/she used to notice when something was wrong','we used to notice when something was wrong','you all used to notice when something was wrong','they used to notice when something was wrong'],
+    future:     ['I will notice something is wrong','you will notice something is wrong','he/she will notice something is wrong','we will notice something is wrong','you all will notice something is wrong','they will notice something is wrong'],
+    subjunctive:['I should notice something is wrong','you should notice something is wrong','he/she should notice something is wrong','we should notice something is wrong','you all should notice something is wrong','they should notice something is wrong'],
+  },
+  'keep going': {
+    present:    ['I keep going','you keep going','he/she keeps going','we keep going','you all keep going','they keep going'],
+    preterite:  ['I kept going','you kept going','he/she kept going','we kept going','you all kept going','they kept going'],
+    imperfect:  ['I used to keep going','you used to keep going','he/she used to keep going','we used to keep going','you all used to keep going','they used to keep going'],
+    future:     ['I will keep going','you will keep going','he/she will keep going','we will keep going','you all will keep going','they will keep going'],
+    subjunctive:['I should keep going','you should keep going','he/she should keep going','we should keep going','you all should keep going','they should keep going'],
+  },
+  'be right': {
+    present:    ['I am right','you are right','he/she is right','we are right','you all are right','they are right'],
+    preterite:  ['I was right','you were right','he/she was right','we were right','you all were right','they were right'],
+    imperfect:  ['I used to be right','you used to be right','he/she used to be right','we used to be right','you all used to be right','they used to be right'],
+    future:     ['I will be right','you will be right','he/she will be right','we will be right','you all will be right','they will be right'],
+    subjunctive:['I should be right','you should be right','he/she should be right','we should be right','you all should be right','they should be right'],
+  },
+  'get up on the wrong side of the bed': {
+    present:    ['I wake up in a bad mood','you wake up in a bad mood','he/she wakes up in a bad mood','we wake up in a bad mood','you all wake up in a bad mood','they wake up in a bad mood'],
+    preterite:  ['I woke up in a bad mood','you woke up in a bad mood','he/she woke up in a bad mood','we woke up in a bad mood','you all woke up in a bad mood','they woke up in a bad mood'],
+    imperfect:  ['I used to wake up in a bad mood','you used to wake up in a bad mood','he/she used to wake up in a bad mood','we used to wake up in a bad mood','you all used to wake up in a bad mood','they used to wake up in a bad mood'],
+    future:     ['I will wake up in a bad mood','you will wake up in a bad mood','he/she will wake up in a bad mood','we will wake up in a bad mood','you all will wake up in a bad mood','they will wake up in a bad mood'],
+    subjunctive:['I should wake up in a bad mood','you should wake up in a bad mood','he/she should wake up in a bad mood','we should wake up in a bad mood','you all should wake up in a bad mood','they should wake up in a bad mood'],
+  },
+  'spend the weekend at home': {
+    present:    ['I spend the weekend at home','you spend the weekend at home','he/she spends the weekend at home','we spend the weekend at home','you all spend the weekend at home','they spend the weekend at home'],
+    preterite:  ['I spent the weekend at home','you spent the weekend at home','he/she spent the weekend at home','we spent the weekend at home','you all spent the weekend at home','they spent the weekend at home'],
+    imperfect:  ['I used to spend the weekend at home','you used to spend the weekend at home','he/she used to spend the weekend at home','we used to spend the weekend at home','you all used to spend the weekend at home','they used to spend the weekend at home'],
+    future:     ['I will spend the weekend at home','you will spend the weekend at home','he/she will spend the weekend at home','we will spend the weekend at home','you all will spend the weekend at home','they will spend the weekend at home'],
+    subjunctive:['I should spend the weekend at home','you should spend the weekend at home','he/she should spend the weekend at home','we should spend the weekend at home','you all should spend the weekend at home','they should spend the weekend at home'],
+  },
+  'wake up without an alarm': {
+    present:    ['I wake up without an alarm','you wake up without an alarm','he/she wakes up without an alarm','we wake up without an alarm','you all wake up without an alarm','they wake up without an alarm'],
+    preterite:  ['I woke up without an alarm','you woke up without an alarm','he/she woke up without an alarm','we woke up without an alarm','you all woke up without an alarm','they woke up without an alarm'],
+    imperfect:  ['I used to wake up without an alarm','you used to wake up without an alarm','he/she used to wake up without an alarm','we used to wake up without an alarm','you all used to wake up without an alarm','they used to wake up without an alarm'],
+    future:     ['I will wake up without an alarm','you will wake up without an alarm','he/she will wake up without an alarm','we will wake up without an alarm','you all will wake up without an alarm','they will wake up without an alarm'],
+    subjunctive:['I should wake up without an alarm','you should wake up without an alarm','he/she should wake up without an alarm','we should wake up without an alarm','you all should wake up without an alarm','they should wake up without an alarm'],
+  },
+  'send a voice note': {
+    present:    ['I send a voice note','you send a voice note','he/she sends a voice note','we send a voice note','you all send a voice note','they send a voice note'],
+    preterite:  ['I sent a voice note','you sent a voice note','he/she sent a voice note','we sent a voice note','you all sent a voice note','they sent a voice note'],
+    imperfect:  ['I used to send a voice note','you used to send a voice note','he/she used to send a voice note','we used to send a voice note','you all used to send a voice note','they used to send a voice note'],
+    future:     ['I will send a voice note','you will send a voice note','he/she will send a voice note','we will send a voice note','you all will send a voice note','they will send a voice note'],
+    subjunctive:['I should send a voice note','you should send a voice note','he/she should send a voice note','we should send a voice note','you all should send a voice note','they should send a voice note'],
+  },
+  'cancel plans': {
+    present:    ['I cancel plans','you cancel plans','he/she cancels plans','we cancel plans','you all cancel plans','they cancel plans'],
+    preterite:  ['I canceled plans','you canceled plans','he/she canceled plans','we canceled plans','you all canceled plans','they canceled plans'],
+    imperfect:  ['I used to cancel plans','you used to cancel plans','he/she used to cancel plans','we used to cancel plans','you all used to cancel plans','they used to cancel plans'],
+    future:     ['I will cancel plans','you will cancel plans','he/she will cancel plans','we will cancel plans','you all will cancel plans','they will cancel plans'],
+    subjunctive:['I should cancel plans','you should cancel plans','he/she should cancel plans','we should cancel plans','you all should cancel plans','they should cancel plans'],
+  },
+  'show up late': {
+    present:    ['I show up late','you show up late','he/she shows up late','we show up late','you all show up late','they show up late'],
+    preterite:  ['I showed up late','you showed up late','he/she showed up late','we showed up late','you all showed up late','they showed up late'],
+    imperfect:  ['I used to show up late','you used to show up late','he/she used to show up late','we used to show up late','you all used to show up late','they used to show up late'],
+    future:     ['I will show up late','you will show up late','he/she will show up late','we will show up late','you all will show up late','they will show up late'],
+    subjunctive:['I should show up late','you should show up late','he/she should show up late','we should show up late','you all should show up late','they should show up late'],
+  },
+  'deal with a problem': {
+    present:    ['I deal with a problem','you deal with a problem','he/she deals with a problem','we deal with a problem','you all deal with a problem','they deal with a problem'],
+    preterite:  ['I dealt with a problem','you dealt with a problem','he/she dealt with a problem','we dealt with a problem','you all dealt with a problem','they dealt with a problem'],
+    imperfect:  ['I used to deal with a problem','you used to deal with a problem','he/she used to deal with a problem','we used to deal with a problem','you all used to deal with a problem','they used to deal with a problem'],
+    future:     ['I will deal with a problem','you will deal with a problem','he/she will deal with a problem','we will deal with a problem','you all will deal with a problem','they will deal with a problem'],
+    subjunctive:['I should deal with a problem','you should deal with a problem','he/she should deal with a problem','we should deal with a problem','you all should deal with a problem','they should deal with a problem'],
+  },
+};
+
+
 const VOCAB = [
   {es:'el tinto',en:'black coffee (Colombia)',ex_es:'Dame un tinto, por favor.',ex_en:'Give me a black coffee, please.'},
   {es:'la plata',en:'money (informal)',ex_es:'No tengo plata hoy.',ex_en:'I don\'t have any money today.'},
@@ -1361,18 +2147,21 @@ const VOCAB = [
   {es:'el domicilio',en:'delivery / home delivery',ex_es:'Pedimos domicilio de pizza.',ex_en:'We ordered pizza delivery.'},
 ];
 
-// Build deck
+// Build deck - grouped by sentence then tense then pronoun
 function buildDeck() {
   const cards = [];
   for (const s of SENTENCES) {
     for (const t of TENSES) {
       for (let i = 0; i < PRONOUNS.length; i++) {
+        const enArr = EN[s.base] && EN[s.base][t.key];
+        const enStr = enArr ? enArr[i] : PRONOUNS_EN[i]+' '+s.base;
         cards.push({
           type:'conj', tense:t.key, tenseLabel:t.label,
           pronoun:PRONOUNS[i], pronounEn:PRONOUNS_EN[i],
           es:s.conjs[t.key][i],
-          en:PRONOUNS_EN[i]+' '+s.base,
+          en:enStr,
           vocab:s.vocab,
+          sentenceGroup:s.base,
         });
       }
     }
@@ -1384,6 +2173,32 @@ function buildDeck() {
 }
 
 const ALL_CARDS = buildDeck();
+
+// Voice picker
+let availableVoices = [];
+let selectedVoiceURI = null;
+
+function loadVoices() {
+  availableVoices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('es'));
+  const sel = document.getElementById('voice-select');
+  if (!sel) return;
+  sel.innerHTML = availableVoices.length
+    ? availableVoices.map((v,i) => `<option value="${v.voiceURI}" ${i===0?'selected':''}>${v.name} (${v.lang})</option>`).join('')
+    : '<option>No Spanish voices found</option>';
+  if (availableVoices.length) selectedVoiceURI = availableVoices[0].voiceURI;
+  // prefer enhanced/premium voices
+  const premium = availableVoices.find(v => v.name.includes('Mónica') || v.name.includes('Monica') || v.name.includes('Paulina') || v.name.includes('premium') || v.name.includes('enhanced'));
+  if (premium) { selectedVoiceURI = premium.voiceURI; sel.value = premium.voiceURI; }
+}
+window.speechSynthesis.onvoiceschanged = loadVoices;
+setTimeout(loadVoices, 500);
+
+function onVoiceChange(val) { selectedVoiceURI = val; }
+
+function getSpanishVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find(v => v.voiceURI === selectedVoiceURI) || voices.find(v => v.lang.startsWith('es')) || null;
+}
 
 let state = {
   fcGoal:30, audioGoal:10,
@@ -1399,7 +2214,29 @@ function filteredCards() {
 }
 
 function buildQueue() {
-  state.queue = [...filteredCards()].sort(()=>Math.random()-.5);
+  // Group by sentence: for each sentence, show all active tenses for pronoun 0, then pronoun 1...
+  // This drills a full sentence paradigm before moving on
+  const grouped = [];
+  const shuffledSentences = [...SENTENCES].sort(()=>Math.random()-.5);
+  for (const s of shuffledSentences) {
+    for (let pi = 0; pi < PRONOUNS.length; pi++) {
+      for (const t of TENSES) {
+        if (!state.activeTenses.has(t.key)) continue;
+        const enArr = EN[s.base] && EN[s.base][t.key];
+        const enStr = enArr ? enArr[pi] : PRONOUNS_EN[pi]+' '+s.base;
+        grouped.push({
+          type:'conj', tense:t.key, tenseLabel:t.label,
+          pronoun:PRONOUNS[pi], pronounEn:PRONOUNS_EN[pi],
+          es:s.conjs[t.key][pi], en:enStr, vocab:s.vocab,
+        });
+      }
+    }
+  }
+  // Append vocab cards at end
+  for (const v of VOCAB) {
+    grouped.push({type:'vocab', es:v.es, en:v.en, ex_es:v.ex_es, ex_en:v.ex_en});
+  }
+  state.queue = grouped;
   state.qIdx = 0; state.goalHit = false;
 }
 
@@ -1535,7 +2372,7 @@ function playRow(s, tKey, idx) {
     state.audMinTotal=parseFloat((state.audMinTotal+1/60).toFixed(4));
     updateStats();
   },1000);
-  const u1=new SpeechSynthesisUtterance(es); u1.lang='es-ES'; u1.rate=0.82;
+  const u1=new SpeechSynthesisUtterance(es); u1.lang='es-ES'; u1.rate=0.82; const sv=getSpanishVoice(); if(sv) u1.voice=sv;
   const u2=new SpeechSynthesisUtterance(en); u2.lang='en-US'; u2.rate=0.88;
   u2.onend=()=>{ clearInterval(state.audInterval); if(state.playingKey) playRow(s,tKey,idx+1); };
   u1.onend=()=>window.speechSynthesis.speak(u2);
@@ -1580,8 +2417,10 @@ function setGreeting(){
 }
 
 // persist via localStorage
+function storageKey(){ return 'esp_state_' + (currentProfile || 'steven'); }
+
 function saveState(){
-  try{localStorage.setItem('esp_state',JSON.stringify({
+  try{localStorage.setItem(storageKey(),JSON.stringify({
     fcDone:state.fcDone,mastered:state.mastered,reviewing:state.reviewing,
     audMin:state.audMin,audMinTotal:state.audMinTotal,audDrills:state.audDrills,
     fcGoal:state.fcGoal,audioGoal:state.audioGoal,
@@ -1592,7 +2431,7 @@ function saveState(){
 
 function loadState(){
   try{
-    const s=JSON.parse(localStorage.getItem('esp_state'));
+    const s=JSON.parse(localStorage.getItem(storageKey()));
     if(!s) return;
     if(s.lastDate!==new Date().toDateString()){
       // new day — reset daily stats but keep totals
@@ -1611,17 +2450,51 @@ function loadState(){
 
 setInterval(saveState,10000);
 
-// init
-loadState();
-setGreeting();
-buildQueue();
-renderTensePills('fc-tense-pills');
-renderTensePills('audio-tense-pills');
-renderCard();
-renderAudio();
-updateStats();
+// ── PROFILE LOGIC ──
+let currentProfile = null;
+
+function getProfileStats(key) {
+  try {
+    const s = JSON.parse(localStorage.getItem('esp_state_' + key));
+    if (!s) return 'no sessions yet';
+    return s.mastered + ' mastered · ' + Math.round(s.audMinTotal || 0) + 'm listened';
+  } catch(e) { return 'no sessions yet'; }
+}
+
+function showProfileScreen() {
+  document.getElementById('profile-screen').style.display = 'flex';
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('steven-stats').textContent = getProfileStats('steven');
+  document.getElementById('devyn-stats').textContent = getProfileStats('devyn');
+}
+
+function selectProfile(name) {
+  currentProfile = name;
+  document.getElementById('profile-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('profile-badge').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+  // Reset state before loading profile
+  state.fcDone=0;state.mastered=0;state.reviewing=0;
+  state.audMin=0;state.audMinTotal=0;state.audDrills=0;
+  state.fcGoal=30;state.audioGoal=10;
+  state.activeTenses=new Set(['present','preterite','imperfect','future','subjunctive']);
+  loadState();
+  buildQueue();
+  renderTensePills('fc-tense-pills');
+  renderTensePills('audio-tense-pills');
+  renderCard();
+  renderAudio();
+  updateStats();
+  setGreeting();
+}
+
+// init — app waits for profile selection, then selectProfile() kicks everything off
 const totalCards=SENTENCES.length*TENSES.length*PRONOUNS.length+VOCAB.length;
 document.getElementById('deck-count').textContent=totalCards.toLocaleString()+' cards in deck';
+// Show profile screen on load
+document.getElementById('steven-stats').textContent = getProfileStats('steven');
+document.getElementById('devyn-stats').textContent = getProfileStats('devyn');
 </script>
+</div>
 </body>
 </html>
