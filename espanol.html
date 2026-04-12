@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Español">
+<title>Español Daily</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F5F0; --surface: #FFFFFF; --surface2: #F0EDE6;
+    --border: rgba(0,0,0,0.10); --text: #1A1916; --muted: #7A7670;
+    --accent: #C94B1E; --accent-light: #FAEEE9;
+    --green: #1D9E75; --green-light: #E1F5EE;
+    --amber: #BA7517; --amber-light: #FAEEDA;
+    --blue: #185FA5; --blue-light: #E6F1FB;
+    --purple: #534AB7; --purple-light: #EEEDFE;
+    --r: 14px; --r-sm: 8px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 430px; margin: 0 auto; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; position: sticky; top: 0; background: var(--bg); z-index: 10; border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Fraunces', serif; font-size: 20px; color: var(--accent); }
+  .streak { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--amber); background: var(--amber-light); padding: 4px 10px; border-radius: 20px; }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 57px; z-index: 9; }
+  .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .screen { display: none; padding: 20px; padding-bottom: 40px; }
+  .screen.active { display: block; }
+
+  /* HOME */
+  .greeting { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+  .date-line { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; margin-bottom: 12px; transition: transform .15s; -webkit-tap-highlight-color: transparent; }
+  .goal-card:active { transform: scale(0.98); }
+  .goal-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .goal-icon.flash { background: var(--accent-light); }
+  .goal-icon.audio { background: var(--blue-light); }
+  .goal-content { flex: 1; }
+  .goal-title { font-weight: 500; font-size: 15px; margin-bottom: 6px; }
+  .goal-progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .goal-progress-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+  .fill-accent { background: var(--accent); }
+  .fill-blue { background: var(--blue); }
+  .goal-meta { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .goal-arrow { color: var(--muted); font-size: 18px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 18px; margin-bottom: 14px; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 10px; text-align: center; }
+  .stat-num { font-family: 'Fraunces', serif; font-size: 24px; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .pwa-banner { background: var(--green-light); border: 1px solid rgba(29,158,117,0.25); border-radius: var(--r); padding: 14px 16px; margin-bottom: 20px; }
+  .pwa-banner-title { font-weight: 500; font-size: 14px; color: var(--green); margin-bottom: 4px; }
+  .pwa-banner-body { font-size: 13px; color: #085041; line-height: 1.5; }
+
+  /* FLASHCARDS */
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .pill { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--muted); transition: all .15s; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+  .pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .pill.t-active { background: var(--blue); color: white; border-color: var(--blue); }
+  .pill.v-active { background: var(--green); color: white; border-color: var(--green); }
+
+  .card-counter { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .card-area { perspective: 1200px; height: 290px; margin-bottom: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .card-back { transform: rotateY(180deg); }
+  .card-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+  .chip { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .chip-tense { background: var(--blue-light); color: var(--blue); }
+  .chip-pronoun { background: var(--purple-light); color: var(--purple); }
+  .chip-vocab { background: var(--green-light); color: var(--green); }
+  .card-main { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.3; }
+  .card-main.sm { font-size: 19px; }
+  .card-sub { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+  .card-hint { font-size: 12px; color: var(--muted); margin-top: 18px; opacity: .6; }
+  .card-actions { display: flex; gap: 12px; }
+  .btn-again { flex: 1; padding: 15px; border-radius: var(--r); border: 1.5px solid var(--border); background: var(--surface); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text); font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  .btn-got { flex: 1; padding: 15px; border-radius: var(--r); border: none; background: var(--green); font-size: 14px; font-weight: 500; cursor: pointer; color: white; font-family: 'DM Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  .flip-hint { display: flex; justify-content: center; margin-top: 12px; }
+  .fc-done { text-align: center; padding: 40px 20px; }
+  .fc-done-icon { font-size: 48px; margin-bottom: 12px; }
+  .fc-done-title { font-family: 'Fraunces', serif; font-size: 22px; margin-bottom: 8px; }
+  .fc-done-sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  .btn-primary { width: 100%; padding: 15px; border-radius: var(--r); background: var(--accent); color: white; border: none; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+  /* AUDIO */
+  .audio-stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
+  .audio-stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; text-align: center; }
+  .audio-stat-num { font-family: 'Fraunces', serif; font-size: 20px; color: var(--blue); }
+  .audio-stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .drill-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
+  .drill-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .drill-title { font-weight: 500; font-size: 14px; }
+  .drill-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .drill-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--blue); border: none; cursor: pointer; color: white; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+  .drill-play-btn.playing { background: var(--accent); }
+  .drill-rows { border-top: 1px solid var(--border); }
+  .drill-row { display: flex; align-items: center; padding: 9px 14px; border-bottom: 1px solid var(--border); gap: 8px; }
+  .drill-row:last-child { border-bottom: none; }
+  .drill-row.active-row { background: var(--blue-light); }
+  .drill-row-pr { font-size: 11px; font-weight: 500; color: var(--purple); background: var(--purple-light); padding: 2px 8px; border-radius: 10px; white-space: nowrap; min-width: 64px; text-align: center; }
+  .drill-row-es { font-family: 'Fraunces', serif; font-size: 14px; flex: 1; }
+  .drill-row-en { font-size: 11px; color: var(--muted); flex: 1; text-align: right; }
+  .wave-bars { display: flex; align-items: center; gap: 2px; height: 14px; flex-shrink: 0; }
+  .wave-bar { width: 3px; border-radius: 2px; background: var(--blue); animation: wave 0.8s ease-in-out infinite; }
+  .wave-bar:nth-child(1){animation-delay:0s;height:5px}
+  .wave-bar:nth-child(2){animation-delay:.1s;height:11px}
+  .wave-bar:nth-child(3){animation-delay:.2s;height:7px}
+  .wave-bar:nth-child(4){animation-delay:.3s;height:13px}
+  .wave-bar:nth-child(5){animation-delay:.4s;height:5px}
+  @keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.3)}}
+  .audio-search { width: 100%; padding: 10px 14px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--surface); font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); margin-bottom: 14px; outline: none; }
+  .audio-search:focus { border-color: var(--blue); }
+
+  /* SETTINGS */
+  .settings-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 20px; }
+  .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-label { font-size: 14px; font-weight: 500; }
+  .settings-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .num-input { display: flex; align-items: center; gap: 10px; }
+  .num-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+  .num-val { font-weight: 500; font-size: 15px; min-width: 30px; text-align: center; }
+  .hidden { display: none !important; }
+  .mt-12 { margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="logo">español.</div>
+  <div class="streak">🔥 <span id="streak-num">0</span> day streak</div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('home')">Home</div>
+  <div class="tab" onclick="switchTab('flashcards')">Cards</div>
+  <div class="tab" onclick="switchTab('audio')">Audio</div>
+  <div class="tab" onclick="switchTab('settings')">Goals</div>
+</div>
+
+<!-- HOME -->
+<div class="screen active" id="screen-home">
+  <p class="greeting" id="greeting-text">Buenas,<br>keep drilling.</p>
+  <p class="date-line" id="today-date"></p>
+  <div class="goal-card" onclick="switchTab('flashcards')">
+    <div class="goal-icon flash">🃏</div>
+    <div class="goal-content">
+      <div class="goal-title">Conjugation cards</div>
+      <div class="goal-progress-bar"><div class="goal-progress-fill fill-accent" id="fc-bar" style="width:0%"></div></div>
+      <div class="goal-meta" id="fc-meta">0 / 30 today</div>
+    </div>
+    <div class="goal-arrow">›</div>
+  </div>
+  <div class="goal-card" onclick="switchTab('audio')">
+    <div class="goal-icon audio">🔊</div>
+    <div class="goal-content">
+      <div class="goal-title">Audio drills</div>
+      <div class="goal-progress-bar"><div class="goal-progress-fill fill-blue" id="audio-bar" style="width:0%"></div></div>
+      <div class="goal-meta" id="audio-meta">0 / 10 min today</div>
+    </div>
+    <div class="goal-arrow">›</div>
+  </div>
+  <div class="section-title" style="margin-top:8px">This week</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="stat-mastered">0</div><div class="stat-label">Mastered</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-reviewing">0</div><div class="stat-label">Reviewing</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-listen">0m</div><div class="stat-label">Listened</div></div>
+  </div>
+  <div class="pwa-banner">
+    <div class="pwa-banner-title">📱 Add to home screen</div>
+    <div class="pwa-banner-body">iPhone: tap Share → "Add to Home Screen"<br>Android: tap menu → "Add to Home Screen"<br>Works fully offline once saved.</div>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="screen" id="screen-flashcards">
+  <div class="filter-row" id="fc-tense-pills"></div>
+  <div id="fc-main">
+    <div class="card-counter" id="card-counter">Card 1</div>
+    <div class="card-area" onclick="flipCard()">
+      <div class="card-inner" id="card-inner">
+        <div class="card-face card-front">
+          <div class="card-chips" id="front-chips"></div>
+          <div class="card-main" id="front-text"></div>
+          <div class="card-hint">Tap to reveal</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-chips" id="back-chips"></div>
+          <div class="card-main sm" id="back-text"></div>
+          <div class="card-sub" id="back-sub"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-actions hidden" id="card-actions">
+      <button class="btn-again" onclick="cardAnswer(false)">🔁 Again</button>
+      <button class="btn-got" onclick="cardAnswer(true)">✓ Got it</button>
+    </div>
+    <div class="flip-hint" id="flip-hint">
+      <button class="btn-again" style="max-width:180px" onclick="flipCard()">Flip</button>
+    </div>
+  </div>
+  <div class="fc-done hidden" id="fc-done">
+    <div class="fc-done-icon">🎉</div>
+    <div class="fc-done-title">Daily goal hit!</div>
+    <div class="fc-done-sub">Keep going to drill more.</div>
+    <button class="btn-primary" onclick="keepGoing()">Keep going</button>
+  </div>
+</div>
+
+<!-- AUDIO -->
+<div class="screen" id="screen-audio">
+  <div class="audio-stats-row">
+    <div class="audio-stat"><div class="audio-stat-num" id="aud-today">0.0</div><div class="audio-stat-label">Min today</div></div>
+    <div class="audio-stat"><div class="audio-stat-num" id="aud-drills">0</div><div class="audio-stat-label">Drills run</div></div>
+    <div class="audio-stat"><div class="audio-stat-num" id="aud-total">0.0</div><div class="audio-stat-label">Min total</div></div>
+  </div>
+  <div class="filter-row" id="audio-tense-pills"></div>
+  <input class="audio-search" type="search" placeholder="Search sentences..." oninput="filterAudio(this.value)">
+  <div id="audio-drill-list"></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" id="screen-settings">
+  <div class="section-title">Daily goals</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div><div class="settings-label">Cards per day</div><div class="settings-sub">Conjugations + vocab</div></div>
+      <div class="num-input">
+        <div class="num-btn" onclick="adj('fc',-5)">−</div>
+        <div class="num-val" id="g-fc">30</div>
+        <div class="num-btn" onclick="adj('fc',5)">+</div>
+      </div>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Audio minutes</div><div class="settings-sub">Listening drills per day</div></div>
+      <div class="num-input">
+        <div class="num-btn" onclick="adj('audio',-5)">−</div>
+        <div class="num-val" id="g-audio">10</div>
+        <div class="num-btn" onclick="adj('audio',5)">+</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Deck info</div>
+  <div class="settings-section">
+    <div class="settings-row"><div><div class="settings-label" id="deck-count">Loading...</div><div class="settings-sub">Total conjugation cards</div></div></div>
+    <div class="settings-row"><div><div class="settings-label">6 pronouns × 5 tenses</div><div class="settings-sub">Per base sentence</div></div></div>
+    <div class="settings-row"><div><div class="settings-label">Irregular, reflexive, stem-changing</div><div class="settings-sub">Mix of all verb types</div></div></div>
+  </div>
+</div>
+
+<script>
+const PRONOUNS    = ['yo','tú','él/ella','nosotros','vosotros','ellos'];
+const PRONOUNS_EN = ['I','you','he/she','we','you all','they'];
+const TENSES = [
+  {key:'present',    label:'Present'},
+  {key:'preterite',  label:'Preterite'},
+  {key:'imperfect',  label:'Imperfect'},
+  {key:'future',     label:'Future'},
+  {key:'subjunctive',label:'Subjunctive'},
+];
+
+// 100+ base sentences. conjs[tense] = array of 6 forms (yo/tú/él/nos/vos/ellos)
+const SENTENCES = [
+  // ── DAILY LIFE ──
+  {
+    base:'go to work', vocab:'ir al trabajo',
+    conjs:{
+      present:    ['voy al trabajo','vas al trabajo','va al trabajo','vamos al trabajo','vais al trabajo','van al trabajo'],
+      preterite:  ['fui al trabajo','fuiste al trabajo','fue al trabajo','fuimos al trabajo','fuisteis al trabajo','fueron al trabajo'],
+      imperfect:  ['iba al trabajo','ibas al trabajo','iba al trabajo','íbamos al trabajo','ibais al trabajo','iban al trabajo'],
+      future:     ['iré al trabajo','irás al trabajo','irá al trabajo','iremos al trabajo','iréis al trabajo','irán al trabajo'],
+      subjunctive:['vaya al trabajo','vayas al trabajo','vaya al trabajo','vayamos al trabajo','vayáis al trabajo','vayan al trabajo'],
+    }
+  },
+  {
+    base:'eat breakfast', vocab:'desayunar',
+    conjs:{
+      present:    ['desayuno','desayunas','desayuna','desayunamos','desayunáis','desayunan'],
+      preterite:  ['desayuné','desayunaste','desayunó','desayunamos','desayunasteis','desayunaron'],
+      imperfect:  ['desayunaba','desayunabas','desayunaba','desayunábamos','desayunabais','desayunaban'],
+      future:     ['desayunaré','desayunarás','desayunará','desayunaremos','desayunaréis','desayunarán'],
+      subjunctive:['desayune','desayunes','desayune','desayunemos','desayunéis','desayunen'],
+    }
+  },
+  {
+    base:'wake up early', vocab:'despertarse temprano',
+    conjs:{
+      present:    ['me despierto temprano','te despiertas temprano','se despierta temprano','nos despertamos temprano','os despertáis temprano','se despiertan temprano'],
+      preterite:  ['me desperté temprano','te despertaste temprano','se despertó temprano','nos despertamos temprano','os despertasteis temprano','se despertaron temprano'],
+      imperfect:  ['me despertaba temprano','te despertabas temprano','se despertaba temprano','nos despertábamos temprano','os despertabais temprano','se despertaban temprano'],
+      future:     ['me despertaré temprano','te despertarás temprano','se despertará temprano','nos despertaremos temprano','os despertaréis temprano','se despertarán temprano'],
+      subjunctive:['me despierte temprano','te despiertes temprano','se despierte temprano','nos despertemos temprano','os despertéis temprano','se despierten temprano'],
+    }
+  },
+  {
+    base:'get home late', vocab:'llegar tarde a casa',
+    conjs:{
+      present:    ['llego tarde a casa','llegas tarde a casa','llega tarde a casa','llegamos tarde a casa','llegáis tarde a casa','llegan tarde a casa'],
+      preterite:  ['llegué tarde a casa','llegaste tarde a casa','llegó tarde a casa','llegamos tarde a casa','llegasteis tarde a casa','llegaron tarde a casa'],
+      imperfect:  ['llegaba tarde a casa','llegabas tarde a casa','llegaba tarde a casa','llegábamos tarde a casa','llegabais tarde a casa','llegaban tarde a casa'],
+      future:     ['llegaré tarde a casa','llegarás tarde a casa','llegará tarde a casa','llegaremos tarde a casa','llegaréis tarde a casa','llegarán tarde a casa'],
+      subjunctive:['llegue tarde a casa','llegues tarde a casa','llegue tarde a casa','lleguemos tarde a casa','lleguéis tarde a casa','lleguen tarde a casa'],
+    }
+  },
+  {
+    base:'make dinner', vocab:'hacer la cena',
+    conjs:{
+      present:    ['hago la cena','haces la cena','hace la cena','hacemos la cena','hacéis la cena','hacen la cena'],
+      preterite:  ['hice la cena','hiciste la cena','hizo la cena','hicimos la cena','hicisteis la cena','hicieron la cena'],
+      imperfect:  ['hacía la cena','hacías la cena','hacía la cena','hacíamos la cena','hacíais la cena','hacían la cena'],
+      future:     ['haré la cena','harás la cena','hará la cena','haremos la cena','haréis la cena','harán la cena'],
+      subjunctive:['haga la cena','hagas la cena','haga la cena','hagamos la cena','hagáis la cena','hagan la cena'],
+    }
+  },
+  {
+    base:'take a shower', vocab:'ducharse',
+    conjs:{
+      present:    ['me ducho','te duchas','se ducha','nos duchamos','os ducháis','se duchan'],
+      preterite:  ['me duché','te duchaste','se duchó','nos duchamos','os duchasteis','se ducharon'],
+      imperfect:  ['me duchaba','te duchabas','se duchaba','nos duchábamos','os duchabais','se duchaban'],
+      future:     ['me ducharé','te ducharás','se duchará','nos ducharemos','os ducharéis','se ducharán'],
+      subjunctive:['me duche','te duches','se duche','nos duchemos','os duchéis','se duchen'],
+    }
+  },
+  {
+    base:'go to the gym', vocab:'ir al gimnasio',
+    conjs:{
+      present:    ['voy al gimnasio','vas al gimnasio','va al gimnasio','vamos al gimnasio','vais al gimnasio','van al gimnasio'],
+      preterite:  ['fui al gimnasio','fuiste al gimnasio','fue al gimnasio','fuimos al gimnasio','fuisteis al gimnasio','fueron al gimnasio'],
+      imperfect:  ['iba al gimnasio','ibas al gimnasio','iba al gimnasio','íbamos al gimnasio','ibais al gimnasio','iban al gimnasio'],
+      future:     ['iré al gimnasio','irás al gimnasio','irá al gimnasio','iremos al gimnasio','iréis al gimnasio','irán al gimnasio'],
+      subjunctive:['vaya al gimnasio','vayas al gimnasio','vaya al gimnasio','vayamos al gimnasio','vayáis al gimnasio','vayan al gimnasio'],
+    }
+  },
+  {
+    base:'buy groceries', vocab:'hacer mercado',
+    conjs:{
+      present:    ['hago mercado','haces mercado','hace mercado','hacemos mercado','hacéis mercado','hacen mercado'],
+      preterite:  ['hice mercado','hiciste mercado','hizo mercado','hicimos mercado','hicisteis mercado','hicieron mercado'],
+      imperfect:  ['hacía mercado','hacías mercado','hacía mercado','hacíamos mercado','hacíais mercado','hacían mercado'],
+      future:     ['haré mercado','harás mercado','hará mercado','haremos mercado','haréis mercado','harán mercado'],
+      subjunctive:['haga mercado','hagas mercado','haga mercado','hagamos mercado','hagáis mercado','hagan mercado'],
+    }
+  },
+  {
+    base:'call my mom', vocab:'llamar a mi mamá',
+    conjs:{
+      present:    ['llamo a mi mamá','llamas a tu mamá','llama a su mamá','llamamos a nuestra mamá','llamáis a vuestra mamá','llaman a su mamá'],
+      preterite:  ['llamé a mi mamá','llamaste a tu mamá','llamó a su mamá','llamamos a nuestra mamá','llamasteis a vuestra mamá','llamaron a su mamá'],
+      imperfect:  ['llamaba a mi mamá','llamabas a tu mamá','llamaba a su mamá','llamábamos a nuestra mamá','llamabais a vuestra mamá','llamaban a su mamá'],
+      future:     ['llamaré a mi mamá','llamarás a tu mamá','llamará a su mamá','llamaremos a nuestra mamá','llamaréis a vuestra mamá','llamarán a su mamá'],
+      subjunctive:['llame a mi mamá','llames a tu mamá','llame a su mamá','llamemos a nuestra mamá','llaméis a vuestra mamá','llamen a su mamá'],
+    }
+  },
+  {
+    base:'check my phone', vocab:'revisar el celular',
+    conjs:{
+      present:    ['reviso el celular','revisas el celular','revisa el celular','revisamos el celular','revisáis el celular','revisan el celular'],
+      preterite:  ['revisé el celular','revisaste el celular','revisó el celular','revisamos el celular','revisasteis el celular','revisaron el celular'],
+      imperfect:  ['revisaba el celular','revisabas el celular','revisaba el celular','revisábamos el celular','revisabais el celular','revisaban el celular'],
+      future:     ['revisaré el celular','revisarás el celular','revisará el celular','revisaremos el celular','revisaréis el celular','revisarán el celular'],
+      subjunctive:['revise el celular','revises el celular','revise el celular','revisemos el celular','reviséis el celular','revisen el celular'],
+    }
+  },
+  // ── FOOD & DRINK ──
+  {
+    base:'order a coffee', vocab:'pedir un café',
+    conjs:{
+      present:    ['pido un café','pides un café','pide un café','pedimos un café','pedís un café','piden un café'],
+      preterite:  ['pedí un café','pediste un café','pidió un café','pedimos un café','pedisteis un café','pidieron un café'],
+      imperfect:  ['pedía un café','pedías un café','pedía un café','pedíamos un café','pedíais un café','pedían un café'],
+      future:     ['pediré un café','pedirás un café','pedirá un café','pediremos un café','pediréis un café','pedirán un café'],
+      subjunctive:['pida un café','pidas un café','pida un café','pidamos un café','pidáis un café','pidan un café'],
+    }
+  },
+  {
+    base:'eat lunch outside', vocab:'almorzar afuera',
+    conjs:{
+      present:    ['almuerzo afuera','almuerzas afuera','almuerza afuera','almorzamos afuera','almorzáis afuera','almuerzan afuera'],
+      preterite:  ['almorcé afuera','almorzaste afuera','almorzó afuera','almorzamos afuera','almorzasteis afuera','almorzaron afuera'],
+      imperfect:  ['almorzaba afuera','almorzabas afuera','almorzaba afuera','almorzábamos afuera','almorzabais afuera','almorzaban afuera'],
+      future:     ['almorzaré afuera','almorzarás afuera','almorzará afuera','almorzaremos afuera','almorzaréis afuera','almorzarán afuera'],
+      subjunctive:['almuerce afuera','almuerces afuera','almuerce afuera','almorcemos afuera','almorcéis afuera','almuercen afuera'],
+    }
+  },
+  {
+    base:'drink a beer', vocab:'tomar una cerveza',
+    conjs:{
+      present:    ['tomo una cerveza','tomas una cerveza','toma una cerveza','tomamos una cerveza','tomáis una cerveza','toman una cerveza'],
+      preterite:  ['tomé una cerveza','tomaste una cerveza','tomó una cerveza','tomamos una cerveza','tomasteis una cerveza','tomaron una cerveza'],
+      imperfect:  ['tomaba una cerveza','tomabas una cerveza','tomaba una cerveza','tomábamos una cerveza','tomabais una cerveza','tomaban una cerveza'],
+      future:     ['tomaré una cerveza','tomarás una cerveza','tomará una cerveza','tomaremos una cerveza','tomaréis una cerveza','tomarán una cerveza'],
+      subjunctive:['tome una cerveza','tomes una cerveza','tome una cerveza','tomemos una cerveza','toméis una cerveza','tomen una cerveza'],
+    }
+  },
+  {
+    base:'try the food', vocab:'probar la comida',
+    conjs:{
+      present:    ['pruebo la comida','pruebas la comida','prueba la comida','probamos la comida','probáis la comida','prueban la comida'],
+      preterite:  ['probé la comida','probaste la comida','probó la comida','probamos la comida','probasteis la comida','probaron la comida'],
+      imperfect:  ['probaba la comida','probabas la comida','probaba la comida','probábamos la comida','probabais la comida','probaban la comida'],
+      future:     ['probaré la comida','probarás la comida','probará la comida','probaremos la comida','probaréis la comida','probarán la comida'],
+      subjunctive:['pruebe la comida','pruebes la comida','pruebe la comida','probemos la comida','probéis la comida','prueben la comida'],
+    }
+  },
+  // ── SOCIAL ──
+  {
+    base:'meet up with friends', vocab:'quedar con amigos',
+    conjs:{
+      present:    ['quedo con amigos','quedas con amigos','queda con amigos','quedamos con amigos','quedáis con amigos','quedan con amigos'],
+      preterite:  ['quedé con amigos','quedaste con amigos','quedó con amigos','quedamos con amigos','quedasteis con amigos','quedaron con amigos'],
+      imperfect:  ['quedaba con amigos','quedabas con amigos','quedaba con amigos','quedábamos con amigos','quedabais con amigos','quedaban con amigos'],
+      future:     ['quedaré con amigos','quedarás con amigos','quedará con amigos','quedaremos con amigos','quedaréis con amigos','quedarán con amigos'],
+      subjunctive:['quede con amigos','quedes con amigos','quede con amigos','quedemos con amigos','quedéis con amigos','queden con amigos'],
+    }
+  },
+  {
+    base:'go out at night', vocab:'salir de noche',
+    conjs:{
+      present:    ['salgo de noche','sales de noche','sale de noche','salimos de noche','salís de noche','salen de noche'],
+      preterite:  ['salí de noche','saliste de noche','salió de noche','salimos de noche','salisteis de noche','salieron de noche'],
+      imperfect:  ['salía de noche','salías de noche','salía de noche','salíamos de noche','salíais de noche','salían de noche'],
+      future:     ['saldré de noche','saldrás de noche','saldrá de noche','saldremos de noche','saldréis de noche','saldrán de noche'],
+      subjunctive:['salga de noche','salgas de noche','salga de noche','salgamos de noche','salgáis de noche','salgan de noche'],
+    }
+  },
+  {
+    base:'talk to someone', vocab:'hablar con alguien',
+    conjs:{
+      present:    ['hablo con alguien','hablas con alguien','habla con alguien','hablamos con alguien','habláis con alguien','hablan con alguien'],
+      preterite:  ['hablé con alguien','hablaste con alguien','habló con alguien','hablamos con alguien','hablasteis con alguien','hablaron con alguien'],
+      imperfect:  ['hablaba con alguien','hablabas con alguien','hablaba con alguien','hablábamos con alguien','hablabais con alguien','hablaban con alguien'],
+      future:     ['hablaré con alguien','hablarás con alguien','hablará con alguien','hablaremos con alguien','hablaréis con alguien','hablarán con alguien'],
+      subjunctive:['hable con alguien','hables con alguien','hable con alguien','hablemos con alguien','habléis con alguien','hablen con alguien'],
+    }
+  },
+  {
+    base:'invite someone over', vocab:'invitar a alguien',
+    conjs:{
+      present:    ['invito a alguien','invitas a alguien','invita a alguien','invitamos a alguien','invitáis a alguien','invitan a alguien'],
+      preterite:  ['invité a alguien','invitaste a alguien','invitó a alguien','invitamos a alguien','invitasteis a alguien','invitaron a alguien'],
+      imperfect:  ['invitaba a alguien','invitabas a alguien','invitaba a alguien','invitábamos a alguien','invitabais a alguien','invitaban a alguien'],
+      future:     ['invitaré a alguien','invitarás a alguien','invitará a alguien','invitaremos a alguien','invitaréis a alguien','invitarán a alguien'],
+      subjunctive:['invite a alguien','invites a alguien','invite a alguien','invitemos a alguien','invitéis a alguien','inviten a alguien'],
+    }
+  },
+  {
+    base:'ask for help', vocab:'pedir ayuda',
+    conjs:{
+      present:    ['pido ayuda','pides ayuda','pide ayuda','pedimos ayuda','pedís ayuda','piden ayuda'],
+      preterite:  ['pedí ayuda','pediste ayuda','pidió ayuda','pedimos ayuda','pedisteis ayuda','pidieron ayuda'],
+      imperfect:  ['pedía ayuda','pedías ayuda','pedía ayuda','pedíamos ayuda','pedíais ayuda','pedían ayuda'],
+      future:     ['pediré ayuda','pedirás ayuda','pedirá ayuda','pediremos ayuda','pediréis ayuda','pedirán ayuda'],
+      subjunctive:['pida ayuda','pidas ayuda','pida ayuda','pidamos ayuda','pidáis ayuda','pidan ayuda'],
+    }
+  },
+  // ── WORK ──
+  {
+    base:'have a meeting', vocab:'tener una reunión',
+    conjs:{
+      present:    ['tengo una reunión','tienes una reunión','tiene una reunión','tenemos una reunión','tenéis una reunión','tienen una reunión'],
+      preterite:  ['tuve una reunión','tuviste una reunión','tuvo una reunión','tuvimos una reunión','tuvisteis una reunión','tuvieron una reunión'],
+      imperfect:  ['tenía una reunión','tenías una reunión','tenía una reunión','teníamos una reunión','teníais una reunión','tenían una reunión'],
+      future:     ['tendré una reunión','tendrás una reunión','tendrá una reunión','tendremos una reunión','tendréis una reunión','tendrán una reunión'],
+      subjunctive:['tenga una reunión','tengas una reunión','tenga una reunión','tengamos una reunión','tengáis una reunión','tengan una reunión'],
+    }
+  },
+  {
+    base:'send an email', vocab:'mandar un correo',
+    conjs:{
+      present:    ['mando un correo','mandas un correo','manda un correo','mandamos un correo','mandáis un correo','mandan un correo'],
+      preterite:  ['mandé un correo','mandaste un correo','mandó un correo','mandamos un correo','mandasteis un correo','mandaron un correo'],
+      imperfect:  ['mandaba un correo','mandabas un correo','mandaba un correo','mandábamos un correo','mandabais un correo','mandaban un correo'],
+      future:     ['mandaré un correo','mandarás un correo','mandará un correo','mandaremos un correo','mandaréis un correo','mandarán un correo'],
+      subjunctive:['mande un correo','mandes un correo','mande un correo','mandemos un correo','mandéis un correo','manden un correo'],
+    }
+  },
+  {
+    base:'finish the project', vocab:'terminar el proyecto',
+    conjs:{
+      present:    ['termino el proyecto','terminas el proyecto','termina el proyecto','terminamos el proyecto','termináis el proyecto','terminan el proyecto'],
+      preterite:  ['terminé el proyecto','terminaste el proyecto','terminó el proyecto','terminamos el proyecto','terminasteis el proyecto','terminaron el proyecto'],
+      imperfect:  ['terminaba el proyecto','terminabas el proyecto','terminaba el proyecto','terminábamos el proyecto','terminabais el proyecto','terminaban el proyecto'],
+      future:     ['terminaré el proyecto','terminarás el proyecto','terminará el proyecto','terminaremos el proyecto','terminaréis el proyecto','terminarán el proyecto'],
+      subjunctive:['termine el proyecto','termines el proyecto','termine el proyecto','terminemos el proyecto','terminéis el proyecto','terminen el proyecto'],
+    }
+  },
+  {
+    base:'work from home', vocab:'trabajar desde casa',
+    conjs:{
+      present:    ['trabajo desde casa','trabajas desde casa','trabaja desde casa','trabajamos desde casa','trabajáis desde casa','trabajan desde casa'],
+      preterite:  ['trabajé desde casa','trabajaste desde casa','trabajó desde casa','trabajamos desde casa','trabajasteis desde casa','trabajaron desde casa'],
+      imperfect:  ['trabajaba desde casa','trabajabas desde casa','trabajaba desde casa','trabajábamos desde casa','trabajabais desde casa','trabajaban desde casa'],
+      future:     ['trabajaré desde casa','trabajarás desde casa','trabajará desde casa','trabajaremos desde casa','trabajaréis desde casa','trabajarán desde casa'],
+      subjunctive:['trabaje desde casa','trabajes desde casa','trabaje desde casa','trabajemos desde casa','trabajéis desde casa','trabajen desde casa'],
+    }
+  },
+  {
+    base:'need more time', vocab:'necesitar más tiempo',
+    conjs:{
+      present:    ['necesito más tiempo','necesitas más tiempo','necesita más tiempo','necesitamos más tiempo','necesitáis más tiempo','necesitan más tiempo'],
+      preterite:  ['necesité más tiempo','necesitaste más tiempo','necesitó más tiempo','necesitamos más tiempo','necesitasteis más tiempo','necesitaron más tiempo'],
+      imperfect:  ['necesitaba más tiempo','necesitabas más tiempo','necesitaba más tiempo','necesitábamos más tiempo','necesitabais más tiempo','necesitaban más tiempo'],
+      future:     ['necesitaré más tiempo','necesitarás más tiempo','necesitará más tiempo','necesitaremos más tiempo','necesitaréis más tiempo','necesitarán más tiempo'],
+      subjunctive:['necesite más tiempo','necesites más tiempo','necesite más tiempo','necesitemos más tiempo','necesitéis más tiempo','necesiten más tiempo'],
+    }
+  },
+  {
+    base:'start early', vocab:'empezar temprano',
+    conjs:{
+      present:    ['empiezo temprano','empiezas temprano','empieza temprano','empezamos temprano','empezáis temprano','empiezan temprano'],
+      preterite:  ['empecé temprano','empezaste temprano','empezó temprano','empezamos temprano','empezasteis temprano','empezaron temprano'],
+      imperfect:  ['empezaba temprano','empezabas temprano','empezaba temprano','empezábamos temprano','empezabais temprano','empezaban temprano'],
+      future:     ['empezaré temprano','empezarás temprano','empezará temprano','empezaremos temprano','empezaréis temprano','empezarán temprano'],
+      subjunctive:['empiece temprano','empieces temprano','empiece temprano','empecemos temprano','empecéis temprano','empiecen temprano'],
+    }
+  },
+  // ── TRANSPORT / MOVEMENT ──
+  {
+    base:'take the subway', vocab:'tomar el metro',
+    conjs:{
+      present:    ['tomo el metro','tomas el metro','toma el metro','tomamos el metro','tomáis el metro','toman el metro'],
+      preterite:  ['tomé el metro','tomaste el metro','tomó el metro','tomamos el metro','tomasteis el metro','tomaron el metro'],
+      imperfect:  ['tomaba el metro','tomabas el metro','tomaba el metro','tomábamos el metro','tomabais el metro','tomaban el metro'],
+      future:     ['tomaré el metro','tomarás el metro','tomará el metro','tomaremos el metro','tomaréis el metro','tomarán el metro'],
+      subjunctive:['tome el metro','tomes el metro','tome el metro','tomemos el metro','toméis el metro','tomen el metro'],
+    }
+  },
+  {
+    base:'drive to the airport', vocab:'manejar al aeropuerto',
+    conjs:{
+      present:    ['manejo al aeropuerto','manejas al aeropuerto','maneja al aeropuerto','manejamos al aeropuerto','manejáis al aeropuerto','manejan al aeropuerto'],
+      preterite:  ['manejé al aeropuerto','manejaste al aeropuerto','manejó al aeropuerto','manejamos al aeropuerto','manejasteis al aeropuerto','manejaron al aeropuerto'],
+      imperfect:  ['manejaba al aeropuerto','manejabas al aeropuerto','manejaba al aeropuerto','manejábamos al aeropuerto','manejabais al aeropuerto','manejaban al aeropuerto'],
+      future:     ['manejaré al aeropuerto','manejarás al aeropuerto','manejará al aeropuerto','manejaremos al aeropuerto','manejaréis al aeropuerto','manejarán al aeropuerto'],
+      subjunctive:['maneje al aeropuerto','manejes al aeropuerto','maneje al aeropuerto','manejemos al aeropuerto','manejéis al aeropuerto','manejen al aeropuerto'],
+    }
+  },
+  {
+    base:'walk to the park', vocab:'caminar al parque',
+    conjs:{
+      present:    ['camino al parque','caminas al parque','camina al parque','caminamos al parque','camináis al parque','caminan al parque'],
+      preterite:  ['caminé al parque','caminaste al parque','caminó al parque','caminamos al parque','caminasteis al parque','caminaron al parque'],
+      imperfect:  ['caminaba al parque','caminabas al parque','caminaba al parque','caminábamos al parque','caminabais al parque','caminaban al parque'],
+      future:     ['caminaré al parque','caminarás al parque','caminará al parque','caminaremos al parque','caminaréis al parque','caminarán al parque'],
+      subjunctive:['camine al parque','camines al parque','camine al parque','caminemos al parque','caminéis al parque','caminen al parque'],
+    }
+  },
+  {
+    base:'arrive on time', vocab:'llegar a tiempo',
+    conjs:{
+      present:    ['llego a tiempo','llegas a tiempo','llega a tiempo','llegamos a tiempo','llegáis a tiempo','llegan a tiempo'],
+      preterite:  ['llegué a tiempo','llegaste a tiempo','llegó a tiempo','llegamos a tiempo','llegasteis a tiempo','llegaron a tiempo'],
+      imperfect:  ['llegaba a tiempo','llegabas a tiempo','llegaba a tiempo','llegábamos a tiempo','llegabais a tiempo','llegaban a tiempo'],
+      future:     ['llegaré a tiempo','llegarás a tiempo','llegará a tiempo','llegaremos a tiempo','llegaréis a tiempo','llegarán a tiempo'],
+      subjunctive:['llegue a tiempo','llegues a tiempo','llegue a tiempo','lleguemos a tiempo','lleguéis a tiempo','lleguen a tiempo'],
+    }
+  },
+  // ── FEELINGS / STATES ──
+  {
+    base:'feel tired', vocab:'sentirse cansado',
+    conjs:{
+      present:    ['me siento cansado','te sientes cansado','se siente cansado','nos sentimos cansados','os sentís cansados','se sienten cansados'],
+      preterite:  ['me sentí cansado','te sentiste cansado','se sintió cansado','nos sentimos cansados','os sentisteis cansados','se sintieron cansados'],
+      imperfect:  ['me sentía cansado','te sentías cansado','se sentía cansado','nos sentíamos cansados','os sentíais cansados','se sentían cansados'],
+      future:     ['me sentiré cansado','te sentirás cansado','se sentirá cansado','nos sentiremos cansados','os sentiréis cansados','se sentirán cansados'],
+      subjunctive:['me sienta cansado','te sientas cansado','se sienta cansado','nos sintamos cansados','os sintáis cansados','se sientan cansados'],
+    }
+  },
+  {
+    base:'feel good', vocab:'sentirse bien',
+    conjs:{
+      present:    ['me siento bien','te sientes bien','se siente bien','nos sentimos bien','os sentís bien','se sienten bien'],
+      preterite:  ['me sentí bien','te sentiste bien','se sintió bien','nos sentimos bien','os sentisteis bien','se sintieron bien'],
+      imperfect:  ['me sentía bien','te sentías bien','se sentía bien','nos sentíamos bien','os sentíais bien','se sentían bien'],
+      future:     ['me sentiré bien','te sentirás bien','se sentirá bien','nos sentiremos bien','os sentiréis bien','se sentirán bien'],
+      subjunctive:['me sienta bien','te sientas bien','se sienta bien','nos sintamos bien','os sintáis bien','se sientan bien'],
+    }
+  },
+  {
+    base:'be nervous', vocab:'estar nervioso',
+    conjs:{
+      present:    ['estoy nervioso','estás nervioso','está nervioso','estamos nerviosos','estáis nerviosos','están nerviosos'],
+      preterite:  ['estuve nervioso','estuviste nervioso','estuvo nervioso','estuvimos nerviosos','estuvisteis nerviosos','estuvieron nerviosos'],
+      imperfect:  ['estaba nervioso','estabas nervioso','estaba nervioso','estábamos nerviosos','estabais nerviosos','estaban nerviosos'],
+      future:     ['estaré nervioso','estarás nervioso','estará nervioso','estaremos nerviosos','estaréis nerviosos','estarán nerviosos'],
+      subjunctive:['esté nervioso','estés nervioso','esté nervioso','estemos nerviosos','estéis nerviosos','estén nerviosos'],
+    }
+  },
+  {
+    base:'be bored', vocab:'estar aburrido',
+    conjs:{
+      present:    ['estoy aburrido','estás aburrido','está aburrido','estamos aburridos','estáis aburridos','están aburridos'],
+      preterite:  ['estuve aburrido','estuviste aburrido','estuvo aburrido','estuvimos aburridos','estuvisteis aburridos','estuvieron aburridos'],
+      imperfect:  ['estaba aburrido','estabas aburrido','estaba aburrido','estábamos aburridos','estabais aburridos','estaban aburridos'],
+      future:     ['estaré aburrido','estarás aburrido','estará aburrido','estaremos aburridos','estaréis aburridos','estarán aburridos'],
+      subjunctive:['esté aburrido','estés aburrido','esté aburrido','estemos aburridos','estéis aburridos','estén aburridos'],
+    }
+  },
+  {
+    base:'be happy', vocab:'estar feliz',
+    conjs:{
+      present:    ['estoy feliz','estás feliz','está feliz','estamos felices','estáis felices','están felices'],
+      preterite:  ['estuve feliz','estuviste feliz','estuvo feliz','estuvimos felices','estuvisteis felices','estuvieron felices'],
+      imperfect:  ['estaba feliz','estabas feliz','estaba feliz','estábamos felices','estabais felices','estaban felices'],
+      future:     ['estaré feliz','estarás feliz','estará feliz','estaremos felices','estaréis felices','estarán felices'],
+      subjunctive:['esté feliz','estés feliz','esté feliz','estemos felices','estéis felices','estén felices'],
+    }
+  },
+  {
+    base:'be hungry', vocab:'tener hambre',
+    conjs:{
+      present:    ['tengo hambre','tienes hambre','tiene hambre','tenemos hambre','tenéis hambre','tienen hambre'],
+      preterite:  ['tuve hambre','tuviste hambre','tuvo hambre','tuvimos hambre','tuvisteis hambre','tuvieron hambre'],
+      imperfect:  ['tenía hambre','tenías hambre','tenía hambre','teníamos hambre','teníais hambre','tenían hambre'],
+      future:     ['tendré hambre','tendrás hambre','tendrá hambre','tendremos hambre','tendréis hambre','tendrán hambre'],
+      subjunctive:['tenga hambre','tengas hambre','tenga hambre','tengamos hambre','tengáis hambre','tengan hambre'],
+    }
+  },
+  {
+    base:'be able to do it', vocab:'poder hacerlo',
+    conjs:{
+      present:    ['puedo hacerlo','puedes hacerlo','puede hacerlo','podemos hacerlo','podéis hacerlo','pueden hacerlo'],
+      preterite:  ['pude hacerlo','pudiste hacerlo','pudo hacerlo','pudimos hacerlo','pudisteis hacerlo','pudieron hacerlo'],
+      imperfect:  ['podía hacerlo','podías hacerlo','podía hacerlo','podíamos hacerlo','podíais hacerlo','podían hacerlo'],
+      future:     ['podré hacerlo','podrás hacerlo','podrá hacerlo','podremos hacerlo','podréis hacerlo','podrán hacerlo'],
+      subjunctive:['pueda hacerlo','puedas hacerlo','pueda hacerlo','podamos hacerlo','podáis hacerlo','puedan hacerlo'],
+    }
+  },
+  // ── WANTING / NEEDING ──
+  {
+    base:'want to sleep', vocab:'querer dormir',
+    conjs:{
+      present:    ['quiero dormir','quieres dormir','quiere dormir','queremos dormir','queréis dormir','quieren dormir'],
+      preterite:  ['quise dormir','quisiste dormir','quiso dormir','quisimos dormir','quisisteis dormir','quisieron dormir'],
+      imperfect:  ['quería dormir','querías dormir','quería dormir','queríamos dormir','queríais dormir','querían dormir'],
+      future:     ['querré dormir','querrás dormir','querrá dormir','querremos dormir','querréis dormir','querrán dormir'],
+      subjunctive:['quiera dormir','quieras dormir','quiera dormir','queramos dormir','queráis dormir','quieran dormir'],
+    }
+  },
+  {
+    base:'want to eat something', vocab:'querer comer algo',
+    conjs:{
+      present:    ['quiero comer algo','quieres comer algo','quiere comer algo','queremos comer algo','queréis comer algo','quieren comer algo'],
+      preterite:  ['quise comer algo','quisiste comer algo','quiso comer algo','quisimos comer algo','quisisteis comer algo','quisieron comer algo'],
+      imperfect:  ['quería comer algo','querías comer algo','quería comer algo','queríamos comer algo','queríais comer algo','querían comer algo'],
+      future:     ['querré comer algo','querrás comer algo','querrá comer algo','querremos comer algo','querréis comer algo','querrán comer algo'],
+      subjunctive:['quiera comer algo','quieras comer algo','quiera comer algo','queramos comer algo','queráis comer algo','quieran comer algo'],
+    }
+  },
+  {
+    base:'need to rest', vocab:'necesitar descansar',
+    conjs:{
+      present:    ['necesito descansar','necesitas descansar','necesita descansar','necesitamos descansar','necesitáis descansar','necesitan descansar'],
+      preterite:  ['necesité descansar','necesitaste descansar','necesitó descansar','necesitamos descansar','necesitasteis descansar','necesitaron descansar'],
+      imperfect:  ['necesitaba descansar','necesitabas descansar','necesitaba descansar','necesitábamos descansar','necesitabais descansar','necesitaban descansar'],
+      future:     ['necesitaré descansar','necesitarás descansar','necesitará descansar','necesitaremos descansar','necesitaréis descansar','necesitarán descansar'],
+      subjunctive:['necesite descansar','necesites descansar','necesite descansar','necesitemos descansar','necesitéis descansar','necesiten descansar'],
+    }
+  },
+  {
+    base:'have to leave', vocab:'tener que salir',
+    conjs:{
+      present:    ['tengo que salir','tienes que salir','tiene que salir','tenemos que salir','tenéis que salir','tienen que salir'],
+      preterite:  ['tuve que salir','tuviste que salir','tuvo que salir','tuvimos que salir','tuvisteis que salir','tuvieron que salir'],
+      imperfect:  ['tenía que salir','tenías que salir','tenía que salir','teníamos que salir','teníais que salir','tenían que salir'],
+      future:     ['tendré que salir','tendrás que salir','tendrá que salir','tendremos que salir','tendréis que salir','tendrán que salir'],
+      subjunctive:['tenga que salir','tengas que salir','tenga que salir','tengamos que salir','tengáis que salir','tengan que salir'],
+    }
+  },
+  // ── KNOWING / THINKING ──
+  {
+    base:'know how to cook', vocab:'saber cocinar',
+    conjs:{
+      present:    ['sé cocinar','sabes cocinar','sabe cocinar','sabemos cocinar','sabéis cocinar','saben cocinar'],
+      preterite:  ['supe cocinar','supiste cocinar','supo cocinar','supimos cocinar','supisteis cocinar','supieron cocinar'],
+      imperfect:  ['sabía cocinar','sabías cocinar','sabía cocinar','sabíamos cocinar','sabíais cocinar','sabían cocinar'],
+      future:     ['sabré cocinar','sabrás cocinar','sabrá cocinar','sabremos cocinar','sabréis cocinar','sabrán cocinar'],
+      subjunctive:['sepa cocinar','sepas cocinar','sepa cocinar','sepamos cocinar','sepáis cocinar','sepan cocinar'],
+    }
+  },
+  {
+    base:'know the answer', vocab:'saber la respuesta',
+    conjs:{
+      present:    ['sé la respuesta','sabes la respuesta','sabe la respuesta','sabemos la respuesta','sabéis la respuesta','saben la respuesta'],
+      preterite:  ['supe la respuesta','supiste la respuesta','supo la respuesta','supimos la respuesta','supisteis la respuesta','supieron la respuesta'],
+      imperfect:  ['sabía la respuesta','sabías la respuesta','sabía la respuesta','sabíamos la respuesta','sabíais la respuesta','sabían la respuesta'],
+      future:     ['sabré la respuesta','sabrás la respuesta','sabrá la respuesta','sabremos la respuesta','sabréis la respuesta','sabrán la respuesta'],
+      subjunctive:['sepa la respuesta','sepas la respuesta','sepa la respuesta','sepamos la respuesta','sepáis la respuesta','sepan la respuesta'],
+    }
+  },
+  {
+    base:'think it is a good idea', vocab:'creer que es buena idea',
+    conjs:{
+      present:    ['creo que es buena idea','crees que es buena idea','cree que es buena idea','creemos que es buena idea','creéis que es buena idea','creen que es buena idea'],
+      preterite:  ['creí que era buena idea','creíste que era buena idea','creyó que era buena idea','creímos que era buena idea','creísteis que era buena idea','creyeron que era buena idea'],
+      imperfect:  ['creía que era buena idea','creías que era buena idea','creía que era buena idea','creíamos que era buena idea','creíais que era buena idea','creían que era buena idea'],
+      future:     ['creeré que es buena idea','creerás que es buena idea','creerá que es buena idea','creeremos que es buena idea','creeréis que es buena idea','creerán que es buena idea'],
+      subjunctive:['crea que sea buena idea','creas que sea buena idea','crea que sea buena idea','creamos que sea buena idea','creáis que sea buena idea','crean que sea buena idea'],
+    }
+  },
+  {
+    base:'understand what is happening', vocab:'entender lo que pasa',
+    conjs:{
+      present:    ['entiendo lo que pasa','entiendes lo que pasa','entiende lo que pasa','entendemos lo que pasa','entendéis lo que pasa','entienden lo que pasa'],
+      preterite:  ['entendí lo que pasó','entendiste lo que pasó','entendió lo que pasó','entendimos lo que pasó','entendisteis lo que pasó','entendieron lo que pasó'],
+      imperfect:  ['entendía lo que pasaba','entendías lo que pasaba','entendía lo que pasaba','entendíamos lo que pasaba','entendíais lo que pasaba','entendían lo que pasaba'],
+      future:     ['entenderé lo que pasa','entenderás lo que pasa','entenderá lo que pasa','entenderemos lo que pasa','entenderéis lo que pasa','entenderán lo que pasa'],
+      subjunctive:['entienda lo que pasa','entiendas lo que pasa','entienda lo que pasa','entendamos lo que pasa','entendáis lo que pasa','entiendan lo que pasa'],
+    }
+  },
+  // ── TRAVEL / PLANS ──
+  {
+    base:'book a flight', vocab:'comprar un tiquete',
+    conjs:{
+      present:    ['compro un tiquete','compras un tiquete','compra un tiquete','compramos un tiquete','compráis un tiquete','compran un tiquete'],
+      preterite:  ['compré un tiquete','compraste un tiquete','compró un tiquete','compramos un tiquete','comprasteis un tiquete','compraron un tiquete'],
+      imperfect:  ['compraba un tiquete','comprabas un tiquete','compraba un tiquete','comprábamos un tiquete','comprabais un tiquete','compraban un tiquete'],
+      future:     ['compraré un tiquete','comprarás un tiquete','comprará un tiquete','compraremos un tiquete','compraréis un tiquete','comprarán un tiquete'],
+      subjunctive:['compre un tiquete','compres un tiquete','compre un tiquete','compremos un tiquete','compréis un tiquete','compren un tiquete'],
+    }
+  },
+  {
+    base:'travel to another country', vocab:'viajar a otro país',
+    conjs:{
+      present:    ['viajo a otro país','viajas a otro país','viaja a otro país','viajamos a otro país','viajáis a otro país','viajan a otro país'],
+      preterite:  ['viajé a otro país','viajaste a otro país','viajó a otro país','viajamos a otro país','viajasteis a otro país','viajaron a otro país'],
+      imperfect:  ['viajaba a otro país','viajabas a otro país','viajaba a otro país','viajábamos a otro país','viajabais a otro país','viajaban a otro país'],
+      future:     ['viajaré a otro país','viajarás a otro país','viajará a otro país','viajaremos a otro país','viajaréis a otro país','viajarán a otro país'],
+      subjunctive:['viaje a otro país','viajes a otro país','viaje a otro país','viajemos a otro país','viajéis a otro país','viajen a otro país'],
+    }
+  },
+  {
+    base:'stay in a hotel', vocab:'quedarse en un hotel',
+    conjs:{
+      present:    ['me quedo en un hotel','te quedas en un hotel','se queda en un hotel','nos quedamos en un hotel','os quedáis en un hotel','se quedan en un hotel'],
+      preterite:  ['me quedé en un hotel','te quedaste en un hotel','se quedó en un hotel','nos quedamos en un hotel','os quedasteis en un hotel','se quedaron en un hotel'],
+      imperfect:  ['me quedaba en un hotel','te quedabas en un hotel','se quedaba en un hotel','nos quedábamos en un hotel','os quedabais en un hotel','se quedaban en un hotel'],
+      future:     ['me quedaré en un hotel','te quedarás en un hotel','se quedará en un hotel','nos quedaremos en un hotel','os quedaréis en un hotel','se quedarán en un hotel'],
+      subjunctive:['me quede en un hotel','te quedes en un hotel','se quede en un hotel','nos quedemos en un hotel','os quedéis en un hotel','se queden en un hotel'],
+    }
+  },
+  {
+    base:'forget something', vocab:'olvidar algo',
+    conjs:{
+      present:    ['olvido algo','olvidas algo','olvida algo','olvidamos algo','olvidáis algo','olvidan algo'],
+      preterite:  ['olvidé algo','olvidaste algo','olvidó algo','olvidamos algo','olvidasteis algo','olvidaron algo'],
+      imperfect:  ['olvidaba algo','olvidabas algo','olvidaba algo','olvidábamos algo','olvidabais algo','olvidaban algo'],
+      future:     ['olvidaré algo','olvidarás algo','olvidará algo','olvidaremos algo','olvidaréis algo','olvidarán algo'],
+      subjunctive:['olvide algo','olvides algo','olvide algo','olvidemos algo','olvidéis algo','olviden algo'],
+    }
+  },
+  {
+    base:'miss the bus', vocab:'perder el bus',
+    conjs:{
+      present:    ['pierdo el bus','pierdes el bus','pierde el bus','perdemos el bus','perdéis el bus','pierden el bus'],
+      preterite:  ['perdí el bus','perdiste el bus','perdió el bus','perdimos el bus','perdisteis el bus','perdieron el bus'],
+      imperfect:  ['perdía el bus','perdías el bus','perdía el bus','perdíamos el bus','perdíais el bus','perdían el bus'],
+      future:     ['perderé el bus','perderás el bus','perderá el bus','perderemos el bus','perderéis el bus','perderán el bus'],
+      subjunctive:['pierda el bus','pierdas el bus','pierda el bus','perdamos el bus','perdáis el bus','pierdan el bus'],
+    }
+  },
+  // ── MONEY / SHOPPING ──
+  {
+    base:'pay with cash', vocab:'pagar en efectivo',
+    conjs:{
+      present:    ['pago en efectivo','pagas en efectivo','paga en efectivo','pagamos en efectivo','pagáis en efectivo','pagan en efectivo'],
+      preterite:  ['pagué en efectivo','pagaste en efectivo','pagó en efectivo','pagamos en efectivo','pagasteis en efectivo','pagaron en efectivo'],
+      imperfect:  ['pagaba en efectivo','pagabas en efectivo','pagaba en efectivo','pagábamos en efectivo','pagabais en efectivo','pagaban en efectivo'],
+      future:     ['pagaré en efectivo','pagarás en efectivo','pagará en efectivo','pagaremos en efectivo','pagaréis en efectivo','pagarán en efectivo'],
+      subjunctive:['pague en efectivo','pagues en efectivo','pague en efectivo','paguemos en efectivo','paguéis en efectivo','paguen en efectivo'],
+    }
+  },
+  {
+    base:'spend too much money', vocab:'gastar demasiado dinero',
+    conjs:{
+      present:    ['gasto demasiado dinero','gastas demasiado dinero','gasta demasiado dinero','gastamos demasiado dinero','gastáis demasiado dinero','gastan demasiado dinero'],
+      preterite:  ['gasté demasiado dinero','gastaste demasiado dinero','gastó demasiado dinero','gastamos demasiado dinero','gastasteis demasiado dinero','gastaron demasiado dinero'],
+      imperfect:  ['gastaba demasiado dinero','gastabas demasiado dinero','gastaba demasiado dinero','gastábamos demasiado dinero','gastabais demasiado dinero','gastaban demasiado dinero'],
+      future:     ['gastaré demasiado dinero','gastarás demasiado dinero','gastará demasiado dinero','gastaremos demasiado dinero','gastaréis demasiado dinero','gastarán demasiado dinero'],
+      subjunctive:['gaste demasiado dinero','gastes demasiado dinero','gaste demasiado dinero','gastemos demasiado dinero','gastéis demasiado dinero','gasten demasiado dinero'],
+    }
+  },
+  {
+    base:'save money', vocab:'ahorrar dinero',
+    conjs:{
+      present:    ['ahorro dinero','ahorras dinero','ahorra dinero','ahorramos dinero','ahorráis dinero','ahorran dinero'],
+      preterite:  ['ahorré dinero','ahorraste dinero','ahorró dinero','ahorramos dinero','ahorrasteis dinero','ahorraron dinero'],
+      imperfect:  ['ahorraba dinero','ahorrabas dinero','ahorraba dinero','ahorrábamos dinero','ahorrabais dinero','ahorraban dinero'],
+      future:     ['ahorraré dinero','ahorrarás dinero','ahorrará dinero','ahorraremos dinero','ahorraréis dinero','ahorrarán dinero'],
+      subjunctive:['ahorre dinero','ahorres dinero','ahorre dinero','ahorremos dinero','ahorréis dinero','ahorren dinero'],
+    }
+  },
+  // ── HEALTH ──
+  {
+    base:'go to the doctor', vocab:'ir al médico',
+    conjs:{
+      present:    ['voy al médico','vas al médico','va al médico','vamos al médico','vais al médico','van al médico'],
+      preterite:  ['fui al médico','fuiste al médico','fue al médico','fuimos al médico','fuisteis al médico','fueron al médico'],
+      imperfect:  ['iba al médico','ibas al médico','iba al médico','íbamos al médico','ibais al médico','iban al médico'],
+      future:     ['iré al médico','irás al médico','irá al médico','iremos al médico','iréis al médico','irán al médico'],
+      subjunctive:['vaya al médico','vayas al médico','vaya al médico','vayamos al médico','vayáis al médico','vayan al médico'],
+    }
+  },
+  {
+    base:'get sick', vocab:'enfermarse',
+    conjs:{
+      present:    ['me enfermo','te enfermas','se enferma','nos enfermamos','os enfermáis','se enferman'],
+      preterite:  ['me enfermé','te enfermaste','se enfermó','nos enfermamos','os enfermasteis','se enfermaron'],
+      imperfect:  ['me enfermaba','te enfermabas','se enfermaba','nos enfermábamos','os enfermabais','se enfermaban'],
+      future:     ['me enfermaré','te enfermarás','se enfermará','nos enfermaremos','os enfermaréis','se enfermarán'],
+      subjunctive:['me enferme','te enfermes','se enferme','nos enfermemos','os enferméis','se enfermen'],
+    }
+  },
+  {
+    base:'exercise every day', vocab:'hacer ejercicio todos los días',
+    conjs:{
+      present:    ['hago ejercicio todos los días','haces ejercicio todos los días','hace ejercicio todos los días','hacemos ejercicio todos los días','hacéis ejercicio todos los días','hacen ejercicio todos los días'],
+      preterite:  ['hice ejercicio todos los días','hiciste ejercicio todos los días','hizo ejercicio todos los días','hicimos ejercicio todos los días','hicisteis ejercicio todos los días','hicieron ejercicio todos los días'],
+      imperfect:  ['hacía ejercicio todos los días','hacías ejercicio todos los días','hacía ejercicio todos los días','hacíamos ejercicio todos los días','hacíais ejercicio todos los días','hacían ejercicio todos los días'],
+      future:     ['haré ejercicio todos los días','harás ejercicio todos los días','hará ejercicio todos los días','haremos ejercicio todos los días','haréis ejercicio todos los días','harán ejercicio todos los días'],
+      subjunctive:['haga ejercicio todos los días','hagas ejercicio todos los días','haga ejercicio todos los días','hagamos ejercicio todos los días','hagáis ejercicio todos los días','hagan ejercicio todos los días'],
+    }
+  },
+  // ── HOBBIES / LEISURE ──
+  {
+    base:'watch a movie', vocab:'ver una película',
+    conjs:{
+      present:    ['veo una película','ves una película','ve una película','vemos una película','veis una película','ven una película'],
+      preterite:  ['vi una película','viste una película','vio una película','vimos una película','visteis una película','vieron una película'],
+      imperfect:  ['veía una película','veías una película','veía una película','veíamos una película','veíais una película','veían una película'],
+      future:     ['veré una película','verás una película','verá una película','veremos una película','veréis una película','verán una película'],
+      subjunctive:['vea una película','veas una película','vea una película','veamos una película','veáis una película','vean una película'],
+    }
+  },
+  {
+    base:'read a book', vocab:'leer un libro',
+    conjs:{
+      present:    ['leo un libro','lees un libro','lee un libro','leemos un libro','leéis un libro','leen un libro'],
+      preterite:  ['leí un libro','leíste un libro','leyó un libro','leímos un libro','leísteis un libro','leyeron un libro'],
+      imperfect:  ['leía un libro','leías un libro','leía un libro','leíamos un libro','leíais un libro','leían un libro'],
+      future:     ['leeré un libro','leerás un libro','leerá un libro','leeremos un libro','leeréis un libro','leerán un libro'],
+      subjunctive:['lea un libro','leas un libro','lea un libro','leamos un libro','leáis un libro','lean un libro'],
+    }
+  },
+  {
+    base:'listen to music', vocab:'escuchar música',
+    conjs:{
+      present:    ['escucho música','escuchas música','escucha música','escuchamos música','escucháis música','escuchan música'],
+      preterite:  ['escuché música','escuchaste música','escuchó música','escuchamos música','escuchasteis música','escucharon música'],
+      imperfect:  ['escuchaba música','escuchabas música','escuchaba música','escuchábamos música','escuchabais música','escuchaban música'],
+      future:     ['escucharé música','escucharás música','escuchará música','escucharemos música','escucharéis música','escucharán música'],
+      subjunctive:['escuche música','escuches música','escuche música','escuchemos música','escuchéis música','escuchen música'],
+    }
+  },
+  {
+    base:'play soccer', vocab:'jugar fútbol',
+    conjs:{
+      present:    ['juego fútbol','juegas fútbol','juega fútbol','jugamos fútbol','jugáis fútbol','juegan fútbol'],
+      preterite:  ['jugué fútbol','jugaste fútbol','jugó fútbol','jugamos fútbol','jugasteis fútbol','jugaron fútbol'],
+      imperfect:  ['jugaba fútbol','jugabas fútbol','jugaba fútbol','jugábamos fútbol','jugabais fútbol','jugaban fútbol'],
+      future:     ['jugaré fútbol','jugarás fútbol','jugará fútbol','jugaremos fútbol','jugaréis fútbol','jugarán fútbol'],
+      subjunctive:['juegue fútbol','juegues fútbol','juegue fútbol','juguemos fútbol','juguéis fútbol','jueguen fútbol'],
+    }
+  },
+  {
+    base:'take photos', vocab:'tomar fotos',
+    conjs:{
+      present:    ['tomo fotos','tomas fotos','toma fotos','tomamos fotos','tomáis fotos','toman fotos'],
+      preterite:  ['tomé fotos','tomaste fotos','tomó fotos','tomamos fotos','tomasteis fotos','tomaron fotos'],
+      imperfect:  ['tomaba fotos','tomabas fotos','tomaba fotos','tomábamos fotos','tomabais fotos','tomaban fotos'],
+      future:     ['tomaré fotos','tomarás fotos','tomará fotos','tomaremos fotos','tomaréis fotos','tomarán fotos'],
+      subjunctive:['tome fotos','tomes fotos','tome fotos','tomemos fotos','toméis fotos','tomen fotos'],
+    }
+  },
+  // ── COMMUNICATION ──
+  {
+    base:'say something', vocab:'decir algo',
+    conjs:{
+      present:    ['digo algo','dices algo','dice algo','decimos algo','decís algo','dicen algo'],
+      preterite:  ['dije algo','dijiste algo','dijo algo','dijimos algo','dijisteis algo','dijeron algo'],
+      imperfect:  ['decía algo','decías algo','decía algo','decíamos algo','decíais algo','decían algo'],
+      future:     ['diré algo','dirás algo','dirá algo','diremos algo','diréis algo','dirán algo'],
+      subjunctive:['diga algo','digas algo','diga algo','digamos algo','digáis algo','digan algo'],
+    }
+  },
+  {
+    base:'tell the truth', vocab:'decir la verdad',
+    conjs:{
+      present:    ['digo la verdad','dices la verdad','dice la verdad','decimos la verdad','decís la verdad','dicen la verdad'],
+      preterite:  ['dije la verdad','dijiste la verdad','dijo la verdad','dijimos la verdad','dijisteis la verdad','dijeron la verdad'],
+      imperfect:  ['decía la verdad','decías la verdad','decía la verdad','decíamos la verdad','decíais la verdad','decían la verdad'],
+      future:     ['diré la verdad','dirás la verdad','dirá la verdad','diremos la verdad','diréis la verdad','dirán la verdad'],
+      subjunctive:['diga la verdad','digas la verdad','diga la verdad','digamos la verdad','digáis la verdad','digan la verdad'],
+    }
+  },
+  {
+    base:'write a message', vocab:'escribir un mensaje',
+    conjs:{
+      present:    ['escribo un mensaje','escribes un mensaje','escribe un mensaje','escribimos un mensaje','escribís un mensaje','escriben un mensaje'],
+      preterite:  ['escribí un mensaje','escribiste un mensaje','escribió un mensaje','escribimos un mensaje','escribisteis un mensaje','escribieron un mensaje'],
+      imperfect:  ['escribía un mensaje','escribías un mensaje','escribía un mensaje','escribíamos un mensaje','escribíais un mensaje','escribían un mensaje'],
+      future:     ['escribiré un mensaje','escribirás un mensaje','escribirá un mensaje','escribiremos un mensaje','escribiréis un mensaje','escribirán un mensaje'],
+      subjunctive:['escriba un mensaje','escribas un mensaje','escriba un mensaje','escribamos un mensaje','escribáis un mensaje','escriban un mensaje'],
+    }
+  },
+  {
+    base:'explain the problem', vocab:'explicar el problema',
+    conjs:{
+      present:    ['explico el problema','explicas el problema','explica el problema','explicamos el problema','explicáis el problema','explican el problema'],
+      preterite:  ['expliqué el problema','explicaste el problema','explicó el problema','explicamos el problema','explicasteis el problema','explicaron el problema'],
+      imperfect:  ['explicaba el problema','explicabas el problema','explicaba el problema','explicábamos el problema','explicabais el problema','explicaban el problema'],
+      future:     ['explicaré el problema','explicarás el problema','explicará el problema','explicaremos el problema','explicaréis el problema','explicarán el problema'],
+      subjunctive:['explique el problema','expliques el problema','explique el problema','expliquemos el problema','expliquéis el problema','expliquen el problema'],
+    }
+  },
+  {
+    base:'complain about something', vocab:'quejarse de algo',
+    conjs:{
+      present:    ['me quejo de algo','te quejas de algo','se queja de algo','nos quejamos de algo','os quejáis de algo','se quejan de algo'],
+      preterite:  ['me quejé de algo','te quejaste de algo','se quejó de algo','nos quejamos de algo','os quejasteis de algo','se quejaron de algo'],
+      imperfect:  ['me quejaba de algo','te quejabas de algo','se quejaba de algo','nos quejábamos de algo','os quejabais de algo','se quejaban de algo'],
+      future:     ['me quejaré de algo','te quejarás de algo','se quejará de algo','nos quejaremos de algo','os quejaréis de algo','se quejarán de algo'],
+      subjunctive:['me queje de algo','te quejes de algo','se queje de algo','nos quejemos de algo','os quejéis de algo','se quejen de algo'],
+    }
+  },
+  // ── GIVING / RECEIVING ──
+  {
+    base:'give a gift', vocab:'dar un regalo',
+    conjs:{
+      present:    ['doy un regalo','das un regalo','da un regalo','damos un regalo','dais un regalo','dan un regalo'],
+      preterite:  ['di un regalo','diste un regalo','dio un regalo','dimos un regalo','disteis un regalo','dieron un regalo'],
+      imperfect:  ['daba un regalo','dabas un regalo','daba un regalo','dábamos un regalo','dabais un regalo','daban un regalo'],
+      future:     ['daré un regalo','darás un regalo','dará un regalo','daremos un regalo','daréis un regalo','darán un regalo'],
+      subjunctive:['dé un regalo','des un regalo','dé un regalo','demos un regalo','deis un regalo','den un regalo'],
+    }
+  },
+  {
+    base:'receive good news', vocab:'recibir buenas noticias',
+    conjs:{
+      present:    ['recibo buenas noticias','recibes buenas noticias','recibe buenas noticias','recibimos buenas noticias','recibís buenas noticias','reciben buenas noticias'],
+      preterite:  ['recibí buenas noticias','recibiste buenas noticias','recibió buenas noticias','recibimos buenas noticias','recibisteis buenas noticias','recibieron buenas noticias'],
+      imperfect:  ['recibía buenas noticias','recibías buenas noticias','recibía buenas noticias','recibíamos buenas noticias','recibíais buenas noticias','recibían buenas noticias'],
+      future:     ['recibiré buenas noticias','recibirás buenas noticias','recibirá buenas noticias','recibiremos buenas noticias','recibiréis buenas noticias','recibirán buenas noticias'],
+      subjunctive:['reciba buenas noticias','recibas buenas noticias','reciba buenas noticias','recibamos buenas noticias','recibáis buenas noticias','reciban buenas noticias'],
+    }
+  },
+  // ── REFLEXIVE / DAILY ROUTINE ──
+  {
+    base:'get dressed', vocab:'vestirse',
+    conjs:{
+      present:    ['me visto','te vistes','se viste','nos vestimos','os vestís','se visten'],
+      preterite:  ['me vestí','te vestiste','se vistió','nos vestimos','os vestisteis','se vistieron'],
+      imperfect:  ['me vestía','te vestías','se vestía','nos vestíamos','os vestíais','se vestían'],
+      future:     ['me vestiré','te vestirás','se vestirá','nos vestiremos','os vestiréis','se vestirán'],
+      subjunctive:['me vista','te vistas','se vista','nos vistamos','os vistáis','se vistan'],
+    }
+  },
+  {
+    base:'fall asleep', vocab:'quedarse dormido',
+    conjs:{
+      present:    ['me quedo dormido','te quedas dormido','se queda dormido','nos quedamos dormidos','os quedáis dormidos','se quedan dormidos'],
+      preterite:  ['me quedé dormido','te quedaste dormido','se quedó dormido','nos quedamos dormidos','os quedasteis dormidos','se quedaron dormidos'],
+      imperfect:  ['me quedaba dormido','te quedabas dormido','se quedaba dormido','nos quedábamos dormidos','os quedabais dormidos','se quedaban dormidos'],
+      future:     ['me quedaré dormido','te quedarás dormido','se quedará dormido','nos quedaremos dormidos','os quedaréis dormidos','se quedarán dormidos'],
+      subjunctive:['me quede dormido','te quedes dormido','se quede dormido','nos quedemos dormidos','os quedéis dormidos','se queden dormidos'],
+    }
+  },
+  {
+    base:'sit down', vocab:'sentarse',
+    conjs:{
+      present:    ['me siento','te sientas','se sienta','nos sentamos','os sentáis','se sientan'],
+      preterite:  ['me senté','te sentaste','se sentó','nos sentamos','os sentasteis','se sentaron'],
+      imperfect:  ['me sentaba','te sentabas','se sentaba','nos sentábamos','os sentabais','se sentaban'],
+      future:     ['me sentaré','te sentarás','se sentará','nos sentaremos','os sentaréis','se sentarán'],
+      subjunctive:['me siente','te sientes','se siente','nos sentemos','os sentéis','se sienten'],
+    }
+  },
+  {
+    base:'get up from the couch', vocab:'levantarse del sofá',
+    conjs:{
+      present:    ['me levanto del sofá','te levantas del sofá','se levanta del sofá','nos levantamos del sofá','os levantáis del sofá','se levantan del sofá'],
+      preterite:  ['me levanté del sofá','te levantaste del sofá','se levantó del sofá','nos levantamos del sofá','os levantasteis del sofá','se levantaron del sofá'],
+      imperfect:  ['me levantaba del sofá','te levantabas del sofá','se levantaba del sofá','nos levantábamos del sofá','os levantabais del sofá','se levantaban del sofá'],
+      future:     ['me levantaré del sofá','te levantarás del sofá','se levantará del sofá','nos levantaremos del sofá','os levantaréis del sofá','se levantarán del sofá'],
+      subjunctive:['me levante del sofá','te levantes del sofá','se levante del sofá','nos levantemos del sofá','os levantéis del sofá','se levanten del sofá'],
+    }
+  },
+  // ── MORE EVERYDAY ──
+  {
+    base:'turn on the TV', vocab:'prender la tele',
+    conjs:{
+      present:    ['prendo la tele','prendes la tele','prende la tele','prendemos la tele','prendéis la tele','prenden la tele'],
+      preterite:  ['prendí la tele','prendiste la tele','prendió la tele','prendimos la tele','prendisteis la tele','prendieron la tele'],
+      imperfect:  ['prendía la tele','prendías la tele','prendía la tele','prendíamos la tele','prendíais la tele','prendían la tele'],
+      future:     ['prenderé la tele','prenderás la tele','prenderá la tele','prenderemos la tele','prenderéis la tele','prenderán la tele'],
+      subjunctive:['prenda la tele','prendas la tele','prenda la tele','prendamos la tele','prendáis la tele','prendan la tele'],
+    }
+  },
+  {
+    base:'lock the door', vocab:'cerrar la puerta con llave',
+    conjs:{
+      present:    ['cierro la puerta con llave','cierras la puerta con llave','cierra la puerta con llave','cerramos la puerta con llave','cerráis la puerta con llave','cierran la puerta con llave'],
+      preterite:  ['cerré la puerta con llave','cerraste la puerta con llave','cerró la puerta con llave','cerramos la puerta con llave','cerrasteis la puerta con llave','cerraron la puerta con llave'],
+      imperfect:  ['cerraba la puerta con llave','cerrabas la puerta con llave','cerraba la puerta con llave','cerrábamos la puerta con llave','cerrabais la puerta con llave','cerraban la puerta con llave'],
+      future:     ['cerraré la puerta con llave','cerrarás la puerta con llave','cerrará la puerta con llave','cerraremos la puerta con llave','cerraréis la puerta con llave','cerrarán la puerta con llave'],
+      subjunctive:['cierre la puerta con llave','cierres la puerta con llave','cierre la puerta con llave','cerremos la puerta con llave','cerréis la puerta con llave','cierren la puerta con llave'],
+    }
+  },
+  {
+    base:'look for my keys', vocab:'buscar mis llaves',
+    conjs:{
+      present:    ['busco mis llaves','buscas tus llaves','busca sus llaves','buscamos nuestras llaves','buscáis vuestras llaves','buscan sus llaves'],
+      preterite:  ['busqué mis llaves','buscaste tus llaves','buscó sus llaves','buscamos nuestras llaves','buscasteis vuestras llaves','buscaron sus llaves'],
+      imperfect:  ['buscaba mis llaves','buscabas tus llaves','buscaba sus llaves','buscábamos nuestras llaves','buscabais vuestras llaves','buscaban sus llaves'],
+      future:     ['buscaré mis llaves','buscarás tus llaves','buscará sus llaves','buscaremos nuestras llaves','buscaréis vuestras llaves','buscarán sus llaves'],
+      subjunctive:['busque mis llaves','busques tus llaves','busque sus llaves','busquemos nuestras llaves','busquéis vuestras llaves','busquen sus llaves'],
+    }
+  },
+  {
+    base:'wait for someone', vocab:'esperar a alguien',
+    conjs:{
+      present:    ['espero a alguien','esperas a alguien','espera a alguien','esperamos a alguien','esperáis a alguien','esperan a alguien'],
+      preterite:  ['esperé a alguien','esperaste a alguien','esperó a alguien','esperamos a alguien','esperasteis a alguien','esperaron a alguien'],
+      imperfect:  ['esperaba a alguien','esperabas a alguien','esperaba a alguien','esperábamos a alguien','esperabais a alguien','esperaban a alguien'],
+      future:     ['esperaré a alguien','esperarás a alguien','esperará a alguien','esperaremos a alguien','esperaréis a alguien','esperarán a alguien'],
+      subjunctive:['espere a alguien','esperes a alguien','espere a alguien','esperemos a alguien','esperéis a alguien','esperen a alguien'],
+    }
+  },
+  {
+    base:'find a solution', vocab:'encontrar una solución',
+    conjs:{
+      present:    ['encuentro una solución','encuentras una solución','encuentra una solución','encontramos una solución','encontráis una solución','encuentran una solución'],
+      preterite:  ['encontré una solución','encontraste una solución','encontró una solución','encontramos una solución','encontrasteis una solución','encontraron una solución'],
+      imperfect:  ['encontraba una solución','encontrabas una solución','encontraba una solución','encontrábamos una solución','encontrabais una solución','encontraban una solución'],
+      future:     ['encontraré una solución','encontrarás una solución','encontrará una solución','encontraremos una solución','encontraréis una solución','encontrarán una solución'],
+      subjunctive:['encuentre una solución','encuentres una solución','encuentre una solución','encontremos una solución','encontréis una solución','encuentren una solución'],
+    }
+  },
+  {
+    base:'come back later', vocab:'volver después',
+    conjs:{
+      present:    ['vuelvo después','vuelves después','vuelve después','volvemos después','volvéis después','vuelven después'],
+      preterite:  ['volví después','volviste después','volvió después','volvimos después','volvisteis después','volvieron después'],
+      imperfect:  ['volvía después','volvías después','volvía después','volvíamos después','volvíais después','volvían después'],
+      future:     ['volveré después','volverás después','volverá después','volveremos después','volveréis después','volverán después'],
+      subjunctive:['vuelva después','vuelvas después','vuelva después','volvamos después','volváis después','vuelvan después'],
+    }
+  },
+  {
+    base:'put the phone away', vocab:'guardar el celular',
+    conjs:{
+      present:    ['guardo el celular','guardas el celular','guarda el celular','guardamos el celular','guardáis el celular','guardan el celular'],
+      preterite:  ['guardé el celular','guardaste el celular','guardó el celular','guardamos el celular','guardasteis el celular','guardaron el celular'],
+      imperfect:  ['guardaba el celular','guardabas el celular','guardaba el celular','guardábamos el celular','guardabais el celular','guardaban el celular'],
+      future:     ['guardaré el celular','guardarás el celular','guardará el celular','guardaremos el celular','guardaréis el celular','guardarán el celular'],
+      subjunctive:['guarde el celular','guardes el celular','guarde el celular','guardemos el celular','guardéis el celular','guarden el celular'],
+    }
+  },
+  {
+    base:'change my mind', vocab:'cambiar de opinión',
+    conjs:{
+      present:    ['cambio de opinión','cambias de opinión','cambia de opinión','cambiamos de opinión','cambiáis de opinión','cambian de opinión'],
+      preterite:  ['cambié de opinión','cambiaste de opinión','cambió de opinión','cambiamos de opinión','cambiasteis de opinión','cambiaron de opinión'],
+      imperfect:  ['cambiaba de opinión','cambiabas de opinión','cambiaba de opinión','cambiábamos de opinión','cambiabais de opinión','cambiaban de opinión'],
+      future:     ['cambiaré de opinión','cambiarás de opinión','cambiará de opinión','cambiaremos de opinión','cambiaréis de opinión','cambiarán de opinión'],
+      subjunctive:['cambie de opinión','cambies de opinión','cambie de opinión','cambiemos de opinión','cambiéis de opinión','cambien de opinión'],
+    }
+  },
+  {
+    base:'get angry', vocab:'enojarse',
+    conjs:{
+      present:    ['me enojo','te enojas','se enoja','nos enojamos','os enojáis','se enojan'],
+      preterite:  ['me enojé','te enojaste','se enojó','nos enojamos','os enojasteis','se enojaron'],
+      imperfect:  ['me enojaba','te enojabas','se enojaba','nos enojábamos','os enojabais','se enojaban'],
+      future:     ['me enojaré','te enojarás','se enojará','nos enojaremos','os enojaréis','se enojarán'],
+      subjunctive:['me enoje','te enojes','se enoje','nos enojemos','os enojéis','se enojen'],
+    }
+  },
+  {
+    base:'get lost', vocab:'perderse',
+    conjs:{
+      present:    ['me pierdo','te pierdes','se pierde','nos perdemos','os perdéis','se pierden'],
+      preterite:  ['me perdí','te perdiste','se perdió','nos perdimos','os perdisteis','se perdieron'],
+      imperfect:  ['me perdía','te perdías','se perdía','nos perdíamos','os perdíais','se perdían'],
+      future:     ['me perderé','te perderás','se perderá','nos perderemos','os perderéis','se perderán'],
+      subjunctive:['me pierda','te pierdas','se pierda','nos perdamos','os perdáis','se pierdan'],
+    }
+  },
+  {
+    base:'run out of time', vocab:'quedarse sin tiempo',
+    conjs:{
+      present:    ['me quedo sin tiempo','te quedas sin tiempo','se queda sin tiempo','nos quedamos sin tiempo','os quedáis sin tiempo','se quedan sin tiempo'],
+      preterite:  ['me quedé sin tiempo','te quedaste sin tiempo','se quedó sin tiempo','nos quedamos sin tiempo','os quedasteis sin tiempo','se quedaron sin tiempo'],
+      imperfect:  ['me quedaba sin tiempo','te quedabas sin tiempo','se quedaba sin tiempo','nos quedábamos sin tiempo','os quedabais sin tiempo','se quedaban sin tiempo'],
+      future:     ['me quedaré sin tiempo','te quedarás sin tiempo','se quedará sin tiempo','nos quedaremos sin tiempo','os quedaréis sin tiempo','se quedarán sin tiempo'],
+      subjunctive:['me quede sin tiempo','te quedes sin tiempo','se quede sin tiempo','nos quedemos sin tiempo','os quedéis sin tiempo','se queden sin tiempo'],
+    }
+  },
+  {
+    base:'pick up the kids', vocab:'recoger a los niños',
+    conjs:{
+      present:    ['recojo a los niños','recoges a los niños','recoge a los niños','recogemos a los niños','recogéis a los niños','recogen a los niños'],
+      preterite:  ['recogí a los niños','recogiste a los niños','recogió a los niños','recogimos a los niños','recogisteis a los niños','recogieron a los niños'],
+      imperfect:  ['recogía a los niños','recogías a los niños','recogía a los niños','recogíamos a los niños','recogíais a los niños','recogían a los niños'],
+      future:     ['recogeré a los niños','recogerás a los niños','recogerá a los niños','recogeremos a los niños','recogeréis a los niños','recogerán a los niños'],
+      subjunctive:['recoja a los niños','recojas a los niños','recoja a los niños','recojamos a los niños','recojáis a los niños','recojan a los niños'],
+    }
+  },
+  {
+    base:'move to a new apartment', vocab:'mudarse a un nuevo apartamento',
+    conjs:{
+      present:    ['me mudo a un nuevo apartamento','te mudas a un nuevo apartamento','se muda a un nuevo apartamento','nos mudamos a un nuevo apartamento','os mudáis a un nuevo apartamento','se mudan a un nuevo apartamento'],
+      preterite:  ['me mudé a un nuevo apartamento','te mudaste a un nuevo apartamento','se mudó a un nuevo apartamento','nos mudamos a un nuevo apartamento','os mudasteis a un nuevo apartamento','se mudaron a un nuevo apartamento'],
+      imperfect:  ['me mudaba a un nuevo apartamento','te mudabas a un nuevo apartamento','se mudaba a un nuevo apartamento','nos mudábamos a un nuevo apartamento','os mudabais a un nuevo apartamento','se mudaban a un nuevo apartamento'],
+      future:     ['me mudaré a un nuevo apartamento','te mudarás a un nuevo apartamento','se mudará a un nuevo apartamento','nos mudaremos a un nuevo apartamento','os mudaréis a un nuevo apartamento','se mudarán a un nuevo apartamento'],
+      subjunctive:['me mude a un nuevo apartamento','te mudes a un nuevo apartamento','se mude a un nuevo apartamento','nos mudemos a un nuevo apartamento','os mudéis a un nuevo apartamento','se muden a un nuevo apartamento'],
+    }
+  },
+  {
+    base:'learn something new', vocab:'aprender algo nuevo',
+    conjs:{
+      present:    ['aprendo algo nuevo','aprendes algo nuevo','aprende algo nuevo','aprendemos algo nuevo','aprendéis algo nuevo','aprenden algo nuevo'],
+      preterite:  ['aprendí algo nuevo','aprendiste algo nuevo','aprendió algo nuevo','aprendimos algo nuevo','aprendisteis algo nuevo','aprendieron algo nuevo'],
+      imperfect:  ['aprendía algo nuevo','aprendías algo nuevo','aprendía algo nuevo','aprendíamos algo nuevo','aprendíais algo nuevo','aprendían algo nuevo'],
+      future:     ['aprenderé algo nuevo','aprenderás algo nuevo','aprenderá algo nuevo','aprenderemos algo nuevo','aprenderéis algo nuevo','aprenderán algo nuevo'],
+      subjunctive:['aprenda algo nuevo','aprendas algo nuevo','aprenda algo nuevo','aprendamos algo nuevo','aprendáis algo nuevo','aprendan algo nuevo'],
+    }
+  },
+  {
+    base:'ask a question', vocab:'hacer una pregunta',
+    conjs:{
+      present:    ['hago una pregunta','haces una pregunta','hace una pregunta','hacemos una pregunta','hacéis una pregunta','hacen una pregunta'],
+      preterite:  ['hice una pregunta','hiciste una pregunta','hizo una pregunta','hicimos una pregunta','hicisteis una pregunta','hicieron una pregunta'],
+      imperfect:  ['hacía una pregunta','hacías una pregunta','hacía una pregunta','hacíamos una pregunta','hacíais una pregunta','hacían una pregunta'],
+      future:     ['haré una pregunta','harás una pregunta','hará una pregunta','haremos una pregunta','haréis una pregunta','harán una pregunta'],
+      subjunctive:['haga una pregunta','hagas una pregunta','haga una pregunta','hagamos una pregunta','hagáis una pregunta','hagan una pregunta'],
+    }
+  },
+  {
+    base:'think about something', vocab:'pensar en algo',
+    conjs:{
+      present:    ['pienso en algo','piensas en algo','piensa en algo','pensamos en algo','pensáis en algo','piensan en algo'],
+      preterite:  ['pensé en algo','pensaste en algo','pensó en algo','pensamos en algo','pensasteis en algo','pensaron en algo'],
+      imperfect:  ['pensaba en algo','pensabas en algo','pensaba en algo','pensábamos en algo','pensabais en algo','pensaban en algo'],
+      future:     ['pensaré en algo','pensarás en algo','pensará en algo','pensaremos en algo','pensaréis en algo','pensarán en algo'],
+      subjunctive:['piense en algo','pienses en algo','piense en algo','pensemos en algo','penséis en algo','piensen en algo'],
+    }
+  },
+  {
+    base:'know someone well', vocab:'conocer bien a alguien',
+    conjs:{
+      present:    ['conozco bien a alguien','conoces bien a alguien','conoce bien a alguien','conocemos bien a alguien','conocéis bien a alguien','conocen bien a alguien'],
+      preterite:  ['conocí bien a alguien','conociste bien a alguien','conoció bien a alguien','conocimos bien a alguien','conocisteis bien a alguien','conocieron bien a alguien'],
+      imperfect:  ['conocía bien a alguien','conocías bien a alguien','conocía bien a alguien','conocíamos bien a alguien','conocíais bien a alguien','conocían bien a alguien'],
+      future:     ['conoceré bien a alguien','conocerás bien a alguien','conocerá bien a alguien','conoceremos bien a alguien','conoceréis bien a alguien','conocerán bien a alguien'],
+      subjunctive:['conozca bien a alguien','conozcas bien a alguien','conozca bien a alguien','conozcamos bien a alguien','conozcáis bien a alguien','conozcan bien a alguien'],
+    }
+  },
+  {
+    base:'bring something to eat', vocab:'traer algo para comer',
+    conjs:{
+      present:    ['traigo algo para comer','traes algo para comer','trae algo para comer','traemos algo para comer','traéis algo para comer','traen algo para comer'],
+      preterite:  ['traje algo para comer','trajiste algo para comer','trajo algo para comer','trajimos algo para comer','trajisteis algo para comer','trajeron algo para comer'],
+      imperfect:  ['traía algo para comer','traías algo para comer','traía algo para comer','traíamos algo para comer','traíais algo para comer','traían algo para comer'],
+      future:     ['traeré algo para comer','traerás algo para comer','traerá algo para comer','traeremos algo para comer','traeréis algo para comer','traerán algo para comer'],
+      subjunctive:['traiga algo para comer','traigas algo para comer','traiga algo para comer','traigamos algo para comer','traigáis algo para comer','traigan algo para comer'],
+    }
+  },
+  {
+    base:'put it on the table', vocab:'ponerlo en la mesa',
+    conjs:{
+      present:    ['lo pongo en la mesa','lo pones en la mesa','lo pone en la mesa','lo ponemos en la mesa','lo ponéis en la mesa','lo ponen en la mesa'],
+      preterite:  ['lo puse en la mesa','lo pusiste en la mesa','lo puso en la mesa','lo pusimos en la mesa','lo pusisteis en la mesa','lo pusieron en la mesa'],
+      imperfect:  ['lo ponía en la mesa','lo ponías en la mesa','lo ponía en la mesa','lo poníamos en la mesa','lo poníais en la mesa','lo ponían en la mesa'],
+      future:     ['lo pondré en la mesa','lo pondrás en la mesa','lo pondrá en la mesa','lo pondremos en la mesa','lo pondréis en la mesa','lo pondrán en la mesa'],
+      subjunctive:['lo ponga en la mesa','lo pongas en la mesa','lo ponga en la mesa','lo pongamos en la mesa','lo pongáis en la mesa','lo pongan en la mesa'],
+    }
+  },
+  {
+    base:'come out of the house', vocab:'salir de la casa',
+    conjs:{
+      present:    ['salgo de la casa','sales de la casa','sale de la casa','salimos de la casa','salís de la casa','salen de la casa'],
+      preterite:  ['salí de la casa','saliste de la casa','salió de la casa','salimos de la casa','salisteis de la casa','salieron de la casa'],
+      imperfect:  ['salía de la casa','salías de la casa','salía de la casa','salíamos de la casa','salíais de la casa','salían de la casa'],
+      future:     ['saldré de la casa','saldrás de la casa','saldrá de la casa','saldremos de la casa','saldréis de la casa','saldrán de la casa'],
+      subjunctive:['salga de la casa','salgas de la casa','salga de la casa','salgamos de la casa','salgáis de la casa','salgan de la casa'],
+    }
+  },
+  {
+    base:'follow through on a plan', vocab:'cumplir con un plan',
+    conjs:{
+      present:    ['cumplo con el plan','cumples con el plan','cumple con el plan','cumplimos con el plan','cumplís con el plan','cumplen con el plan'],
+      preterite:  ['cumplí con el plan','cumpliste con el plan','cumplió con el plan','cumplimos con el plan','cumplisteis con el plan','cumplieron con el plan'],
+      imperfect:  ['cumplía con el plan','cumplías con el plan','cumplía con el plan','cumplíamos con el plan','cumplíais con el plan','cumplían con el plan'],
+      future:     ['cumpliré con el plan','cumplirás con el plan','cumplirá con el plan','cumpliremos con el plan','cumpliréis con el plan','cumplirán con el plan'],
+      subjunctive:['cumpla con el plan','cumplas con el plan','cumpla con el plan','cumplamos con el plan','cumpláis con el plan','cumplan con el plan'],
+    }
+  },
+  {
+    base:'choose what to eat', vocab:'elegir qué comer',
+    conjs:{
+      present:    ['elijo qué comer','eliges qué comer','elige qué comer','elegimos qué comer','elegís qué comer','eligen qué comer'],
+      preterite:  ['elegí qué comer','elegiste qué comer','eligió qué comer','elegimos qué comer','elegisteis qué comer','eligieron qué comer'],
+      imperfect:  ['elegía qué comer','elegías qué comer','elegía qué comer','elegíamos qué comer','elegíais qué comer','elegían qué comer'],
+      future:     ['elegiré qué comer','elegirás qué comer','elegirá qué comer','elegiremos qué comer','elegiréis qué comer','elegirán qué comer'],
+      subjunctive:['elija qué comer','elijas qué comer','elija qué comer','elijamos qué comer','elijáis qué comer','elijan qué comer'],
+    }
+  },
+  {
+    base:'follow someone on Instagram', vocab:'seguir a alguien en Instagram',
+    conjs:{
+      present:    ['sigo a alguien en Instagram','sigues a alguien en Instagram','sigue a alguien en Instagram','seguimos a alguien en Instagram','seguís a alguien en Instagram','siguen a alguien en Instagram'],
+      preterite:  ['seguí a alguien en Instagram','seguiste a alguien en Instagram','siguió a alguien en Instagram','seguimos a alguien en Instagram','seguisteis a alguien en Instagram','siguieron a alguien en Instagram'],
+      imperfect:  ['seguía a alguien en Instagram','seguías a alguien en Instagram','seguía a alguien en Instagram','seguíamos a alguien en Instagram','seguíais a alguien en Instagram','seguían a alguien en Instagram'],
+      future:     ['seguiré a alguien en Instagram','seguirás a alguien en Instagram','seguirá a alguien en Instagram','seguiremos a alguien en Instagram','seguiréis a alguien en Instagram','seguirán a alguien en Instagram'],
+      subjunctive:['siga a alguien en Instagram','sigas a alguien en Instagram','siga a alguien en Instagram','sigamos a alguien en Instagram','sigáis a alguien en Instagram','sigan a alguien en Instagram'],
+    }
+  },
+  {
+    base:'lose my patience', vocab:'perder la paciencia',
+    conjs:{
+      present:    ['pierdo la paciencia','pierdes la paciencia','pierde la paciencia','perdemos la paciencia','perdéis la paciencia','pierden la paciencia'],
+      preterite:  ['perdí la paciencia','perdiste la paciencia','perdió la paciencia','perdimos la paciencia','perdisteis la paciencia','perdieron la paciencia'],
+      imperfect:  ['perdía la paciencia','perdías la paciencia','perdía la paciencia','perdíamos la paciencia','perdíais la paciencia','perdían la paciencia'],
+      future:     ['perderé la paciencia','perderás la paciencia','perderá la paciencia','perderemos la paciencia','perderéis la paciencia','perderán la paciencia'],
+      subjunctive:['pierda la paciencia','pierdas la paciencia','pierda la paciencia','perdamos la paciencia','perdáis la paciencia','pierdan la paciencia'],
+    }
+  },
+  {
+    base:'notice something is wrong', vocab:'darse cuenta de algo',
+    conjs:{
+      present:    ['me doy cuenta de algo','te das cuenta de algo','se da cuenta de algo','nos damos cuenta de algo','os dais cuenta de algo','se dan cuenta de algo'],
+      preterite:  ['me di cuenta de algo','te diste cuenta de algo','se dio cuenta de algo','nos dimos cuenta de algo','os disteis cuenta de algo','se dieron cuenta de algo'],
+      imperfect:  ['me daba cuenta de algo','te dabas cuenta de algo','se daba cuenta de algo','nos dábamos cuenta de algo','os dabais cuenta de algo','se daban cuenta de algo'],
+      future:     ['me daré cuenta de algo','te darás cuenta de algo','se dará cuenta de algo','nos daremos cuenta de algo','os daréis cuenta de algo','se darán cuenta de algo'],
+      subjunctive:['me dé cuenta de algo','te des cuenta de algo','se dé cuenta de algo','nos demos cuenta de algo','os deis cuenta de algo','se den cuenta de algo'],
+    }
+  },
+  {
+    base:'keep going', vocab:'seguir adelante',
+    conjs:{
+      present:    ['sigo adelante','sigues adelante','sigue adelante','seguimos adelante','seguís adelante','siguen adelante'],
+      preterite:  ['seguí adelante','seguiste adelante','siguió adelante','seguimos adelante','seguisteis adelante','siguieron adelante'],
+      imperfect:  ['seguía adelante','seguías adelante','seguía adelante','seguíamos adelante','seguíais adelante','seguían adelante'],
+      future:     ['seguiré adelante','seguirás adelante','seguirá adelante','seguiremos adelante','seguiréis adelante','seguirán adelante'],
+      subjunctive:['siga adelante','sigas adelante','siga adelante','sigamos adelante','sigáis adelante','sigan adelante'],
+    }
+  },
+  {
+    base:'be right', vocab:'tener razón',
+    conjs:{
+      present:    ['tengo razón','tienes razón','tiene razón','tenemos razón','tenéis razón','tienen razón'],
+      preterite:  ['tuve razón','tuviste razón','tuvo razón','tuvimos razón','tuvisteis razón','tuvieron razón'],
+      imperfect:  ['tenía razón','tenías razón','tenía razón','teníamos razón','teníais razón','tenían razón'],
+      future:     ['tendré razón','tendrás razón','tendrá razón','tendremos razón','tendréis razón','tendrán razón'],
+      subjunctive:['tenga razón','tengas razón','tenga razón','tengamos razón','tengáis razón','tengan razón'],
+    }
+  },
+  {
+    base:'get up on the wrong side of the bed', vocab:'levantarse de mal humor',
+    conjs:{
+      present:    ['me levanto de mal humor','te levantas de mal humor','se levanta de mal humor','nos levantamos de mal humor','os levantáis de mal humor','se levantan de mal humor'],
+      preterite:  ['me levanté de mal humor','te levantaste de mal humor','se levantó de mal humor','nos levantamos de mal humor','os levantasteis de mal humor','se levantaron de mal humor'],
+      imperfect:  ['me levantaba de mal humor','te levantabas de mal humor','se levantaba de mal humor','nos levantábamos de mal humor','os levantabais de mal humor','se levantaban de mal humor'],
+      future:     ['me levantaré de mal humor','te levantarás de mal humor','se levantará de mal humor','nos levantaremos de mal humor','os levantaréis de mal humor','se levantarán de mal humor'],
+      subjunctive:['me levante de mal humor','te levantes de mal humor','se levante de mal humor','nos levantemos de mal humor','os levantéis de mal humor','se levanten de mal humor'],
+    }
+  },
+  {
+    base:'spend the weekend at home', vocab:'pasar el fin de semana en casa',
+    conjs:{
+      present:    ['paso el fin de semana en casa','pasas el fin de semana en casa','pasa el fin de semana en casa','pasamos el fin de semana en casa','pasáis el fin de semana en casa','pasan el fin de semana en casa'],
+      preterite:  ['pasé el fin de semana en casa','pasaste el fin de semana en casa','pasó el fin de semana en casa','pasamos el fin de semana en casa','pasasteis el fin de semana en casa','pasaron el fin de semana en casa'],
+      imperfect:  ['pasaba el fin de semana en casa','pasabas el fin de semana en casa','pasaba el fin de semana en casa','pasábamos el fin de semana en casa','pasabais el fin de semana en casa','pasaban el fin de semana en casa'],
+      future:     ['pasaré el fin de semana en casa','pasarás el fin de semana en casa','pasará el fin de semana en casa','pasaremos el fin de semana en casa','pasaréis el fin de semana en casa','pasarán el fin de semana en casa'],
+      subjunctive:['pase el fin de semana en casa','pases el fin de semana en casa','pase el fin de semana en casa','pasemos el fin de semana en casa','paséis el fin de semana en casa','pasen el fin de semana en casa'],
+    }
+  },
+  {
+    base:'wake up without an alarm', vocab:'despertarse sin alarma',
+    conjs:{
+      present:    ['me despierto sin alarma','te despiertas sin alarma','se despierta sin alarma','nos despertamos sin alarma','os despertáis sin alarma','se despiertan sin alarma'],
+      preterite:  ['me desperté sin alarma','te despertaste sin alarma','se despertó sin alarma','nos despertamos sin alarma','os despertasteis sin alarma','se despertaron sin alarma'],
+      imperfect:  ['me despertaba sin alarma','te despertabas sin alarma','se despertaba sin alarma','nos despertábamos sin alarma','os despertabais sin alarma','se despertaban sin alarma'],
+      future:     ['me despertaré sin alarma','te despertarás sin alarma','se despertará sin alarma','nos despertaremos sin alarma','os despertaréis sin alarma','se despertarán sin alarma'],
+      subjunctive:['me despierte sin alarma','te despiertes sin alarma','se despierte sin alarma','nos despertemos sin alarma','os despertéis sin alarma','se despierten sin alarma'],
+    }
+  },
+  {
+    base:'send a voice note', vocab:'mandar un mensaje de voz',
+    conjs:{
+      present:    ['mando un mensaje de voz','mandas un mensaje de voz','manda un mensaje de voz','mandamos un mensaje de voz','mandáis un mensaje de voz','mandan un mensaje de voz'],
+      preterite:  ['mandé un mensaje de voz','mandaste un mensaje de voz','mandó un mensaje de voz','mandamos un mensaje de voz','mandasteis un mensaje de voz','mandaron un mensaje de voz'],
+      imperfect:  ['mandaba un mensaje de voz','mandabas un mensaje de voz','mandaba un mensaje de voz','mandábamos un mensaje de voz','mandabais un mensaje de voz','mandaban un mensaje de voz'],
+      future:     ['mandaré un mensaje de voz','mandarás un mensaje de voz','mandará un mensaje de voz','mandaremos un mensaje de voz','mandaréis un mensaje de voz','mandarán un mensaje de voz'],
+      subjunctive:['mande un mensaje de voz','mandes un mensaje de voz','mande un mensaje de voz','mandemos un mensaje de voz','mandéis un mensaje de voz','manden un mensaje de voz'],
+    }
+  },
+  {
+    base:'cancel plans', vocab:'cancelar los planes',
+    conjs:{
+      present:    ['cancelo los planes','cancelas los planes','cancela los planes','cancelamos los planes','canceláis los planes','cancelan los planes'],
+      preterite:  ['cancelé los planes','cancelaste los planes','canceló los planes','cancelamos los planes','cancelasteis los planes','cancelaron los planes'],
+      imperfect:  ['cancelaba los planes','cancelabas los planes','cancelaba los planes','cancelábamos los planes','cancelabais los planes','cancelaban los planes'],
+      future:     ['cancelaré los planes','cancelarás los planes','cancelará los planes','cancelaremos los planes','cancelaréis los planes','cancelarán los planes'],
+      subjunctive:['cancele los planes','canceles los planes','cancele los planes','cancelemos los planes','canceléis los planes','cancelen los planes'],
+    }
+  },
+  {
+    base:'show up late', vocab:'llegar tarde',
+    conjs:{
+      present:    ['llego tarde','llegas tarde','llega tarde','llegamos tarde','llegáis tarde','llegan tarde'],
+      preterite:  ['llegué tarde','llegaste tarde','llegó tarde','llegamos tarde','llegasteis tarde','llegaron tarde'],
+      imperfect:  ['llegaba tarde','llegabas tarde','llegaba tarde','llegábamos tarde','llegabais tarde','llegaban tarde'],
+      future:     ['llegaré tarde','llegarás tarde','llegará tarde','llegaremos tarde','llegaréis tarde','llegarán tarde'],
+      subjunctive:['llegue tarde','llegues tarde','llegue tarde','lleguemos tarde','lleguéis tarde','lleguen tarde'],
+    }
+  },
+  {
+    base:'deal with a problem', vocab:'lidiar con un problema',
+    conjs:{
+      present:    ['lidio con un problema','lidias con un problema','lidia con un problema','lidiamos con un problema','lidiáis con un problema','lidian con un problema'],
+      preterite:  ['lidié con un problema','lidiaste con un problema','lidió con un problema','lidiamos con un problema','lidiasteis con un problema','lidiaron con un problema'],
+      imperfect:  ['lidiaba con un problema','lidiabas con un problema','lidiaba con un problema','lidiábamos con un problema','lidiabais con un problema','lidiaban con un problema'],
+      future:     ['lidiaré con un problema','lidiarás con un problema','lidiará con un problema','lidiaremos con un problema','lidiaréis con un problema','lidiarán con un problema'],
+      subjunctive:['lidie con un problema','lidies con un problema','lidie con un problema','lidiemos con un problema','lidiéis con un problema','lidien con un problema'],
+    }
+  },
+];
+
+const VOCAB = [
+  {es:'el tinto',en:'black coffee (Colombia)',ex_es:'Dame un tinto, por favor.',ex_en:'Give me a black coffee, please.'},
+  {es:'la plata',en:'money (informal)',ex_es:'No tengo plata hoy.',ex_en:'I don\'t have any money today.'},
+  {es:'el parcero / la parcera',en:'buddy / pal (Colombia)',ex_es:'Ese man es mi parcero.',ex_en:'That guy is my buddy.'},
+  {es:'chévere',en:'cool / great',ex_es:'Qué chévere que viniste.',ex_en:'How great that you came.'},
+  {es:'el man',en:'guy / dude (Colombia)',ex_es:'¿Quién es ese man?',ex_en:'Who is that guy?'},
+  {es:'bacano',en:'awesome (Colombia)',ex_es:'Esa fiesta estuvo bacana.',ex_en:'That party was awesome.'},
+  {es:'el aguardiente',en:'aguardiente (Colombian spirit)',ex_es:'Pedimos una botella de aguardiente.',ex_en:'We ordered a bottle of aguardiente.'},
+  {es:'la rumba',en:'party / going out',ex_es:'¿A qué hora empieza la rumba?',ex_en:'What time does the party start?'},
+  {es:'rumbear',en:'to party / go out',ex_es:'Salimos a rumbear este viernes.',ex_en:'We\'re going out this Friday.'},
+  {es:'el trancón',en:'traffic jam (Colombia)',ex_es:'Me quedé en el trancón una hora.',ex_en:'I was stuck in traffic for an hour.'},
+  {es:'el celular',en:'cell phone',ex_es:'Se me perdió el celular.',ex_en:'I lost my phone.'},
+  {es:'listo',en:'ready / got it / okay',ex_es:'¿Estás listo? — Listo.',ex_en:'Are you ready? — Ready.'},
+  {es:'el apartamento',en:'apartment',ex_es:'Mi apartamento está en el centro.',ex_en:'My apartment is downtown.'},
+  {es:'la cuadra',en:'city block',ex_es:'Vivo a dos cuadras de aquí.',ex_en:'I live two blocks from here.'},
+  {es:'el mercado',en:'grocery run / market',ex_es:'Voy a hacer el mercado.',ex_en:'I\'m going to do the grocery run.'},
+  {es:'la vuelta',en:'errand / task (Colombia)',ex_es:'Tengo una vuelta que hacer.',ex_en:'I have an errand to run.'},
+  {es:'madrugada',en:'early morning hours (after midnight)',ex_es:'Llegamos a la madrugada.',ex_en:'We arrived in the early morning hours.'},
+  {es:'la guayabo',en:'hangover (Colombia)',ex_es:'Tengo un guayabo horrible.',ex_en:'I have a terrible hangover.'},
+  {es:'el parche',en:'hangout spot / group of friends',ex_es:'El parche se reúne los viernes.',ex_en:'The crew meets on Fridays.'},
+  {es:'hacer fila',en:'to wait in line',ex_es:'Tuvimos que hacer fila dos horas.',ex_en:'We had to wait in line for two hours.'},
+  {es:'ya mismo',en:'right now / immediately',ex_es:'Te llamo ya mismo.',ex_en:'I\'ll call you right now.'},
+  {es:'el tráfico',en:'traffic',ex_es:'Bogotá tiene mucho tráfico.',ex_en:'Bogotá has a lot of traffic.'},
+  {es:'la cita',en:'appointment / date',ex_es:'Tengo cita con el médico mañana.',ex_en:'I have a doctor\'s appointment tomorrow.'},
+  {es:'pagar la cuenta',en:'to pay the bill',ex_es:'¿Quién paga la cuenta?',ex_en:'Who\'s paying the bill?'},
+  {es:'el domicilio',en:'delivery / home delivery',ex_es:'Pedimos domicilio de pizza.',ex_en:'We ordered pizza delivery.'},
+];
+
+// Build deck
+function buildDeck() {
+  const cards = [];
+  for (const s of SENTENCES) {
+    for (const t of TENSES) {
+      for (let i = 0; i < PRONOUNS.length; i++) {
+        cards.push({
+          type:'conj', tense:t.key, tenseLabel:t.label,
+          pronoun:PRONOUNS[i], pronounEn:PRONOUNS_EN[i],
+          es:s.conjs[t.key][i],
+          en:PRONOUNS_EN[i]+' '+s.base,
+          vocab:s.vocab,
+        });
+      }
+    }
+  }
+  for (const v of VOCAB) {
+    cards.push({type:'vocab', es:v.es, en:v.en, ex_es:v.ex_es, ex_en:v.ex_en});
+  }
+  return cards;
+}
+
+const ALL_CARDS = buildDeck();
+
+let state = {
+  fcGoal:30, audioGoal:10,
+  fcDone:0, mastered:0, reviewing:0,
+  audMin:0, audMinTotal:0, audDrills:0,
+  activeTenses: new Set(['present','preterite','imperfect','future','subjunctive']),
+  queue:[], qIdx:0, goalHit:false, flipped:false,
+  playingKey:null, playingRow:-1, audInterval:null,
+};
+
+function filteredCards() {
+  return ALL_CARDS.filter(c => c.type==='vocab' || state.activeTenses.has(c.tense));
+}
+
+function buildQueue() {
+  state.queue = [...filteredCards()].sort(()=>Math.random()-.5);
+  state.qIdx = 0; state.goalHit = false;
+}
+
+// Tense pills
+function renderTensePills(containerId) {
+  document.getElementById(containerId).innerHTML =
+    TENSES.map(t=>`<div class="pill ${state.activeTenses.has(t.key)?'t-active':''}" onclick="toggleTense('${t.key}')">${t.label}</div>`).join('') +
+    `<div class="pill v-active">Vocab</div>`;
+}
+
+function toggleTense(key) {
+  if(state.activeTenses.has(key)){if(state.activeTenses.size>1)state.activeTenses.delete(key);}
+  else state.activeTenses.add(key);
+  renderTensePills('fc-tense-pills');
+  renderTensePills('audio-tense-pills');
+  buildQueue(); renderCard(); renderAudio();
+}
+
+// Flashcards
+function renderCard() {
+  if(!state.queue.length) buildQueue();
+  const c = state.queue[state.qIdx % state.queue.length];
+  document.getElementById('card-counter').textContent = `Card ${state.fcDone+1} • Goal: ${state.fcGoal}/day`;
+  document.getElementById('card-inner').classList.remove('flipped');
+  state.flipped = false;
+  document.getElementById('card-actions').classList.add('hidden');
+  document.getElementById('flip-hint').classList.remove('hidden');
+  if(c.type==='conj'){
+    document.getElementById('front-chips').innerHTML=`<span class="chip chip-tense">${c.tenseLabel}</span><span class="chip chip-pronoun">${c.pronoun}</span>`;
+    document.getElementById('front-text').textContent=c.es;
+    document.getElementById('back-chips').innerHTML=`<span class="chip chip-tense">${c.tenseLabel}</span><span class="chip chip-pronoun">${c.pronounEn}</span>`;
+    document.getElementById('back-text').textContent=c.en;
+    document.getElementById('back-sub').textContent='';
+  } else {
+    document.getElementById('front-chips').innerHTML=`<span class="chip chip-vocab">Vocabulary</span>`;
+    document.getElementById('front-text').textContent=c.es;
+    document.getElementById('back-chips').innerHTML=`<span class="chip chip-vocab">Vocabulary</span>`;
+    document.getElementById('back-text').textContent=c.en;
+    document.getElementById('back-sub').textContent=c.ex_es+' — '+c.ex_en;
+  }
+}
+
+function flipCard() {
+  if(state.flipped) return;
+  state.flipped=true;
+  document.getElementById('card-inner').classList.add('flipped');
+  document.getElementById('card-actions').classList.remove('hidden');
+  document.getElementById('flip-hint').classList.add('hidden');
+}
+
+function cardAnswer(got) {
+  if(!state.flipped) return;
+  state.fcDone++; got?state.mastered++:state.reviewing++;
+  if(!got){
+    const rem=state.queue.splice(state.qIdx%state.queue.length,1)[0];
+    state.queue.splice(Math.min(state.qIdx+6,state.queue.length),0,rem);
+  } else {
+    state.queue.splice(state.qIdx%state.queue.length,1);
+    if(state.qIdx>=state.queue.length) state.qIdx=0;
+  }
+  if(!state.queue.length) buildQueue();
+  updateStats();
+  if(state.fcDone>=state.fcGoal&&!state.goalHit){
+    state.goalHit=true;
+    document.getElementById('fc-done').classList.remove('hidden');
+    document.getElementById('fc-main').classList.add('hidden');
+    return;
+  }
+  renderCard();
+}
+
+function keepGoing(){
+  buildQueue(); renderCard();
+  document.getElementById('fc-done').classList.add('hidden');
+  document.getElementById('fc-main').classList.remove('hidden');
+}
+
+// Audio
+let audioSearchQuery = '';
+function filterAudio(q){ audioSearchQuery=q.toLowerCase(); renderAudio(); }
+
+function renderAudio() {
+  const activeTenseList = TENSES.filter(t=>state.activeTenses.has(t.key));
+  let html='';
+  for(const s of SENTENCES) {
+    if(audioSearchQuery && !s.base.includes(audioSearchQuery) && !s.vocab.includes(audioSearchQuery)) continue;
+    for(const t of activeTenseList){
+      const key=s.vocab+'|'+t.key;
+      const playing=state.playingKey===key;
+      const rows=PRONOUNS.map((pr,i)=>{
+        const active=playing&&state.playingRow===i;
+        return `<div class="drill-row ${active?'active-row':''}">
+          <span class="drill-row-pr">${pr}</span>
+          <span class="drill-row-es">${s.conjs[t.key][i]}</span>
+          <span class="drill-row-en">${PRONOUNS_EN[i]} ${s.base}</span>
+          ${active?`<div class="wave-bars">${'<div class="wave-bar"></div>'.repeat(5)}</div>`:''}
+        </div>`;
+      }).join('');
+      html+=`<div class="drill-card">
+        <div class="drill-header">
+          <div><div class="drill-title">${s.vocab}</div><div class="drill-subtitle">${t.label}</div></div>
+          <button class="drill-play-btn ${playing?'playing':''}" onclick="toggleDrill('${s.vocab}','${t.key}',${SENTENCES.indexOf(s)})">${playing?'■':'▶'}</button>
+        </div>
+        <div class="drill-rows">${rows}</div>
+      </div>`;
+    }
+  }
+  document.getElementById('audio-drill-list').innerHTML=html||'<p style="color:var(--muted);font-size:14px;text-align:center;padding:20px">No results</p>';
+}
+
+function toggleDrill(vocab, tenseKey, sIdx) {
+  const key=vocab+'|'+tenseKey;
+  if(state.playingKey===key){
+    window.speechSynthesis.cancel();
+    if(state.audInterval) clearInterval(state.audInterval);
+    state.playingKey=null; state.playingRow=-1; renderAudio(); return;
+  }
+  window.speechSynthesis.cancel();
+  if(state.audInterval) clearInterval(state.audInterval);
+  state.playingKey=key; state.audDrills++;
+  playRow(SENTENCES[sIdx], tenseKey, 0);
+}
+
+function playRow(s, tKey, idx) {
+  if(!state.playingKey||idx>=PRONOUNS.length){
+    if(state.audInterval) clearInterval(state.audInterval);
+    state.playingKey=null; state.playingRow=-1; renderAudio(); return;
+  }
+  state.playingRow=idx; renderAudio();
+  const es=s.conjs[tKey][idx], en=PRONOUNS_EN[idx]+' '+s.base;
+  state.audInterval=setInterval(()=>{
+    state.audMin=parseFloat((state.audMin+1/60).toFixed(4));
+    state.audMinTotal=parseFloat((state.audMinTotal+1/60).toFixed(4));
+    updateStats();
+  },1000);
+  const u1=new SpeechSynthesisUtterance(es); u1.lang='es-ES'; u1.rate=0.82;
+  const u2=new SpeechSynthesisUtterance(en); u2.lang='en-US'; u2.rate=0.88;
+  u2.onend=()=>{ clearInterval(state.audInterval); if(state.playingKey) playRow(s,tKey,idx+1); };
+  u1.onend=()=>window.speechSynthesis.speak(u2);
+  window.speechSynthesis.speak(u1);
+}
+
+function updateStats(){
+  const fp=Math.min(100,Math.round(state.fcDone/state.fcGoal*100));
+  const ap=Math.min(100,Math.round(state.audMin/state.audioGoal*100));
+  document.getElementById('fc-bar').style.width=fp+'%';
+  document.getElementById('fc-meta').textContent=`${state.fcDone} / ${state.fcGoal} today`;
+  document.getElementById('audio-bar').style.width=ap+'%';
+  document.getElementById('audio-meta').textContent=`${(Math.round(state.audMin*10)/10).toFixed(1)} / ${state.audioGoal} min today`;
+  document.getElementById('stat-mastered').textContent=state.mastered;
+  document.getElementById('stat-reviewing').textContent=state.reviewing;
+  document.getElementById('stat-listen').textContent=Math.round(state.audMinTotal)+'m';
+  document.getElementById('aud-today').textContent=(Math.round(state.audMin*10)/10).toFixed(1);
+  document.getElementById('aud-drills').textContent=state.audDrills;
+  document.getElementById('aud-total').textContent=(Math.round(state.audMinTotal*10)/10).toFixed(1);
+}
+
+function adj(type,d){
+  if(type==='fc'){state.fcGoal=Math.max(5,state.fcGoal+d);document.getElementById('g-fc').textContent=state.fcGoal;}
+  else{state.audioGoal=Math.max(5,state.audioGoal+d);document.getElementById('g-audio').textContent=state.audioGoal;}
+  updateStats();
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  ['home','flashcards','audio','settings'].forEach((t,i)=>{
+    if(t===tab){document.querySelectorAll('.tab')[i].classList.add('active');document.getElementById('screen-'+t).classList.add('active');}
+  });
+}
+
+// greeting
+function setGreeting(){
+  const h=new Date().getHours();
+  const g=h<12?'Buenos días':'Buenos días'&&h<18?'Buenas tardes':'Buenas noches';
+  document.getElementById('greeting-text').innerHTML=`${h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches'},<br>keep drilling.`;
+  document.getElementById('today-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+}
+
+// persist via localStorage
+function saveState(){
+  try{localStorage.setItem('esp_state',JSON.stringify({
+    fcDone:state.fcDone,mastered:state.mastered,reviewing:state.reviewing,
+    audMin:state.audMin,audMinTotal:state.audMinTotal,audDrills:state.audDrills,
+    fcGoal:state.fcGoal,audioGoal:state.audioGoal,
+    activeTenses:[...state.activeTenses],
+    lastDate:new Date().toDateString(),
+  }));}catch(e){}
+}
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem('esp_state'));
+    if(!s) return;
+    if(s.lastDate!==new Date().toDateString()){
+      // new day — reset daily stats but keep totals
+      state.mastered=0;state.reviewing=0;state.fcDone=0;state.audMin=0;state.audDrills=0;
+    } else {
+      state.fcDone=s.fcDone||0;state.mastered=s.mastered||0;state.reviewing=s.reviewing||0;
+      state.audMin=s.audMin||0;state.audDrills=s.audDrills||0;
+    }
+    state.audMinTotal=s.audMinTotal||0;
+    state.fcGoal=s.fcGoal||30;state.audioGoal=s.audioGoal||10;
+    if(s.activeTenses) state.activeTenses=new Set(s.activeTenses);
+    document.getElementById('g-fc').textContent=state.fcGoal;
+    document.getElementById('g-audio').textContent=state.audioGoal;
+  }catch(e){}
+}
+
+setInterval(saveState,10000);
+
+// init
+loadState();
+setGreeting();
+buildQueue();
+renderTensePills('fc-tense-pills');
+renderTensePills('audio-tense-pills');
+renderCard();
+renderAudio();
+updateStats();
+const totalCards=SENTENCES.length*TENSES.length*PRONOUNS.length+VOCAB.length;
+document.getElementById('deck-count').textContent=totalCards.toLocaleString()+' cards in deck';
+</script>
+</body>
+</html>
