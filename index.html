@@ -263,6 +263,13 @@
     <div class="audio-stat"><div class="audio-stat-num" id="aud-drills">0</div><div class="audio-stat-label">Drills run</div></div>
     <div class="audio-stat"><div class="audio-stat-num" id="aud-total">0.0</div><div class="audio-stat-label">Min total</div></div>
   </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;">
+    <span style="font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;">Speed</span>
+    <input type="range" min="0.5" max="1.5" step="0.05" value="0.82" id="speed-slider"
+      oninput="state.audioRate=parseFloat(this.value);document.getElementById('speed-val').textContent=parseFloat(this.value).toFixed(2)+'x'"
+      style="flex:1;accent-color:var(--accent);">
+    <span id="speed-val" style="font-size:13px;font-weight:500;color:var(--accent);min-width:38px;text-align:right;">0.82x</span>
+  </div>
   <div class="filter-row" id="audio-tense-pills"></div>
   <input class="audio-search" type="search" placeholder="Search sentences..." oninput="filterAudio(this.value)">
   <div id="audio-drill-list"></div>
@@ -2201,6 +2208,7 @@ function getSpanishVoice() {
 }
 
 let state = {
+  audioRate: 0.82,
   fcGoal:30, audioGoal:10,
   fcDone:0, mastered:0, reviewing:0,
   audMin:0, audMinTotal:0, audDrills:0,
@@ -2331,7 +2339,7 @@ function renderAudio() {
         return `<div class="drill-row ${active?'active-row':''}">
           <span class="drill-row-pr">${pr}</span>
           <span class="drill-row-es">${s.conjs[t.key][i]}</span>
-          <span class="drill-row-en">${PRONOUNS_EN[i]} ${s.base}</span>
+          <span class="drill-row-en">${(EN[s.base]&&EN[s.base][t.key])?EN[s.base][t.key][i]:PRONOUNS_EN[i]+' '+s.base}</span>
           ${active?`<div class="wave-bars">${'<div class="wave-bar"></div>'.repeat(5)}</div>`:''}
         </div>`;
       }).join('');
@@ -2366,13 +2374,14 @@ function playRow(s, tKey, idx) {
     state.playingKey=null; state.playingRow=-1; renderAudio(); return;
   }
   state.playingRow=idx; renderAudio();
-  const es=s.conjs[tKey][idx], en=PRONOUNS_EN[idx]+' '+s.base;
+  const es=s.conjs[tKey][idx];
+  const enArr=EN[s.base]&&EN[s.base][tKey]; const en=enArr?enArr[idx]:PRONOUNS_EN[idx]+' '+s.base;
   state.audInterval=setInterval(()=>{
     state.audMin=parseFloat((state.audMin+1/60).toFixed(4));
     state.audMinTotal=parseFloat((state.audMinTotal+1/60).toFixed(4));
     updateStats();
   },1000);
-  const u1=new SpeechSynthesisUtterance(es); u1.lang='es-ES'; u1.rate=0.82; const sv=getSpanishVoice(); if(sv) u1.voice=sv;
+  const u1=new SpeechSynthesisUtterance(es); u1.lang='es-ES'; u1.rate=state.audioRate; const sv=getSpanishVoice(); if(sv) u1.voice=sv;
   const u2=new SpeechSynthesisUtterance(en); u2.lang='en-US'; u2.rate=0.88;
   u2.onend=()=>{ clearInterval(state.audInterval); if(state.playingKey) playRow(s,tKey,idx+1); };
   u1.onend=()=>window.speechSynthesis.speak(u2);
